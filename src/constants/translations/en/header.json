@@ -1,0 +1,30 @@
+{
+  "what-сan-you-do": "What can you do",
+  "how-it-works": "How it works",
+  "who-we-are": "Who we are",
+  "findOffers": "Find Offer",
+  "allOffers": "All offers",
+  "subjects": "Subjects",
+  "categories": "Categories",
+  "homePage": "Home page",
+  "faq": "FAQ",
+  "becomeTutor": "Become a tutor",
+  "loginButton": "Login",
+  "my-profile": "My profile",
+  "my-cooperations": "My cooperations",
+  "my-courses": "My courses",
+  "my-offers": "My offers",
+  "my-resources": "My resources",
+  "logout": "Log out",
+  "notifications": {
+    "emptyNotifications": "No notification yet",
+    "clearAll": "Clear all",
+    "messages": {
+      "NEW_COOPERATION": "You have new cooperation",
+      "NEW_COMMENT": "You received new review",
+      "UPDATE_COOPERATION": "Your cooperation was updated",
+      "ACCEPT_COOPERATION": "Your cooperation was accepted",
+      "CANCEL_COOPERATION": "Your cooperation was declined"
+    }
+  }
+}

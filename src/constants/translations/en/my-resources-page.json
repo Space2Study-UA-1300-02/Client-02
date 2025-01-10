@@ -1,0 +1,37 @@
+{
+  "tabs": {
+    "lessons": "Lessons",
+    "quizzes": "Quizzes",
+    "questions": "Questions",
+    "attachments": "Attachments",
+    "categories": "Categories"
+  },
+  "questions": {
+    "addBtn": "New question",
+    "add": "Add Questions",
+    "title": "Title",
+    "titleWithCategory": "Title & Category",
+    "updated": "Last updates",
+    "emptyItems": "You have no questions yet",
+    "confirmDeletionTitle": "Do you confirm question deletion?",
+    "successDeletion": "Question was deleted successfully",
+    "successDuplication": "Question was successfully duplicated",
+    "successEditedQuestion":"Question was successfully edited",
+    "successAddedQuestion":"Question was successfully added"
+  },
+  "categories": {
+    "category": "Category",
+    "noCategory": "No category",
+    "addBtn": "New category",
+    "name": "Category name",
+    "title": "Title",
+    "updated": "Last updates",
+    "emptyItems": "You have no categories yet",
+    "successCreation": "«{{category}}» category was created successfully",
+    "successDeletion": "Category was deleted successfully",
+    "confirmDeletionTitle": "Do you confirm category deletion?",
+    "categoryDropdown": "Category...",
+    "selectCategory": "Select category"
+  },
+  "confirmDeletionMessage": "This action is permanent and will remove all related content. Please review your decision before proceeding."
+}

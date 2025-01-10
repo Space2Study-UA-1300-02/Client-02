@@ -1,0 +1,31 @@
+{
+  "what-сan-you-do": "Що ти можеш",
+  "how-it-works": "Як це працює",
+  "who-we-are": "Про нас",
+  "findOffers": "Знайти Пропозицію",
+  "allOffers": "Всі пропозиції",
+  "subjects":"Предмети",
+  "categories": "Категорії",
+  "homePage": "Домашня сторінка",
+  "faq": "Поширені питання",
+  "becomeTutor": "Стати викладачем",
+  "loginButton": "Увійти",
+  "my-profile": "Мій профіль",
+  "my-cooperations": "Мої співпраці",
+  "my-courses": "Мої курси",
+  "my-offers": "Мої пропозиції",
+  "my-resources": "Мої ресурси",
+  "logout": "Вийти",
+  "notifications": {
+    "emptyNotifications": "Немає сповіщень",
+    "clearAll": "Очистити всі",
+    "messages": {
+      "NEW_COOPERATION": "У вас нова співпраця",
+      "NEW_COMMENT": "Ви отримали новий відгук",
+      "UPDATE_COOPERATION": "Вашу співпрацю оновлено",
+      "ACCEPT_COOPERATION": "Вашу співпрацю прийнято",
+      "CANCEL_COOPERATION": "Вашу співпрацю відхилено"
+    }
+  }
+  
+}

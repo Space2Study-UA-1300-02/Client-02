@@ -1,0 +1,32 @@
+{
+  "generalInfo": {
+    "title": "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.",
+    "textFieldLabel": "Describe in short your professional status",
+    "helperText": "Inputs with the * sign are required"
+  },
+  "experience": {
+    "title": "Describe your professional experience. Maximum 70 characters.",
+    "textFieldLabel": "Text here"
+  },
+  "languages": {
+    "title": "Velit officia consequat duis enim velit mollit. Other categories you can add in your account settings later.",
+    "autocompleteLabel": "Your native language"
+  },
+  "categories": {
+    "title": "Velit officia consequat duis enim velit mollit. Other categories you can add in your account settings later.",
+    "mainSubjectsLabel": "Main Tutoring Category",
+    "subjectLabel": "Subject",
+    "btnText": "Add one more subject",
+    "emptyFields": "All fields must be filled",
+    "sameSubject": "You have the same subject"
+  },
+  "photo": {
+    "imageAlt": "Your photo",
+    "button": "Upload your profile photo",
+    "placeholder": "Photo Preview",
+    "description": "Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.",
+    "typeError": "Wrong file type. Only .png/.jpg/.jpeg files are allowed.",
+    "fileSizeError": "Size for one file cannot be more than 10MB."
+  },
+  "successMessage": "Success! Your data were added."
+}
