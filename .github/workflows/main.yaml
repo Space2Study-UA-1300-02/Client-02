@@ -21,30 +21,40 @@ jobs:
         with:
           node-version: 18
 
-      - name : Npm Install
+      - name: Npm Install
         run: npm install
         
-      - name : Lint
-        run : npm run lint
+      - name: Lint
+        run: npm run lint
         
-      - name : Test
+      - name: Test
         run: npm test
-        
-      - name : Check Path
-        run: ls -la && pwd && ls -la /
-      
+
+    # Generate sonar-project.properties dynamically
+      - name: Generate sonar-project.properties
+        run: |
+          echo "sonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}" > sonar-project.properties
+          echo "sonar.organization=${{ secrets.SONAR_ORGANIZATION }}" >> sonar-project.properties
+          echo "sonar.sources=." >> sonar-project.properties
+          echo "sonar.sourceEncoding=UTF-8" >> sonar-project.properties        
+
+
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
-        if: success() || failure()
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} 
+
+      # Delete sonar-project.properties after scan
+      - name: Remove sonar-project.properties
+        if: always()
+        run: rm sonar-project.properties
 
   Test_Docker:
     runs-on: ubuntu-latest
     steps:
 
-      #Checkout Repository
+      # Checkout Repository
       - uses: actions/checkout@v3
       
       # Docker Build
