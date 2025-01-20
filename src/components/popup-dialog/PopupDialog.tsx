@@ -4,6 +4,7 @@ import Dialog from '@mui/material/Dialog'
 import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close'
 import { PaperProps } from '@mui/material'
+import { useModalContext } from '~/context/modal-context'
 
 import useBreakpoints from '~/hooks/use-breakpoints'
 import { styles } from '~/components/popup-dialog/PopupDialog.styles'
@@ -22,6 +23,7 @@ const PopupDialog: FC<PopupDialogProps> = ({
   closeModalAfterDelay
 }) => {
   const { isMobile } = useBreakpoints()
+  const { closeModal } = useModalContext()
 
   const handleMouseOver = () => timerId && clearTimeout(timerId)
   const handleMouseLeave = () => timerId && closeModalAfterDelay()
@@ -41,7 +43,7 @@ const PopupDialog: FC<PopupDialogProps> = ({
         onMouseOver={handleMouseOver}
         sx={styles.box}
       >
-        <IconButton sx={styles.icon}>
+        <IconButton onClick={closeModal} sx={styles.icon}>
           <CloseIcon />
         </IconButton>
         <Box sx={styles.contentWraper}>{content}</Box>
