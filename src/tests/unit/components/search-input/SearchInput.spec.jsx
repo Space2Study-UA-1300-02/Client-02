@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import { vi } from 'vitest'
-import SearchInput from './SearchInput'
+import SearchInput from '~/components/search-input/SearchInput'
 import '@testing-library/jest-dom'
 
 describe('SearchInput component', () => {
