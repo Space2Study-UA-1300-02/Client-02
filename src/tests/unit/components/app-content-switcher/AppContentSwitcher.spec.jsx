@@ -69,4 +69,25 @@ describe('AppContentSwitcher', () => {
     fireEvent.mouseOver(rightOption)
     expect(await screen.findByText('Tooltip Right')).toBeInTheDocument()
   })
+
+  it('should handle active=true correctly', () => {
+    const mockOnChange = vi.fn()
+
+    render(
+      <AppContentSwitcher
+        active
+        onChange={mockOnChange}
+        switchOptions={mockSwitchOptions}
+        typographyVariant='h6'
+      />
+    )
+
+    const inputElement = screen.getByTestId('switch').querySelector('input')
+
+    expect(inputElement).toHaveProperty('checked', true)
+
+    fireEvent.click(inputElement)
+
+    expect(mockOnChange).toHaveBeenCalledTimes(1)
+  })
 })
