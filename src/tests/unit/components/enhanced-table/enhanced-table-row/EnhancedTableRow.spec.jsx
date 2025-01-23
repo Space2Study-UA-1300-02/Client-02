@@ -43,6 +43,9 @@ describe('EnhancedTableRow component', () => {
       </table>
     )
   })
+  afterEach(() => {
+    vi.clearAllMocks()
+  })
   it('should render table row with correct data', () => {
     expect(screen.getByText('John Doe')).toBeInTheDocument()
     expect(screen.getByText('john30@gmail.com')).toBeInTheDocument()
