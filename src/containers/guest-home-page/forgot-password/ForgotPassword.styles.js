@@ -17,7 +17,7 @@ export const styles = {
   titleWithDescription: {
     wrapper: {
       textAlign: 'start',
-      m: 0
+      m: '0 0 24px 0'
     },
     title: {
       typography: 'h5',
