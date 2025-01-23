@@ -1,4 +1,5 @@
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { describe, it, expect, vi, afterEach } from 'vitest'
 import AppChipList from '~/components/app-chips-list/AppChipList'
 
@@ -80,10 +81,10 @@ describe('AppChipList', () => {
     )
   })
 
-  it('should delete 1 chip', () => {
+  it('should delete 1 chip', async () => {
     render(<AppChipList {...defaultProps} />)
     const deleteButtons = screen.getAllByTestId('delete-chip')
-    fireEvent.click(deleteButtons[0])
+    await userEvent.click(deleteButtons[0])
     expect(mockHandleChipDelete).toHaveBeenCalledWith('Chip 1')
     expect(mockHandleChipDelete).toHaveBeenCalledTimes(1)
   })
