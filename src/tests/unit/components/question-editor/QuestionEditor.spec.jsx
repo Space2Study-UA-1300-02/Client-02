@@ -1,121 +1,112 @@
-import { screen, render, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 import { describe, it, expect, vi } from 'vitest'
 import QuestionEditor from '~/components/question-editor/QuestionEditor'
 
-const mockQuestion = {
-  title: 'About Science',
-  text: 'What is the boiling point of water?',
+const sampleQuestion = {
+  title: 'About Mathematics',
+  text: 'What is the value of pi?',
   answers: [
-    {
-      id: '1',
-      text: '100°C',
-      isCorrect: true
-    },
-    {
-      id: '2',
-      text: '212°F',
-      isCorrect: false
-    }
+    { id: '1', text: '3.14', isCorrect: true },
+    { id: '2', text: '2.71', isCorrect: false }
   ],
   type: 'oneAnswer',
-  category: {
-    _id: 'category-science-001',
-    name: 'Science'
-  }
+  category: { _id: 'math-question-id-001', name: 'Mathematics' }
 }
 
-const mockQuestionWithOpenAnswer = {
+const questionWithOpenAnswer = {
   type: 'openAnswer',
-  text: 'What is the speed of light?',
+  text: 'What is the value of pi?',
   answers: [],
-  openAnswer: '299,792 km/s'
+  openAnswer: 'Approximately 3.14'
 }
 
 const mockHandleInputChange = vi.fn()
-const mockHandleNonInputValueChange = vi.fn()
+const mockHandleNonInputChange = vi.fn()
 
-describe('QuestionEditor Component', () => {
-  it('should render the question input field with the initial value', () => {
+describe('QuestionEditor Component Tests', () => {
+  it('renders the question input field correctly', () => {
     render(
       <QuestionEditor
-        data={mockQuestion}
+        data={sampleQuestion}
         handleInputChange={mockHandleInputChange}
-        handleNonInputValueChange={mockHandleNonInputValueChange}
+        handleNonInputValueChange={mockHandleNonInputChange}
       />
     )
 
-    const questionInput = screen.getByRole('textbox', { name: /question/i })
-
-    expect(questionInput).toBeInTheDocument()
-    expect(questionInput).toHaveValue(mockQuestion.text)
+    const questionInputField = screen.getByRole('textbox', {
+      name: /question/i
+    })
+    expect(questionInputField).toBeInTheDocument()
+    expect(questionInputField).toHaveValue(sampleQuestion.text)
   })
 
-  it('should render the open answer input field with the initial value', () => {
+  it('renders the open answer input field properly', () => {
     render(
       <QuestionEditor
-        data={mockQuestionWithOpenAnswer}
+        data={questionWithOpenAnswer}
         handleInputChange={mockHandleInputChange}
-        handleNonInputValueChange={mockHandleNonInputValueChange}
+        handleNonInputValueChange={mockHandleNonInputChange}
       />
     )
 
-    const openAnswerInput = screen.getByRole('textbox', { name: /answer/i })
-
-    expect(openAnswerInput).toBeInTheDocument()
-    expect(openAnswerInput).toHaveValue(mockQuestionWithOpenAnswer.openAnswer)
+    const openAnswerField = screen.getByRole('textbox', { name: /answer/i })
+    expect(openAnswerField).toBeInTheDocument()
+    expect(openAnswerField).toHaveValue(questionWithOpenAnswer.openAnswer)
   })
 
-  it('should update the question type when changed', () => {
+  it('handles question type changes correctly', () => {
     render(
       <QuestionEditor
-        data={mockQuestion}
+        data={sampleQuestion}
         handleInputChange={mockHandleInputChange}
-        handleNonInputValueChange={mockHandleNonInputValueChange}
+        handleNonInputValueChange={mockHandleNonInputChange}
       />
     )
 
-    const selectInput = screen.getByTestId('app-select')
-    fireEvent.change(selectInput, { target: { value: 'multipleChoice' } })
+    const questionTypeSelector = screen.getByTestId('app-select')
+    fireEvent.change(questionTypeSelector, {
+      target: { value: 'multipleChoice' }
+    })
 
-    expect(mockHandleNonInputValueChange).toHaveBeenCalledWith(
+    expect(mockHandleNonInputChange).toHaveBeenCalledWith(
       'type',
       'multipleChoice'
     )
   })
 
-  it('should update the question text when changed', () => {
+  it('handles changes in the question input field', () => {
     render(
       <QuestionEditor
-        data={mockQuestion}
+        data={sampleQuestion}
         handleInputChange={mockHandleInputChange}
-        handleNonInputValueChange={mockHandleNonInputValueChange}
+        handleNonInputValueChange={mockHandleNonInputChange}
       />
     )
 
-    const questionInput = screen.getByRole('textbox', { name: /question/i })
-    fireEvent.change(questionInput, { target: { value: 'What is gravity?' } })
+    const questionInputField = screen.getByRole('textbox', {
+      name: /question/i
+    })
+    fireEvent.change(questionInputField, {
+      target: { value: "What is Euler's number?" }
+    })
 
-    expect(mockHandleInputChange).toHaveBeenCalledWith(
-      'text',
-      'What is gravity?'
-    )
+    expect(mockHandleInputChange).toHaveBeenCalledWith('text')
   })
 
-  it('should update the open answer text when changed', () => {
+  it('handles changes in the open answer input field', () => {
     render(
       <QuestionEditor
-        data={mockQuestionWithOpenAnswer}
+        data={questionWithOpenAnswer}
         handleInputChange={mockHandleInputChange}
-        handleNonInputValueChange={mockHandleNonInputValueChange}
+        handleNonInputValueChange={mockHandleNonInputChange}
       />
     )
 
-    const openAnswerInput = screen.getByRole('textbox', { name: /answer/i })
-    fireEvent.change(openAnswerInput, { target: { value: '300,000 km/s' } })
+    const openAnswerField = screen.getByRole('textbox', { name: /answer/i })
+    fireEvent.change(openAnswerField, {
+      target: { value: 'Approximately 2.71' }
+    })
 
-    expect(mockHandleInputChange).toHaveBeenCalledWith(
-      'openAnswer',
-      '300,000 km/s'
-    )
+    expect(mockHandleInputChange).toHaveBeenCalledWith('openAnswer')
   })
 })
