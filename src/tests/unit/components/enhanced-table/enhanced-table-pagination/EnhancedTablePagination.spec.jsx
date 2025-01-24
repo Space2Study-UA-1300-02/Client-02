@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { expect, vi } from 'vitest'
 import EnhancedTablePagination from '~/components/enhanced-table/enhanced-table-pagination/EnhancedTablePagination'
@@ -23,13 +23,13 @@ describe('EnhancedTablePagination component', () => {
     expect(input).toBeInTheDocument()
     expect(input.value).toBe('1')
   })
-  it('should change page from 1 to 2', () => {
+  it('should change page from 1 to 2', async () => {
     const input = screen.getByTestId('pagination-page-input')
     userEvent.clear(input)
     userEvent.type(input, '2')
     expect(paginationProps.handleChangePageInput).toHaveBeenCalledTimes(1)
     const nextPageButton = screen.getByLabelText('Go to next page')
-    fireEvent.click(nextPageButton)
+    await userEvent.click(nextPageButton)
     expect(paginationProps.handleChangePage).toHaveBeenCalledTimes(1)
   })
 })
