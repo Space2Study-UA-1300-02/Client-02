@@ -6,10 +6,6 @@ describe('SliderWithInput', () => {
   const mockOnChange = vi.fn()
 
   beforeEach(() => {
-    vi.clearAllMocks()
-  })
-
-  it('should render correctly', () => {
     render(
       <SliderWithInput
         defaultValue={50}
@@ -19,7 +15,10 @@ describe('SliderWithInput', () => {
         title='Price Range'
       />
     )
+    vi.clearAllMocks()
+  })
 
+  it('should render correctly', () => {
     const input = screen.getByRole('textbox')
     expect(input).toBeInTheDocument()
 
@@ -31,16 +30,6 @@ describe('SliderWithInput', () => {
   })
 
   it('should call onChange when slider is moved', async () => {
-    render(
-      <SliderWithInput
-        defaultValue={50}
-        max={100}
-        min={0}
-        onChange={mockOnChange}
-        title='Price Range'
-      />
-    )
-
     const slider = screen.getByRole('slider')
     fireEvent.input(slider, { target: { value: 70 } })
 
@@ -48,16 +37,6 @@ describe('SliderWithInput', () => {
   })
 
   it('should update inputValue correctly when input value is empty', () => {
-    render(
-      <SliderWithInput
-        defaultValue={50}
-        max={100}
-        min={0}
-        onChange={mockOnChange}
-        title='Price Range'
-      />
-    )
-
     const input = screen.getByRole('textbox')
     fireEvent.change(input, { target: { value: '' } })
 
@@ -65,16 +44,6 @@ describe('SliderWithInput', () => {
   })
 
   it('should update prices when input is blurred and input is greater than max value', async () => {
-    render(
-      <SliderWithInput
-        defaultValue={50}
-        max={100}
-        min={0}
-        onChange={mockOnChange}
-        title='Price Range'
-      />
-    )
-
     const input = screen.getByRole('textbox')
     fireEvent.change(input, { target: { value: '150' } })
     fireEvent.blur(input)
@@ -83,16 +52,6 @@ describe('SliderWithInput', () => {
   })
 
   it('should not update prices when input is blurred and value in input has not changed', async () => {
-    render(
-      <SliderWithInput
-        defaultValue={50}
-        max={100}
-        min={0}
-        onChange={mockOnChange}
-        title='Price Range'
-      />
-    )
-
     const input = screen.getByRole('textbox')
     fireEvent.change(input, { target: { value: '50' } })
     fireEvent.blur(input)
