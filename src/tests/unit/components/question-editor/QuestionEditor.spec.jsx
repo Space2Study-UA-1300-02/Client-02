@@ -28,91 +28,89 @@ beforeEach(() => {
 })
 
 describe('QuestionEditor Component Tests', () => {
-  {
-    it('renders the question input field correctly', () => {
-      render(
-        <QuestionEditor
-          data={sampleQuestion}
-          handleInputChange={mockHandleInputChange}
-          handleNonInputValueChange={mockHandleNonInputChange}
-        />
-      )
+  it('renders the question input field correctly', () => {
+    render(
+      <QuestionEditor
+        data={sampleQuestion}
+        handleInputChange={mockHandleInputChange}
+        handleNonInputValueChange={mockHandleNonInputChange}
+      />
+    )
 
-      const questionInputField = screen.getByRole('textbox', {
-        name: /question/i
-      })
-      expect(questionInputField).toBeInTheDocument()
-      expect(questionInputField).toHaveValue(sampleQuestion.text)
+    const questionInputField = screen.getByRole('textbox', {
+      name: /question/i
+    })
+    expect(questionInputField).toBeInTheDocument()
+    expect(questionInputField).toHaveValue(sampleQuestion.text)
+  })
+
+  it('renders the open answer input field properly', () => {
+    render(
+      <QuestionEditor
+        data={questionWithOpenAnswer}
+        handleInputChange={mockHandleInputChange}
+        handleNonInputValueChange={mockHandleNonInputChange}
+      />
+    )
+
+    const openAnswerField = screen.getByRole('textbox', { name: /answer/i })
+    expect(openAnswerField).toBeInTheDocument()
+    expect(openAnswerField).toHaveValue(questionWithOpenAnswer.openAnswer)
+  })
+
+  it('handles question type changes correctly', () => {
+    render(
+      <QuestionEditor
+        data={sampleQuestion}
+        handleInputChange={mockHandleInputChange}
+        handleNonInputValueChange={mockHandleNonInputChange}
+      />
+    )
+
+    const questionTypeSelector = screen.getByTestId('app-select')
+    fireEvent.change(questionTypeSelector, {
+      target: { value: 'multipleChoice' }
     })
 
-    it('renders the open answer input field properly', () => {
-      render(
-        <QuestionEditor
-          data={questionWithOpenAnswer}
-          handleInputChange={mockHandleInputChange}
-          handleNonInputValueChange={mockHandleNonInputChange}
-        />
-      )
+    expect(mockHandleNonInputChange).toHaveBeenCalledWith(
+      'type',
+      'multipleChoice'
+    )
+  })
 
-      const openAnswerField = screen.getByRole('textbox', { name: /answer/i })
-      expect(openAnswerField).toBeInTheDocument()
-      expect(openAnswerField).toHaveValue(questionWithOpenAnswer.openAnswer)
+  it('handles changes in the question input field', () => {
+    render(
+      <QuestionEditor
+        data={sampleQuestion}
+        handleInputChange={mockHandleInputChange}
+        handleNonInputValueChange={mockHandleNonInputChange}
+      />
+    )
+
+    const questionInputField = screen.getByRole('textbox', {
+      name: /question/i
+    })
+    fireEvent.change(questionInputField, {
+      target: { value: "What is Euler's number?" }
     })
 
-    it('handles question type changes correctly', () => {
-      render(
-        <QuestionEditor
-          data={sampleQuestion}
-          handleInputChange={mockHandleInputChange}
-          handleNonInputValueChange={mockHandleNonInputChange}
-        />
-      )
+    expect(mockHandleInputChange).toHaveBeenCalledWith('text')
+  })
 
-      const questionTypeSelector = screen.getByTestId('app-select')
-      fireEvent.change(questionTypeSelector, {
-        target: { value: 'multipleChoice' }
-      })
+  it('handles changes in the open answer input field', () => {
+    render(
+      <QuestionEditor
+        data={questionWithOpenAnswer}
+        handleInputChange={mockHandleInputChange}
+        handleNonInputValueChange={mockHandleNonInputChange}
+      />
+    )
 
-      expect(mockHandleNonInputChange).toHaveBeenCalledWith(
-        'type',
-        'multipleChoice'
-      )
+    const openAnswerField = screen.getByRole('textbox', { name: /answer/i })
+    fireEvent.change(openAnswerField, {
+      target: { value: 'Approximately 2.71' }
     })
 
-    it('handles changes in the question input field', () => {
-      render(
-        <QuestionEditor
-          data={sampleQuestion}
-          handleInputChange={mockHandleInputChange}
-          handleNonInputValueChange={mockHandleNonInputChange}
-        />
-      )
-
-      const questionInputField = screen.getByRole('textbox', {
-        name: /question/i
-      })
-      fireEvent.change(questionInputField, {
-        target: { value: "What is Euler's number?" }
-      })
-
-      expect(mockHandleInputChange).toHaveBeenCalledWith('text')
-    })
-
-    it('handles changes in the open answer input field', () => {
-      render(
-        <QuestionEditor
-          data={questionWithOpenAnswer}
-          handleInputChange={mockHandleInputChange}
-          handleNonInputValueChange={mockHandleNonInputChange}
-        />
-      )
-
-      const openAnswerField = screen.getByRole('textbox', { name: /answer/i })
-      fireEvent.change(openAnswerField, {
-        target: { value: 'Approximately 2.71' }
-      })
-
-      expect(mockHandleInputChange).toHaveBeenCalledWith('openAnswer')
-    })
-  }
+    expect(mockHandleInputChange).toHaveBeenCalledWith('openAnswer')
+  })
 })
