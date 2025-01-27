@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react'
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import QuestionEditor from '~/components/question-editor/QuestionEditor'
 
 const sampleQuestion = {
@@ -22,6 +22,10 @@ const questionWithOpenAnswer = {
 
 const mockHandleInputChange = vi.fn()
 const mockHandleNonInputChange = vi.fn()
+
+beforeEach(() => {
+  vi.clearAllMocks()
+})
 
 describe('QuestionEditor Component Tests', () => {
   it('renders the question input field correctly', () => {
