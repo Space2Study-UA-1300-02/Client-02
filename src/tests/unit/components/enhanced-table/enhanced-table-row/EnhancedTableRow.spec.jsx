@@ -34,15 +34,6 @@ const mockedCommonProps = {
 }
 
 describe('EnhancedTableRow component', () => {
-  // beforeEach(() => {
-  //   render(
-  //     <table>
-  //       <tbody>
-  //         <EnhancedTableRow {...mockedCommonProps} />
-  //       </tbody>
-  //     </table>
-  //   )
-  // })
   afterEach(() => {
     vi.clearAllMocks()
   })
