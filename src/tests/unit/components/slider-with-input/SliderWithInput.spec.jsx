@@ -1,9 +1,13 @@
 import { render, fireEvent, screen, waitFor } from '@testing-library/react'
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import SliderWithInput from '~/components/slider-with-input/SliderWithInput'
 
 describe('SliderWithInput', () => {
   const mockOnChange = vi.fn()
+
+  beforeEach(() => {
+    vi.clearAllMocks() // очищення мок-функцій
+  })
 
   it('should render correctly', () => {
     render(
