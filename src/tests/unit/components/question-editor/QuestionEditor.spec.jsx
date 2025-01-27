@@ -24,10 +24,10 @@ const mockHandleInputChange = vi.fn()
 const mockHandleNonInputChange = vi.fn()
 
 beforeEach(() => {
-  vi.clearAllMocks()
-})
+    vi.clearAllMocks();
+});
 
-describe('QuestionEditor Component Tests', () => {
+describe('QuestionEditor Component Tests', () => {{
   it('renders the question input field correctly', () => {
     render(
       <QuestionEditor
