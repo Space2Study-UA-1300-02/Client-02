@@ -6,7 +6,7 @@ describe('SliderWithInput', () => {
   const mockOnChange = vi.fn()
 
   beforeEach(() => {
-    vi.clearAllMocks() // очищення мок-функцій
+    vi.clearAllMocks()
   })
 
   it('should render correctly', () => {
