@@ -11,6 +11,7 @@ vi.mock('~/hooks/use-confirm', () => {
 
 const errors = { email: false, password: false }
 const data = { email: 'email@mail.com', password: 'passTest1' }
+const isValid = true
 const handleChange = vi.fn()
 const handleBlur = vi.fn()
 const handleSubmit = vi.fn()
@@ -25,6 +26,7 @@ describe('Login form test', () => {
         handleBlur={handleBlur}
         handleChange={handleChange}
         handleSubmit={handleSubmit}
+        isValid={isValid}
       />,
       { preloadedState }
     )
