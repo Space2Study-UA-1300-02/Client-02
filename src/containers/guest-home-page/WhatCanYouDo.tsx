@@ -6,7 +6,7 @@ import { useModalContext } from '~/context/modal-context'
 import { guestRoutes } from '~/router/constants/guestRoutes'
 import learnImg from '~/assets/img/guest-home-page/learnImg.png'
 import teachImg from '~/assets/img/guest-home-page/teachImg.png'
-import SignUpDialog from '~/containers/signup-dialog/SignupDialog'
+import SignUpDialog from '~/containers/signup-dialog/SignUpDialog'
 import { UserRoleEnum } from '~/types'
 import { styles } from '~/containers/guest-home-page/styles/WhatCanYouDo.styles'
 
