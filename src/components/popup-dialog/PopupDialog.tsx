@@ -14,19 +14,27 @@ interface PopupDialogProps {
   paperProps: PaperProps
   timerId: NodeJS.Timeout | null
   closeModalAfterDelay: (delay?: number) => void
+  isDirty: boolean
 }
 
 const PopupDialog: FC<PopupDialogProps> = ({
   content,
   paperProps,
   timerId,
-  closeModalAfterDelay
+  closeModalAfterDelay,
+  isDirty
 }) => {
   const { isMobile } = useBreakpoints()
   const { closeModal } = useModalContext()
 
   const handleMouseOver = () => timerId && clearTimeout(timerId)
   const handleMouseLeave = () => timerId && closeModalAfterDelay()
+
+  const handleOnClose = () => {
+    if (!isDirty) {
+      closeModal()
+    }
+  }
 
   return (
     <Dialog
@@ -35,6 +43,7 @@ const PopupDialog: FC<PopupDialogProps> = ({
       disableRestoreFocus
       fullScreen={isMobile}
       maxWidth='xl'
+      onClose={handleOnClose}
       open
     >
       <Box
