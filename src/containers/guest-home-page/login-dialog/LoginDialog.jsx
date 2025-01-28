@@ -11,19 +11,18 @@ import { useSnackBarContext } from '~/context/snackbar-context'
 import { email } from '~/utils/validations/login'
 import loginImg from '~/assets/img/login-dialog/login.svg'
 import { login, snackbarVariants } from '~/constants'
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 
 import styles from '~/containers/guest-home-page/login-dialog/LoginDialog.styles'
 
 const LoginDialog = () => {
   const { t } = useTranslation()
-  const { closeModal } = useModalContext()
+  const { closeModal, setIsDirty } = useModalContext()
   const { setAlert } = useSnackBarContext()
   const [loginUser] = useLoginMutation()
-  const modalRef = useRef(null)
 
-  const { handleSubmit, handleInputChange, handleBlur, data, errors } = useForm(
-    {
+  const { handleSubmit, handleInputChange, handleBlur, data, errors, isDirty } =
+    useForm({
       onSubmit: async () => {
         try {
           await loginUser(data).unwrap()
@@ -37,26 +36,14 @@ const LoginDialog = () => {
       },
       initialValues: { email: '', password: '' },
       validations: { email }
-    }
-  )
+    })
 
   useEffect(() => {
-    const handleOutsideClick = (e) => {
-      if (modalRef.current && !modalRef.current.contains(e.target)) {
-        if (!data.email && !data.password) {
-          closeModal()
-        }
-      }
-    }
-
-    document.addEventListener('mousedown', handleOutsideClick)
-    return () => {
-      document.removeEventListener('mousedown', handleOutsideClick)
-    }
-  }, [data.email, data.password, closeModal])
+    setIsDirty(isDirty)
+  }, [isDirty, setIsDirty])
 
   return (
-    <Box ref={modalRef} sx={styles.root}>
+    <Box sx={styles.root}>
       <Box sx={styles.imgContainer}>
         <Box alt='login' component='img' src={loginImg} sx={styles.img} />
       </Box>
