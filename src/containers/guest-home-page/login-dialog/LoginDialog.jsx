@@ -8,7 +8,7 @@ import useForm from '~/hooks/use-form'
 import { useLoginMutation } from '~/services/auth-service'
 import { useModalContext } from '~/context/modal-context'
 import { useSnackBarContext } from '~/context/snackbar-context'
-import { email } from '~/utils/validations/login'
+import { email, password } from '~/utils/validations/login'
 import loginImg from '~/assets/img/login-dialog/login.svg'
 import { login, snackbarVariants } from '~/constants'
 import { useEffect, useRef } from 'react'
@@ -22,8 +22,8 @@ const LoginDialog = () => {
   const [loginUser] = useLoginMutation()
   const modalRef = useRef(null)
 
-  const { handleSubmit, handleInputChange, handleBlur, data, errors } = useForm(
-    {
+  const { handleSubmit, handleInputChange, handleBlur, data, errors, isValid } =
+    useForm({
       onSubmit: async () => {
         try {
           await loginUser(data).unwrap()
@@ -36,9 +36,8 @@ const LoginDialog = () => {
         }
       },
       initialValues: { email: '', password: '' },
-      validations: { email }
-    }
-  )
+      validations: { email, password }
+    })
 
   useEffect(() => {
     const handleOutsideClick = (e) => {
@@ -72,6 +71,7 @@ const LoginDialog = () => {
             handleBlur={handleBlur}
             handleChange={handleInputChange}
             handleSubmit={handleSubmit}
+            isValid={isValid}
           />
           <GoogleLogin buttonWidth={styles.form.maxWidth} type={login} />
         </Box>

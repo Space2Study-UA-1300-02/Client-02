@@ -17,7 +17,8 @@ const LoginForm = ({
   handleChange,
   handleBlur,
   data,
-  errors
+  errors,
+  isValid
 }) => {
   const { inputVisibility: passwordVisibility, showInputText: showPassword } =
     useInputVisibility(errors.password)
@@ -71,7 +72,7 @@ const LoginForm = ({
       </Typography>
 
       <AppButton
-        disabled={data.email && data.password ? false : true}
+        disabled={!isValid}
         loading={authLoading}
         sx={styles.loginButton}
         type='submit'
