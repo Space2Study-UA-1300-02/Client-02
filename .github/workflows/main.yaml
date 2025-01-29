@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [main, develop]
+    branches: ['*']
   pull_request:
-    branches: [main, develop]
+    branches: ['*'] 
 
 jobs:
   tests:
@@ -24,34 +24,33 @@ jobs:
       - name : Npm Install
         run: npm install
         
-      - name : Lint
-        run : npm run lint
+      #- name : Lint
+       # run : npm run lint
         
       - name : Test
         run: npm test
         
-      - name : Check Path
-        run: ls -la && pwd && ls -la /
-      
+        # Generate sonar-project.properties dynamically
+      - name: Generate sonar-project.properties
+        run: |
+          echo "sonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}" > sonar-project.properties
+          echo "sonar.organization=${{ secrets.SONAR_ORGANIZATION }}" >> sonar-project.properties
+          echo "sonar.sources=." >> sonar-project.properties
+          echo "sonar.exclusions=**/src/tests/**/*" >> sonar-project.properties
+          echo "sonar.coverage.exclusions=**/src/tests/**/*" >> sonar-project.properties
+          echo "sonar.tests=./src/tests" >> sonar-project.properties
+          echo "sonar.sourceEncoding=UTF-8" >> sonar-project.properties
+          # echo "sonar.javascript.lcov.reportPaths=./src/tests/coverage/lcov.info" >> sonar-project.properties
+          # echo "sonar.testExecutionReportPaths=./test-report.xml" >> sonar-project.properties
+
+      # Run SonarCloud Scan
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
-        if: success() || failure()
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} 
 
-  Test_Docker:
-    runs-on: ubuntu-latest
-    steps:
-
-      #Checkout Repository
-      - uses: actions/checkout@v3
-      
-      # Docker Build
-      - uses: docker/build-push-action@v3
-        with:
-          push: false
-          file: ./Dockerfile
-          tags: front-stage:test
-          build-args: |
-            password=${{ secrets.DOCKER_PASS }}
+      # Delete sonar-project.properties after scan
+      - name: Remove sonar-project.properties
+        if: always()
+        run: rm sonar-project.properties

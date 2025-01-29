@@ -11,17 +11,18 @@ import { useSnackBarContext } from '~/context/snackbar-context'
 import { email } from '~/utils/validations/login'
 import loginImg from '~/assets/img/login-dialog/login.svg'
 import { login, snackbarVariants } from '~/constants'
+import { useEffect } from 'react'
 
 import styles from '~/containers/guest-home-page/login-dialog/LoginDialog.styles'
 
 const LoginDialog = () => {
   const { t } = useTranslation()
-  const { closeModal } = useModalContext()
+  const { closeModal, setIsDirty } = useModalContext()
   const { setAlert } = useSnackBarContext()
   const [loginUser] = useLoginMutation()
 
-  const { handleSubmit, handleInputChange, handleBlur, data, errors } = useForm(
-    {
+  const { handleSubmit, handleInputChange, handleBlur, data, errors, isDirty } =
+    useForm({
       onSubmit: async () => {
         try {
           await loginUser(data).unwrap()
@@ -35,8 +36,11 @@ const LoginDialog = () => {
       },
       initialValues: { email: '', password: '' },
       validations: { email }
-    }
-  )
+    })
+
+  useEffect(() => {
+    setIsDirty(isDirty)
+  }, [isDirty, setIsDirty])
 
   return (
     <Box sx={styles.root}>

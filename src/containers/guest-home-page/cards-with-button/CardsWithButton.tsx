@@ -50,7 +50,7 @@ const CardsWithButton: FC<CardsWithButtonProps> = ({
             <Box className='dots' component='img' src={dots} />
           </Box>
           <TitleWithDescription
-            description={t(item.description)}
+            description={t(item.description || '')}
             style={styles[boxSide]}
             title={t(item.title)}
           />
