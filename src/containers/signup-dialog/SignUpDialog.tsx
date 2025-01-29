@@ -9,18 +9,8 @@ import GoogleLogin from '~/containers/guest-home-page/google-login/GoogleLogin'
 import { email } from '~/utils/validations/login'
 import { styles } from '~/containers/signup-dialog/SignUpDialog.styles'
 import SignUpForm from '~/containers/signup-form/SignUpForm'
-
-interface SignUpDialogProps {
-  initialRole: UserRoleEnum
-}
-
-interface FormData {
-  firstName: string
-  lastName: string
-  email: string
-  password: string
-  confirmPassword: string
-}
+import { FormData } from '~/types/common/interfaces/common.interfaces'
+import { SignUpDialogProps } from '~/types/common/interfaces/common.interfaces'
 
 const SignUpDialog: FC<SignUpDialogProps> = ({ initialRole }) => {
   const { t } = useTranslation()
@@ -53,7 +43,6 @@ const SignUpDialog: FC<SignUpDialogProps> = ({ initialRole }) => {
       <Box sx={styles.imgContainer}>
         <Box alt='signup' component='img' src={imageSrc} sx={styles.img} />
       </Box>
-
       <Box sx={styles.formContainer}>
         <Typography sx={styles.title} variant='h2'>
           {roleText}

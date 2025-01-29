@@ -11,7 +11,7 @@ export const styles: Record<string, SxProps<Theme>> = {
     display: 'flex',
     alignItems: 'center',
     gap: { lg: '122px', md: '40px' },
-    maxHeight: { xs: 'calc(100vh - 56px)', sm: 'calc(100vh - 64px)' }
+    maxHeight: { xs: 'calc(100vh - 56px)', sm: 'calc(100vh - 24px)' }
   },
   imgContainer: {
     width: '450px',
@@ -35,9 +35,10 @@ export const styles: Record<string, SxProps<Theme>> = {
     pl: { xs: '8px', sm: '96px', md: '16px' }
   },
   title: {
-    marginBottom: 2,
-    fontSize: 24,
-    fontWeight: 'bold'
+    fontSize: 32,
+    fontWeight: 'bold',
+    marginBottom: '20px',
+    lineHeight: 1
   },
   form: {
     overflow: 'auto',

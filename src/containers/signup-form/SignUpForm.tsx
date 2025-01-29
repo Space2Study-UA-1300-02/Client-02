@@ -4,41 +4,10 @@ import useInputVisibility from '~/hooks/use-input-visibility'
 import Box from '@mui/material/Box'
 import AppTextField from '~/components/app-text-field/AppTextField'
 import AppButton from '~/components/app-button/AppButton'
-import { ChangeEvent, FocusEvent, FormEvent } from 'react'
 import { styles } from '~/containers/signup-form/SignUpForm.styles'
-
-export interface FormData {
-  firstName: string
-  lastName: string
-  email: string
-  password: string
-  confirmPassword: string
-}
-
-interface SignUpFormProps {
-  handleSubmit: (event: FormEvent<HTMLDivElement>) => void
-  handleChange: (
-    field: keyof FormData
-  ) => (event: ChangeEvent<HTMLInputElement>) => void
-  handleBlur: (
-    field: keyof FormData
-  ) => (event: FocusEvent<HTMLInputElement>) => void
-
-  data: {
-    firstName: string
-    lastName: string
-    email: string
-    password: string
-    confirmPassword: string
-  }
-  errors: {
-    firstName?: string
-    lastName?: string
-    email?: string
-    password?: string
-    confirmPassword?: string
-  }
-}
+import Typography from '@mui/material/Typography'
+import Checkbox from '@mui/material/Checkbox'
+import { SignUpFormProps } from '~/types/common/interfaces/common.interfaces'
 
 const SignUpForm: FC<SignUpFormProps> = ({
   handleSubmit,
@@ -115,6 +84,19 @@ const SignUpForm: FC<SignUpFormProps> = ({
         type={showConfirmPassword ? 'text' : 'password'}
         value={data.confirmPassword}
       />
+      <Box sx={styles.checkbox}>
+        <Checkbox required />
+        <Typography variant='body2'>
+          {t('signup.iAgree')}{' '}
+          <a href='#' style={styles.link}>
+            {t('common.terms')}
+          </a>{' '}
+          {t('signup.and')}{' '}
+          <a href='#' style={styles.link}>
+            {t('common.privacyPolicy')}
+          </a>
+        </Typography>
+      </Box>
       <AppButton fullWidth sx={styles.submitButton} type='submit'>
         {t('common.labels.signup')}
       </AppButton>
