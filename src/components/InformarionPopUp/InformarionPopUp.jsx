@@ -5,7 +5,7 @@ const Popup = () => {
   const [isOpen, setIsOpen] = useState(true);
 
   const closePopup = () => {
-      setIsOpen(false);
+      setIsOpen(false);""
   };
 
   return (
