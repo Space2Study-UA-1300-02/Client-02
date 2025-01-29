@@ -1,7 +1,6 @@
-import { SxProps, Theme } from '@mui/material'
 import { scrollbar } from '~/styles/app-theme/custom-scrollbar'
 
-export const styles: Record<string, SxProps<Theme>> = {
+export const styles = {
   root: {
     justifyContent: 'center',
     backgroundColor: 'white',

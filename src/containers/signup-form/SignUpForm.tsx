@@ -85,8 +85,17 @@ const SignUpForm: FC<SignUpFormProps> = ({
         value={data.confirmPassword}
       />
       <Box sx={styles.checkbox}>
-        <Checkbox required />
-        <Typography variant='body2'>
+        <Checkbox
+          aria-describedby='terms-description'
+          id='terms-checkbox'
+          required
+        />
+        <Typography
+          component='label'
+          htmlFor='terms-checkbox'
+          id='terms-description'
+          variant='body2'
+        >
           {t('signup.iAgree')}{' '}
           <a href='#' style={styles.link}>
             {t('common.terms')}
