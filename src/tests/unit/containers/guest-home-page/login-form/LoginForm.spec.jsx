@@ -16,6 +16,7 @@ const handleBlur = vi.fn()
 const handleSubmit = vi.fn()
 
 describe('Login form test', () => {
+  const isValid = true
   const preloadedState = { appMain: { authLoading: false } }
   beforeEach(() => {
     renderWithProviders(
@@ -25,6 +26,7 @@ describe('Login form test', () => {
         handleBlur={handleBlur}
         handleChange={handleChange}
         handleSubmit={handleSubmit}
+        isValid={isValid}
       />,
       { preloadedState }
     )
@@ -64,7 +66,10 @@ describe('Login form test', () => {
       expect(visibilityOffIcon).not.toBeInTheDocument()
     })
   })
-
+  it('should enable button when form is valid', () => {
+    const button = screen.getByText('common.labels.login')
+    expect(button).toBeEnabled()
+  })
   it('should submit', async () => {
     handleSubmit.mockImplementation((event) => {
       event.preventDefault()
@@ -101,5 +106,21 @@ describe('Login form test with loading', () => {
     const loader = screen.getByTestId('loader')
 
     expect(loader).toBeInTheDocument()
+  })
+})
+describe('Login form test', () => {
+  it('should disable button when form is invalid', () => {
+    renderWithProviders(
+      <LoginForm
+        data={data}
+        errors={errors}
+        handleBlur={handleBlur}
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+        isValid={false}
+      />
+    )
+    const button = screen.getByText('common.labels.login')
+    expect(button).toBeDisabled()
   })
 })

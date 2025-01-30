@@ -15,6 +15,7 @@ interface UseFormProps<T> {
 interface UseFormOutput<T> {
   data: T
   isDirty: boolean
+  isValid: boolean
   errors: { [K in keyof T]: string }
   handleInputChange: (
     key: keyof T
@@ -38,6 +39,7 @@ export const useForm = <T extends object>({
 }: UseFormProps<T>): UseFormOutput<T> => {
   const [data, setData] = useState<T>(initialValues)
   const [isDirty, setDirty] = useState<boolean>(false)
+  const [isValid, setValid] = useState<boolean>(false)
   const [errors, setErrors] =
     useState<{ [K in keyof T]: string }>(initialErrors)
   const [isTouched, setTouched] = useState<{ [K in keyof T]: boolean }>(
@@ -59,6 +61,18 @@ export const useForm = <T extends object>({
         [key]: valid ?? ''
       }))
     }
+    checkFormValidity(key, value)
+  }
+
+  const checkFormValidity = <K extends keyof T>(
+    key: K,
+    value: T[K] | string
+  ) => {
+    const updatedData = { ...data }
+    updatedData[key] = value as T[K]
+    const validationErrors = getValidationErrors(updatedData)
+    const isFormValid = Object.keys(validationErrors).length === 0
+    setValid(isFormValid)
   }
 
   const handleInputChange =
@@ -114,22 +128,32 @@ export const useForm = <T extends object>({
 
   const handleSubmit = (event: React.FormEvent<HTMLDivElement>) => {
     event.preventDefault()
-    let isValid = true
     const submittedData = submitWithData ? data : undefined
     const newErrors = { ...errors }
+    const validationErrors = getValidationErrors(data)
+    const isValid = Object.keys(validationErrors).length === 0
+
+    for (const validationErrorKey in validationErrors) {
+      newErrors[validationErrorKey] = validationErrors[validationErrorKey]
+    }
+
+    isValid ? onSubmit && void onSubmit(submittedData) : setErrors(newErrors)
+  }
+
+  const getValidationErrors = (data: T) => {
+    const result = {} as { [K in keyof T]: string }
 
     if (validations) {
       for (const key in validations) {
         const value = data[key]
         const validation = validateValue(key, value)
         if (validation) {
-          isValid = false
-          newErrors[key] = validation
+          result[key] = validation
         }
       }
     }
 
-    isValid ? onSubmit && void onSubmit(submittedData) : setErrors(newErrors)
+    return result
   }
 
   const resetData = (keys: (keyof T)[] = []) => {
@@ -164,6 +188,7 @@ export const useForm = <T extends object>({
     data,
     isDirty,
     errors,
+    isValid,
     handleDataChange,
     handleInputChange,
     handleNonInputValueChange,
