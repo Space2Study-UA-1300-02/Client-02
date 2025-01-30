@@ -9,8 +9,10 @@ import GoogleLogin from '~/containers/guest-home-page/google-login/GoogleLogin'
 import { email } from '~/utils/validations/login'
 import { styles } from '~/containers/signup-dialog/SignUpDialog.styles'
 import SignUpForm from '~/containers/signup-form/SignUpForm'
-import { FormData } from '~/types/common/interfaces/common.interfaces'
-import { SignUpDialogProps } from '~/types/common/interfaces/common.interfaces'
+import {
+  FormData,
+  SignUpDialogProps
+} from '~/types/common/interfaces/common.interfaces'
 
 const SignUpDialog: FC<SignUpDialogProps> = ({ initialRole }) => {
   const { t } = useTranslation()
