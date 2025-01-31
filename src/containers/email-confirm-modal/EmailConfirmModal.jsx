@@ -5,6 +5,7 @@ import { useCallback } from 'react'
 import { useModalContext } from '~/context/modal-context'
 import { useTranslation } from 'react-i18next'
 import imgReject from '~/assets/img/email-confirmation-modals/not-success-icon.svg'
+import imgSuccess from '~/assets/img/email-confirmation-modals/success-icon.svg'
 import LoginDialog from '~/containers/guest-home-page/login-dialog/LoginDialog'
 import useAxios from '~/hooks/use-axios'
 import { AuthService } from '~/services/auth-service'
@@ -31,6 +32,25 @@ const EmailConfirmModal = ({ confirmToken, openModal }) => {
 
   if (loading) {
     return <Loader size={100} />
+  }
+
+  if (response && response.status === 'success') {
+    return (
+      <Box sx={styles.box}>
+        <ImgTitleDescription
+          img={imgSuccess}
+          style={styles}
+          title={t('modals.emailConfirm')}
+        />
+        <Button
+          onClick={openLoginDialog}
+          sx={{ ...styles.button, mt: '10px' }}
+          variant='contained'
+        >
+          {t('button.goToLogin')}
+        </Button>
+      </Box>
+    )
   }
 
   if (

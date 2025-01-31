@@ -8,7 +8,7 @@ import useForm from '~/hooks/use-form'
 import { useLoginMutation } from '~/services/auth-service'
 import { useModalContext } from '~/context/modal-context'
 import { useSnackBarContext } from '~/context/snackbar-context'
-import { email } from '~/utils/validations/login'
+import { email, password } from '~/utils/validations/login'
 import loginImg from '~/assets/img/login-dialog/login.svg'
 import { login, snackbarVariants } from '~/constants'
 import { useEffect } from 'react'
@@ -21,22 +21,29 @@ const LoginDialog = () => {
   const { setAlert } = useSnackBarContext()
   const [loginUser] = useLoginMutation()
 
-  const { handleSubmit, handleInputChange, handleBlur, data, errors, isDirty } =
-    useForm({
-      onSubmit: async () => {
-        try {
-          await loginUser(data).unwrap()
-          closeModal()
-        } catch (e) {
-          setAlert({
-            severity: snackbarVariants.error,
-            message: `errors.${e.data.code}`
-          })
-        }
-      },
-      initialValues: { email: '', password: '' },
-      validations: { email }
-    })
+  const {
+    handleSubmit,
+    handleInputChange,
+    handleBlur,
+    data,
+    errors,
+    isDirty,
+    isValid
+  } = useForm({
+    onSubmit: async () => {
+      try {
+        await loginUser(data).unwrap()
+        closeModal()
+      } catch (e) {
+        setAlert({
+          severity: snackbarVariants.error,
+          message: `errors.${e.data.code}`
+        })
+      }
+    },
+    initialValues: { email: '', password: '' },
+    validations: { email, password }
+  })
 
   useEffect(() => {
     setIsDirty(isDirty)
@@ -59,6 +66,7 @@ const LoginDialog = () => {
             handleBlur={handleBlur}
             handleChange={handleInputChange}
             handleSubmit={handleSubmit}
+            isValid={isValid}
           />
           <GoogleLogin buttonWidth={styles.form.maxWidth} type={login} />
         </Box>
