@@ -6,7 +6,6 @@ import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
-
 import AppButton from '~/components/app-button/AppButton'
 import { styles } from '~/components/confirm-dialog/ConfirmDialog.styles'
 
