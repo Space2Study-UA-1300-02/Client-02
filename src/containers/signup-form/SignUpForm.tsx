@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import useInputVisibility from '~/hooks/use-input-visibility'
 import Box from '@mui/material/Box'
@@ -25,6 +25,8 @@ const SignUpForm: FC<SignUpFormProps> = ({
   } = useInputVisibility(errors.confirmPassword)
 
   const { t } = useTranslation()
+
+  const [isOpen, setIsOpen] = useState<boolean>(false)
 
   return (
     <Box component='form' onSubmit={handleSubmit} sx={styles.form}>
@@ -106,7 +108,14 @@ const SignUpForm: FC<SignUpFormProps> = ({
           </a>
         </Typography>
       </Box>
-      <AppButton fullWidth sx={styles.submitButton} type='submit'>
+      <AppButton
+        fullWidth
+        isOpen={isOpen}
+        onClick={() => setIsOpen(true)}
+        setIsOpen={setIsOpen}
+        sx={styles.submitButton}
+        type='submit'
+      >
         {t('common.labels.signup')}
       </AppButton>
     </Box>

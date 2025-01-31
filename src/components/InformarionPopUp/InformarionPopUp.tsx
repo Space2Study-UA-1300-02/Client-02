@@ -1,9 +1,12 @@
-import React, { useState, MouseEvent } from 'react'
+import React, { MouseEvent } from 'react'
 import s from './InformarionPopUp.module.css'
 
-const Popup: React.FC = () => {
-  const [isOpen, setIsOpen] = useState<boolean>(true)
+interface PopupProps {
+  isOpen: boolean
+  setIsOpen: (isOpen: boolean) => void
+}
 
+const Popup: React.FC<PopupProps> = ({ isOpen, setIsOpen }) => {
   const closePopup = (): void => {
     setIsOpen(false)
   }
