@@ -5,22 +5,23 @@ import AppAutoComplete from '~/components/app-auto-complete/AppAutoComplete'
 import loginImg from '~/assets/img/login-dialog/login.svg'
 import AppTextArea from '~/components/app-text-area/AppTextArea'
 import { Typography } from '@mui/material'
-import { countriesMock, citiesMock } from './constans'
-
+import { countriesMock, citiesMock } from './constants'
+import useForm from '~/hooks/use-form'
+import { firstName, lastName } from '~/utils/validations/login'
 import { styles } from '~/containers/tutor-home-page/general-info-step/GeneralInfoStep.styles'
 
 const GeneralInfoStep = ({ btnsBox }) => {
   const { t } = useTranslation()
+  const { handleInputChange, handleBlur, data, errors } = useForm({
+    initialValues: { firstName: '', lastName: '' },
+    validations: { firstName, lastName }
+  })
   return (
     <Box sx={styles.container}>
       <Box sx={styles.imgContainer}>
         <Box alt='login' component='img' src={loginImg} sx={styles.img} />
       </Box>
-      <Box
-        component='form'
-        // onSubmit={handleSubmit}
-        sx={styles.rigthBox}
-      >
+      <Box component='form' sx={styles.rigthBox}>
         <Typography sx={{ mb: { md: '20px', sm: '16px' } }}>
           {t('becomeTutor.generalInfo.title')}
         </Typography>
@@ -28,44 +29,52 @@ const GeneralInfoStep = ({ btnsBox }) => {
           <AppTextField
             autoFocus
             data-testid={'firstName'}
-            // errorMsg={t(errors.email)}
-            // onBlur={handleBlur('email')}
-            // onChange={handleChange('email')}
+            errorMsg={t(errors.firstName)}
             label={t('common.labels.firstName')}
+            onBlur={handleBlur('firstName')}
+            onChange={handleInputChange('firstName')}
             required
             size='large'
             sx={{ mb: { md: '5px', xs: '0' } }}
             type='text'
-            // value={data.email}
+            value={data.firstName}
           />
           <AppTextField
             data-testid={'lastName'}
+            errorMsg={t(errors.lastName)}
             label={t('common.labels.lastName')}
+            onBlur={handleBlur('lastName')}
+            onChange={handleInputChange('lastName')}
             required
             size='large'
             sx={{ mb: { md: '5px', xs: '0' } }}
             type='text'
+            value={data.lastName}
           />
         </Box>
         <Box sx={styles.fieldContainer}>
           <AppAutoComplete
+            autoComplete='off'
+            onChange={handleInputChange('country')}
             options={countriesMock}
             sx={{ flex: 1, mb: { md: '20px', xs: '16px' } }}
             textFieldProps={{ label: t('common.labels.country') }}
           />
           <AppAutoComplete
+            autoComplete='off'
+            onChange={handleInputChange('city')}
             options={citiesMock}
             sx={{ flex: 1, mb: { md: '20px', xs: '16px' } }}
             textFieldProps={{ label: t('common.labels.city') }}
           />
         </Box>
-
         <AppTextArea
           fullWidth
           label={t('becomeTutor.generalInfo.textFieldLabel')}
           maxLength={200}
+          onChange={handleInputChange('description')}
           sx={{ mb: '5px' }}
-          value=''
+          value={data.description || ''}
         />
         <Typography sx={{ fontSize: '12px' }}>
           {t('becomeTutor.generalInfo.helperText')}
