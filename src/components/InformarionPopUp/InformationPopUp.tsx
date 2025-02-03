@@ -1,6 +1,7 @@
 import React, { MouseEvent, useCallback, useEffect, useRef } from 'react'
 import s from './InformationPopUp.module.css'
 import emailConfirmationImage from '~/assets/img/email-confirmation-modals/email-conf.svg'
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 
 interface PopupProps {
   isOpen: boolean
@@ -26,7 +27,7 @@ const Popup: React.FC<PopupProps> = ({ isOpen, setIsOpen, data }) => {
 
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = 'hidden'
+      disableBodyScroll(popupRef.current!)
       const closeButton = popupRef.current?.querySelector('button')
       closeButton?.focus()
     }
@@ -40,7 +41,7 @@ const Popup: React.FC<PopupProps> = ({ isOpen, setIsOpen, data }) => {
     document.addEventListener('keydown', handleEscape)
     return () => {
       document.removeEventListener('keydown', handleEscape)
-      document.body.style.overflow = 'unset'
+      enableBodyScroll(popupRef.current!)
     }
   }, [isOpen, closePopup])
 
@@ -51,9 +52,11 @@ const Popup: React.FC<PopupProps> = ({ isOpen, setIsOpen, data }) => {
           aria-describedby='popup-description'
           aria-labelledby='popup-title'
           aria-modal='true'
+          aria-live='polite'
           className={s.popup}
           ref={popupRef}
           role='dialog'
+          tabIndex={-1}
         >
           <button
             aria-label='Close popup'
