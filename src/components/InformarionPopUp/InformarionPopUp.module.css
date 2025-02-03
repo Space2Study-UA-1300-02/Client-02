@@ -21,7 +21,10 @@
 }
 
 .popup h2 {
-  margin-top: 0;
+  margin-top: 15px;
+  font-family: Rubik;
+font-weight: 500;
+font-size: 24px;
 }
 
 .close_btn {
@@ -51,3 +54,12 @@
   cursor: pointer;
   border-radius: 5px;
 }
+.popup .btn_ok{
+  background-color: #110e23;
+  color: rgb(255, 255, 255);
+
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  font-family: Rubik;
+ }

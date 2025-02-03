@@ -35,7 +35,7 @@ const Popup: React.FC<PopupProps> = ({ isOpen, setIsOpen, data }) => {
           <div className={s.img_container}>
             <img
               alt='email-popup'
-              src='../../assets/img/email-confirmation-modals/email-conf.svg'
+              src='/assets/img/email-confirmation-modals/email-conf.svg'
             />
           </div>
           <h2>Your email address needs to be verified</h2>
@@ -43,6 +43,9 @@ const Popup: React.FC<PopupProps> = ({ isOpen, setIsOpen, data }) => {
             We sent a confirmation email to: <strong>{data.email}. </strong>
             Check your email and click on the confirmation button to continue.
           </p>
+          <button className={s.btn_ok} onClick={closePopup}>
+            OK
+          </button>
         </div>
       </div>
     )
