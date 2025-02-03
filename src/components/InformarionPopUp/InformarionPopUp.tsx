@@ -4,9 +4,16 @@ import s from './InformarionPopUp.module.css'
 interface PopupProps {
   isOpen: boolean
   setIsOpen: (isOpen: boolean) => void
+  data: {
+    firstName: string
+    lastName: string
+    email: string
+    password: string
+    confirmPassword: string
+  }
 }
 
-const Popup: React.FC<PopupProps> = ({ isOpen, setIsOpen }) => {
+const Popup: React.FC<PopupProps> = ({ isOpen, setIsOpen, data }) => {
   const closePopup = (): void => {
     setIsOpen(false)
   }
@@ -22,17 +29,20 @@ const Popup: React.FC<PopupProps> = ({ isOpen, setIsOpen }) => {
     isOpen && (
       <div className={s.overlay} onClick={handleOverlayClick}>
         <div className={s.popup} id='popup'>
-          <button className={s.closeBtn} onClick={closePopup}>
+          <button className={s.close_btn} onClick={closePopup}>
             &times;
           </button>
+          <div className={s.img_container}>
+            <img
+              alt='email-popup'
+              src='../../assets/img/email-confirmation-modals/email-conf.svg'
+            />
+          </div>
           <h2>Your email address needs to be verified</h2>
           <p>
-            We sent a confirmation email to: <strong>eb5oio0p@kzccv.com</strong>
-          </p>
-          <p>
+            We sent a confirmation email to: <strong>{data.email}. </strong>
             Check your email and click on the confirmation button to continue.
           </p>
-          <button onClick={closePopup}>OK</button>
         </div>
       </div>
     )

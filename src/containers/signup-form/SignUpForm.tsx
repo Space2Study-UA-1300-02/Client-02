@@ -8,6 +8,7 @@ import { styles } from '~/containers/signup-form/SignUpForm.styles'
 import Typography from '@mui/material/Typography'
 import Checkbox from '@mui/material/Checkbox'
 import { SignUpFormProps } from '~/types/common/interfaces/common.interfaces'
+import Popup from '~/components/InformarionPopUp/InformarionPopUp'
 
 const SignUpForm: FC<SignUpFormProps> = ({
   handleSubmit,
@@ -27,6 +28,11 @@ const SignUpForm: FC<SignUpFormProps> = ({
   const { t } = useTranslation()
 
   const [isOpen, setIsOpen] = useState<boolean>(false)
+
+  const handleModuleClick = (event: React.FormEvent) => {
+    event.preventDefault()
+    setIsOpen(true)
+  }
 
   return (
     <Box component='form' onSubmit={handleSubmit} sx={styles.form}>
@@ -110,14 +116,13 @@ const SignUpForm: FC<SignUpFormProps> = ({
       </Box>
       <AppButton
         fullWidth
-        isOpen={isOpen}
-        onClick={() => setIsOpen(true)}
-        setIsOpen={setIsOpen}
+        onClick={handleModuleClick}
         sx={styles.submitButton}
         type='submit'
       >
         {t('common.labels.signup')}
       </AppButton>
+      <Popup data={data} isOpen={isOpen} setIsOpen={setIsOpen} />
     </Box>
   )
 }
