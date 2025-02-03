@@ -27,7 +27,9 @@ const Popup: React.FC<PopupProps> = ({ isOpen, setIsOpen, data }) => {
 
   useEffect(() => {
     if (isOpen) {
-      disableBodyScroll(popupRef.current!)
+      if (popupRef.current) {
+        disableBodyScroll(popupRef.current)
+      }
       const closeButton = popupRef.current?.querySelector('button')
       closeButton?.focus()
     }
@@ -41,7 +43,9 @@ const Popup: React.FC<PopupProps> = ({ isOpen, setIsOpen, data }) => {
     document.addEventListener('keydown', handleEscape)
     return () => {
       document.removeEventListener('keydown', handleEscape)
-      enableBodyScroll(popupRef.current!)
+      if (popupRef.current) {
+        enableBodyScroll(popupRef.current)
+      }
     }
   }, [isOpen, closePopup])
 
@@ -51,8 +55,8 @@ const Popup: React.FC<PopupProps> = ({ isOpen, setIsOpen, data }) => {
         <div
           aria-describedby='popup-description'
           aria-labelledby='popup-title'
-          aria-modal='true'
           aria-live='polite'
+          aria-modal='true'
           className={s.popup}
           ref={popupRef}
           role='dialog'
