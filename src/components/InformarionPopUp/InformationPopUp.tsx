@@ -27,6 +27,10 @@ const Popup: React.FC<PopupProps> = ({ isOpen, setIsOpen, data }) => {
   }
 
   useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden'
+    }
+
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === 'Escape' && isOpen) {
         closePopup()
@@ -34,7 +38,10 @@ const Popup: React.FC<PopupProps> = ({ isOpen, setIsOpen, data }) => {
     }
 
     document.addEventListener('keydown', handleEscape)
-    return () => document.removeEventListener('keydown', handleEscape)
+    return () => {
+      document.removeEventListener('keydown', handleEscape)
+      document.body.style.overflow = 'unset'
+    }
   }, [isOpen, closePopup])
 
   return (
@@ -53,14 +60,19 @@ const Popup: React.FC<PopupProps> = ({ isOpen, setIsOpen, data }) => {
             className={s.close_btn}
             onClick={closePopup}
           >
-            &times;
+            <svg aria-hidden='true' height='24' viewBox='0 0 24 24' width='24'>
+              <path d='M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z' />
+            </svg>
           </button>
           <div className={s.img_container}>
             <img alt='Email confirmation popup' src={emailConfirmationImage} />
           </div>
           <h2 id='popup-title'>Your email address needs to be verified</h2>
           <p>
-            We sent a confirmation email to: <strong>{data.email}. </strong>
+            We sent a confirmation email to:
+            <br />
+            <strong>{data.email}</strong>
+            <br />
             Check your email and click on the confirmation button to continue.
           </p>
           <button className={s.btn_ok} onClick={closePopup}>
