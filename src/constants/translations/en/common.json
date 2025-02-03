@@ -73,7 +73,8 @@
     "shortText": "This text is too short",
     "longText": "This text is too long",
     "numbersOnly": "Please enter a valid number",
-    "positiveNumbersOnly": "Please enter a positive number"
+    "positiveNumbersOnly": "Please enter a positive number",
+    "nameLengthRange": "Must be from 2 to 15 symbols"
   },
   "levels": {
     "beginner": "Beginner",

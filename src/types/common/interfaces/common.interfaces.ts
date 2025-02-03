@@ -1,4 +1,5 @@
 import { Offer, UserResponse, UserRoleEnum } from '~/types'
+import { ChangeEvent, FocusEvent, FormEvent } from 'react'
 
 export interface ItemsWithCount<T> {
   count: number
@@ -85,4 +86,41 @@ export interface AddDocuments {
   allFilesSizeError: string
   typeError: string
   maxQuantityFiles: number
+}
+
+export interface FormData {
+  firstName: string
+  lastName: string
+  email: string
+  password: string
+  confirmPassword: string
+}
+
+export interface SignUpFormProps {
+  handleSubmit: (event: FormEvent<HTMLDivElement>) => void
+  handleChange: (
+    field: keyof FormData
+  ) => (event: ChangeEvent<HTMLInputElement>) => void
+  handleBlur: (
+    field: keyof FormData
+  ) => (event: FocusEvent<HTMLInputElement>) => void
+
+  data: {
+    firstName: string
+    lastName: string
+    email: string
+    password: string
+    confirmPassword: string
+  }
+  errors: {
+    firstName?: string
+    lastName?: string
+    email?: string
+    password?: string
+    confirmPassword?: string
+  }
+}
+
+export interface SignUpDialogProps {
+  initialRole: UserRoleEnum
 }

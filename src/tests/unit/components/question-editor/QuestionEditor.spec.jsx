@@ -24,7 +24,7 @@ const mockHandleInputChange = vi.fn()
 const mockHandleNonInputChange = vi.fn()
 
 beforeEach(() => {
-  vi.clearAllMocks()
+  vi.clearAllMocks() // Очищення моків перед кожним тестом
 })
 
 describe('QuestionEditor Component Tests', () => {

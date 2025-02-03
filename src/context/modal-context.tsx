@@ -17,6 +17,8 @@ interface Component {
 interface ModalProvideContext {
   openModal: (component: Component, delayToClose?: number) => void
   closeModal: () => void
+  isDirty: boolean
+  setIsDirty: (isDirty: boolean) => void
 }
 
 interface ModalProviderProps {
@@ -31,11 +33,13 @@ const ModalProvider: FC<ModalProviderProps> = ({ children }) => {
   const [modal, setModal] = useState<React.ReactElement | null>(null)
   const [paperProps, setPaperProps] = useState<PaperProps>({})
   const [timer, setTimer] = useState<NodeJS.Timeout | null>(null)
+  const [isDirty, setIsDirty] = useState<boolean>(false)
 
   const closeModal = useCallback(() => {
     setModal(null)
     setPaperProps({})
     setTimer(null)
+    setIsDirty(false)
   }, [setModal, setPaperProps, setTimer])
 
   const closeModalAfterDelay = useCallback(
@@ -57,8 +61,8 @@ const ModalProvider: FC<ModalProviderProps> = ({ children }) => {
   )
 
   const contextValue = useMemo(
-    () => ({ openModal, closeModal }),
-    [closeModal, openModal]
+    () => ({ openModal, closeModal, isDirty, setIsDirty }),
+    [closeModal, openModal, isDirty]
   )
 
   return (
@@ -68,6 +72,7 @@ const ModalProvider: FC<ModalProviderProps> = ({ children }) => {
         <PopupDialog
           closeModalAfterDelay={closeModalAfterDelay}
           content={modal}
+          isDirty={isDirty}
           paperProps={paperProps}
           timerId={timer}
         />
