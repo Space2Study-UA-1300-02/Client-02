@@ -9,13 +9,35 @@ import { countriesMock, citiesMock } from './constants'
 import useForm from '~/hooks/use-form'
 import { firstName, lastName } from '~/utils/validations/login'
 import { styles } from '~/containers/tutor-home-page/general-info-step/GeneralInfoStep.styles'
+import { useState } from 'react'
 
 const GeneralInfoStep = ({ btnsBox }) => {
   const { t } = useTranslation()
-  const { handleInputChange, handleBlur, data, errors } = useForm({
-    initialValues: { firstName: '', lastName: '' },
+  const {
+    handleInputChange,
+    handleNonInputValueChange,
+    handleBlur,
+    data,
+    errors
+  } = useForm({
+    initialValues: {
+      firstName: '',
+      lastName: '',
+      country: '',
+      city: '',
+      description: ''
+    },
     validations: { firstName, lastName }
   })
+  const [cities, setCities] = useState([])
+  const handleInput = (input, value) => {
+    const newValue = value ? value.label : ''
+    handleNonInputValueChange(input, newValue)
+    if (input === 'country') {
+      value ? setCities(citiesMock[newValue]) : setCities([])
+      handleNonInputValueChange('city', '')
+    }
+  }
   return (
     <Box sx={styles.container}>
       <Box sx={styles.imgContainer}>
@@ -54,18 +76,24 @@ const GeneralInfoStep = ({ btnsBox }) => {
         </Box>
         <Box sx={styles.fieldContainer}>
           <AppAutoComplete
-            autoComplete='off'
-            onChange={handleInputChange('country')}
+            isOptionEqualToValue={(option, value) =>
+              option.label === value || value === ''
+            }
+            onChange={(ev, value) => handleInput('country', value)}
             options={countriesMock}
             sx={{ flex: 1, mb: { md: '20px', xs: '16px' } }}
             textFieldProps={{ label: t('common.labels.country') }}
+            value={data.country}
           />
           <AppAutoComplete
-            autoComplete='off'
-            onChange={handleInputChange('city')}
-            options={citiesMock}
+            isOptionEqualToValue={(option, value) =>
+              option.label === value || value === ''
+            }
+            onChange={(ev, value) => handleInput('city', value)}
+            options={cities}
             sx={{ flex: 1, mb: { md: '20px', xs: '16px' } }}
             textFieldProps={{ label: t('common.labels.city') }}
+            value={data.city}
           />
         </Box>
         <AppTextArea
