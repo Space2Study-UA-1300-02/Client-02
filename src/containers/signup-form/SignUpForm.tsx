@@ -8,7 +8,7 @@ import { styles } from '~/containers/signup-form/SignUpForm.styles'
 import Typography from '@mui/material/Typography'
 import Checkbox from '@mui/material/Checkbox'
 import { SignUpFormProps } from '~/types/common/interfaces/common.interfaces'
-import Popup from '~/components/InformarionPopUp/InformarionPopUp'
+import Popup from '~/components/InformarionPopUp/InformationPopUp'
 
 const SignUpForm: FC<SignUpFormProps> = ({
   handleSubmit,
@@ -29,13 +29,18 @@ const SignUpForm: FC<SignUpFormProps> = ({
 
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
-  const handleModuleClick = (event: React.FormEvent) => {
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    setIsOpen(true)
+    try {
+      handleSubmit(event)
+      setIsOpen(true)
+    } catch (error) {
+      console.log('Error with submission')
+    }
   }
 
   return (
-    <Box component='form' onSubmit={handleSubmit} sx={styles.form}>
+    <Box component='form' onSubmit={onSubmit} sx={styles.form}>
       <Box sx={styles.nameFieldsContainer}>
         <AppTextField
           autoFocus
@@ -114,12 +119,7 @@ const SignUpForm: FC<SignUpFormProps> = ({
           </a>
         </Typography>
       </Box>
-      <AppButton
-        fullWidth
-        onClick={handleModuleClick}
-        sx={styles.submitButton}
-        type='submit'
-      >
+      <AppButton fullWidth sx={styles.submitButton} type='submit'>
         {t('common.labels.signup')}
       </AppButton>
       <Popup data={data} isOpen={isOpen} setIsOpen={setIsOpen} />
