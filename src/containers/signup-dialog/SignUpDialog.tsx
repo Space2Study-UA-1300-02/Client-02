@@ -6,7 +6,13 @@ import tutorImg from '~/assets/img/signup-dialog/tutor.svg'
 import studentImg from '~/assets/img/signup-dialog/student.svg'
 import { UserRoleEnum } from '~/types'
 import GoogleLogin from '~/containers/guest-home-page/google-login/GoogleLogin'
-import { email } from '~/utils/validations/login'
+import {
+  email,
+  password,
+  confirmPassword,
+  lastName,
+  firstName
+} from '~/utils/validations/signUp'
 import { styles } from '~/containers/signup-dialog/SignUpDialog.styles'
 import SignUpForm from '~/containers/signup-form/SignUpForm'
 import {
@@ -30,7 +36,7 @@ const SignUpDialog: FC<SignUpDialogProps> = ({ initialRole }) => {
         password: '',
         confirmPassword: ''
       },
-      validations: { email }
+      validations: { email, password, confirmPassword, lastName, firstName }
     })
 
   const roleText =
