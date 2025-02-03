@@ -9,8 +9,6 @@ interface PopupProps {
     firstName: string
     lastName: string
     email: string
-    password: string
-    confirmPassword: string
   }
 }
 
@@ -29,6 +27,8 @@ const Popup: React.FC<PopupProps> = ({ isOpen, setIsOpen, data }) => {
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden'
+      const closeButton = popupRef.current?.querySelector('button')
+      closeButton?.focus()
     }
 
     const handleEscape = (event: KeyboardEvent) => {
