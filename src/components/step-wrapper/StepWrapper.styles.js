@@ -48,7 +48,7 @@ export const styles = {
   btnWrapper: {
     display: 'flex',
     justifyContent: 'space-between',
-    mt: '10px'
+    mt: 'auto'
   },
   btn: btnStyle,
   finishBtn: {
