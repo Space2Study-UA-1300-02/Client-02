@@ -119,6 +119,8 @@ export interface SignUpFormProps {
     password?: string
     confirmPassword?: string
   }
+  isOpen: boolean
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export interface SignUpDialogProps {
