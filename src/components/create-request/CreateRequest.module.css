@@ -1,0 +1,51 @@
+.container {
+    display: flex;
+    align-items: center;
+    background: #00A7A733;
+    padding: 20px;
+    justify-content: space-between;
+    border-radius: 10px;
+    margin: 20px;
+  }
+  
+  .content {
+    flex: 1;
+  }
+  
+  h2 {
+    font-size: 22px;
+    font-weight: bold;
+    color: #1c1c1c;
+  }
+  
+  p {
+    font-size: 16px;
+    color: #4a4a4a;
+    font-weight: 400;
+    font-family: Rubik, sans-serif;
+  }
+  
+  .button {
+    background: #1c1c1c;
+    color: #ffffff;
+    padding: 10px 16px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+  }
+
+  @media only screen and (max-width: 743px) {
+.container{
+    margin: 13px;
+
+}
+
+ .image img {
+    display: none;
+ }
+.button{
+    width: 288px;
+    margin: 0 auto;
+}
+  }
+  
