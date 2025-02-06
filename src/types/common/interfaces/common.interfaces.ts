@@ -97,28 +97,15 @@ export interface FormData {
 }
 
 export interface SignUpFormProps {
-  handleSubmit: (event: FormEvent<HTMLDivElement>) => void
+  handleSubmit: (event: FormEvent<HTMLFormElement>) => void
   handleChange: (
     field: keyof FormData
   ) => (event: ChangeEvent<HTMLInputElement>) => void
   handleBlur: (
     field: keyof FormData
   ) => (event: FocusEvent<HTMLInputElement>) => void
-
-  data: {
-    firstName: string
-    lastName: string
-    email: string
-    password: string
-    confirmPassword: string
-  }
-  errors: {
-    firstName?: string
-    lastName?: string
-    email?: string
-    password?: string
-    confirmPassword?: string
-  }
+  data: FormData
+  errors: Partial<FormData>
   isOpen: boolean
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
