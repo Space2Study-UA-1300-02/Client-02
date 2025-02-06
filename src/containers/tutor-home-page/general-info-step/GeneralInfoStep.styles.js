@@ -4,7 +4,7 @@ export const styles = {
   container: {
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: { md: 'normal', xs: 'center' },
     flexDirection: { md: 'row', sm: 'column', xs: 'column' },
     gap: { md: '40px', sm: '0' },
     height: { sm: '485px' },
