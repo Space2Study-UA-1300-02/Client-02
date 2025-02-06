@@ -11,13 +11,16 @@ export const style = {
   },
   img: {
     width: '100%',
+    maxHeight: '440px',
     borderRadius: '20px',
+    objectFit: 'cover',
     mt: { xs: '20px', md: '0px' }
   },
   imgContainer: {
     display: 'flex',
     alignItems: 'center',
     maxWidth: '440px',
+    maxHeight: '440px',
     width: '100%',
     flex: 1,
     pb: { xs: '16px', sm: '26px', md: '52px' }

@@ -20,9 +20,9 @@ const DragAndDrop = ({
       onDragOver={dragStart}
       onDragStart={dragStart}
       onDrop={dragDrop}
-      sx={style.root}
+      sx={[style.root, isDrag && style.activeDrag]}
     >
-      <Box sx={[style.uploadBox, isDrag && style.activeDrag]}>{children}</Box>
+      <Box sx={[style.uploadBox]}>{children}</Box>
     </Box>
   )
 }
