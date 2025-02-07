@@ -26,6 +26,21 @@ const SignUpForm: FC<SignUpFormProps> = ({
   } = useInputVisibility(errors.confirmPassword)
 
   const { t } = useTranslation()
+  const requiredFields = [
+    'firstName',
+    'lastName',
+    'email',
+    'password',
+    'confirmPassword'
+  ]
+
+  const passwordsMatch = data.password === data.confirmPassword
+  const isFormValid =
+    requiredFields.every(
+      (field) => data[field as keyof typeof data]?.trim() !== ''
+    ) &&
+    Object.values(errors).every((error) => !error) &&
+    passwordsMatch
 
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
@@ -119,7 +134,12 @@ const SignUpForm: FC<SignUpFormProps> = ({
           </a>
         </Typography>
       </Box>
-      <AppButton fullWidth sx={styles.submitButton} type='submit'>
+      <AppButton
+        disabled={!isFormValid}
+        fullWidth
+        sx={styles.submitButton}
+        type='submit'
+      >
         {t('common.labels.signup')}
       </AppButton>
       <Popup data={data} isOpen={isOpen} setIsOpen={setIsOpen} />

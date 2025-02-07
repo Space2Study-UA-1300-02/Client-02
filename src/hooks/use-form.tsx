@@ -25,7 +25,7 @@ interface UseFormOutput<T> {
     key: keyof T
   ) => (event: React.FocusEvent<HTMLInputElement>) => void
   handleErrors: (key: keyof T, error: string) => void
-  handleSubmit: (event: React.FormEvent<HTMLDivElement>) => void
+  handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void
   resetData: (keys?: (keyof T)[]) => void
   handleDataChange: <K extends object>(newData: K) => void
 }
@@ -126,15 +126,21 @@ export const useForm = <T extends object>({
       }))
     }
 
-  const handleSubmit = (event: React.FormEvent<HTMLDivElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    const submittedData = submitWithData ? data : undefined
+    let isValid = true
+    const submittedData = submitWithData !== false ? data : undefined
     const newErrors = { ...errors }
-    const validationErrors = getValidationErrors(data)
-    const isValid = Object.keys(validationErrors).length === 0
 
-    for (const validationErrorKey in validationErrors) {
-      newErrors[validationErrorKey] = validationErrors[validationErrorKey]
+    if (validations) {
+      for (const key in validations) {
+        const value = data[key]
+        const validation = validateValue(key, value)
+        if (validation) {
+          isValid = false
+          newErrors[key] = validation
+        }
+      }
     }
 
     isValid ? onSubmit && void onSubmit(submittedData) : setErrors(newErrors)

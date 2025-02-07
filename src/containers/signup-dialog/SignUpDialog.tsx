@@ -19,15 +19,57 @@ import {
   FormData,
   SignUpDialogProps
 } from '~/types/common/interfaces/common.interfaces'
+import { useSignUpMutation } from '~/services/auth-service'
+import { useSnackBarContext } from '~/context/snackbar-context'
+import { signup } from '~/constants'
+
+export interface ErrorResponse {
+  code?: string
+  message?: string
+  status?: number
+}
 
 const SignUpDialog: FC<SignUpDialogProps> = ({ initialRole }) => {
   const { t } = useTranslation()
+  const [signUp] = useSignUpMutation()
+  const { setAlert } = useSnackBarContext()
 
   const { handleSubmit, handleInputChange, handleBlur, data, errors } =
     useForm<FormData>({
-      // eslint-disable-next-line @typescript-eslint/require-await
       onSubmit: async (data?: FormData): Promise<void> => {
-        console.log('Sign-up data', data)
+        if (!data) return
+        try {
+          await signUp({
+            firstName: data.firstName,
+            lastName: data.lastName,
+            email: data.email,
+            password: data.password,
+            confirmPassword: data.confirmPassword,
+            role:
+              initialRole === UserRoleEnum.Tutor
+                ? UserRoleEnum.Tutor
+                : UserRoleEnum.Student
+          }).unwrap()
+        } catch (err: unknown) {
+          const errorResponse = err as ErrorResponse
+
+          let errorMessage = t('errors.UNKNOWN_ERROR')
+
+          if (errorResponse?.code) {
+            errorMessage = t(`errors.${errorResponse.code}`, {
+              defaultValue: t('errors.UNKNOWN_ERROR')
+            })
+          } else if (errorResponse?.status === 409) {
+            errorMessage = t('errors.ALREADY_REGISTERED')
+          }
+
+          setAlert({
+            severity: 'error',
+            message: errorMessage
+          })
+
+          console.error('Registration error:', err)
+        }
       },
       initialValues: {
         firstName: '',
@@ -64,9 +106,9 @@ const SignUpDialog: FC<SignUpDialogProps> = ({ initialRole }) => {
             handleSubmit={handleSubmit}
           />
           <GoogleLogin
-            buttonWidth={styles.form}
+            buttonWidth={styles.form.maxWidth}
             role={initialRole}
-            type='signup'
+            type={signup}
           />
         </Box>
       </Box>
