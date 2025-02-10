@@ -35,12 +35,15 @@ const SignUpForm: FC<SignUpFormProps> = ({
   ]
 
   const passwordsMatch = data.password === data.confirmPassword
+  const [isTermsChecked, setIsTermsChecked] = useState(false)
+
   const isFormValid =
     requiredFields.every(
       (field) => data[field as keyof typeof data]?.trim() !== ''
     ) &&
     Object.values(errors).every((error) => !error) &&
-    passwordsMatch
+    passwordsMatch &&
+    isTermsChecked
 
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
@@ -115,7 +118,9 @@ const SignUpForm: FC<SignUpFormProps> = ({
       <Box sx={styles.checkbox}>
         <Checkbox
           aria-describedby='terms-description'
+          checked={isTermsChecked}
           id='terms-checkbox'
+          onChange={(e) => setIsTermsChecked(e.target.checked)}
           required
         />
         <Typography
@@ -126,11 +131,11 @@ const SignUpForm: FC<SignUpFormProps> = ({
         >
           {t('signup.iAgree')}{' '}
           <a href='#' style={styles.link}>
-            {t('common.terms')}
+            {t('common.labels.terms')}
           </a>{' '}
           {t('signup.and')}{' '}
           <a href='#' style={styles.link}>
-            {t('common.privacyPolicy')}
+            {t('common.labels.privacyPolicy')}
           </a>
         </Typography>
       </Box>
