@@ -24,9 +24,10 @@
     "imageAlt": "Your photo",
     "button": "Upload your profile photo",
     "placeholder": "Photo Preview",
-    "description": "Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.",
+    "description": "Please upload a photo that represents you and helps others recognize you.",
     "typeError": "Wrong file type. Only .png/.jpg/.jpeg files are allowed.",
-    "fileSizeError": "Size for one file cannot be more than 10MB."
+    "fileSizeError": "Size for one file cannot be more than 10MB.",
+    "maxFileSize": "Maximum file size - 10 Mb"
   },
   "successMessage": "Success! Your data were added."
 }
