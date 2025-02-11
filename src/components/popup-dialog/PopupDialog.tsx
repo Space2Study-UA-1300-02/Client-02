@@ -66,7 +66,8 @@ const PopupDialog: FC<PopupDialogProps> = ({
       onClick={(e) => {
         if (
           dialogRef.current &&
-          !dialogRef.current.contains(e.target as Node)
+          e.target instanceof Node &&
+          !dialogRef.current.contains(e.target)
         ) {
           setIsConfirmDialogOpen(false)
         }
