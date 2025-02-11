@@ -6,17 +6,11 @@ import { Typography } from '@mui/material'
 import AppButton from '~/components/app-button/AppButton'
 import AppChipList from '~/components/app-chips-list/AppChipList'
 import { categoriesMock, subjectsMock } from './constants'
-import useForm from '~/hooks/use-form'
 import { useState } from 'react'
 import { styles } from '~/containers/tutor-home-page/subjects-step/SubjectsStep.styles'
 
-const SubjectsStep = ({ btnsBox }) => {
+const SubjectsStep = ({ btnsBox, handleNonInputValueChange, data }) => {
   const { t } = useTranslation()
-  const { handleNonInputValueChange, data } = useForm({
-    initialValues: {
-      subjects: []
-    }
-  })
   const [selectedCategory, setSelectedCategory] = useState('')
   const [subjects, setSubjects] = useState([])
   const [selectedSubject, setSelectedSubject] = useState('')
