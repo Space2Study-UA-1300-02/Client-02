@@ -5,7 +5,10 @@ import IconButton from '@mui/material/IconButton'
 import CloseIcon from '@mui/icons-material/Close'
 import { PaperProps } from '@mui/material'
 import { useModalContext } from '~/context/modal-context'
-
+import { isValidElement } from 'react'
+import LoginDialog from '~/containers/guest-home-page/login-dialog/LoginDialog'
+import EmailConfirmModal from '~/containers/email-confirm-modal/EmailConfirmModal'
+import InformationPopUp from '~/components/InformarionPopUp/InformationPopUp'
 import useBreakpoints from '~/hooks/use-breakpoints'
 import { styles } from '~/components/popup-dialog/PopupDialog.styles'
 import ConfirmDialog from '~/components/confirm-dialog/ConfirmDialog'
@@ -29,7 +32,16 @@ const PopupDialog: FC<PopupDialogProps> = ({
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false)
 
   const handleCloseClick = () => {
-    setIsConfirmDialogOpen(true)
+    if (
+      isValidElement(content) &&
+      (content.type === LoginDialog ||
+        content.type === EmailConfirmModal ||
+        content.type === InformationPopUp)
+    ) {
+      closeModal()
+    } else {
+      setIsConfirmDialogOpen(true)
+    }
   }
 
   const handleConfirmClose = () => {
@@ -74,7 +86,6 @@ const PopupDialog: FC<PopupDialogProps> = ({
         <Box sx={styles.contentWraper}>{content}</Box>
       </Box>
 
-      {/* Confirmation Dialog */}
       {isConfirmDialogOpen && (
         <ConfirmDialog
           message='questions.unsavedChanges'
