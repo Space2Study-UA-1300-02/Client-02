@@ -12,6 +12,10 @@ export const URLs = {
     forgotPassword: '/auth/forgot-password',
     resetPassword: '/auth/reset-password'
   },
+  location: {
+    countries: 'http://localhost:8080/location/countries',
+    cities: 'http://localhost:8080/location/cities'
+  },
   users: {
     get: '/users',
     update: '/users',

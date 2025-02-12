@@ -10,6 +10,7 @@ import useForm from '~/hooks/use-form'
 import { firstName, lastName } from '~/utils/validations/login'
 import { styles } from '~/containers/tutor-home-page/general-info-step/GeneralInfoStep.styles'
 import { debounce } from 'lodash'
+import { URLs } from '~/constants/request'
 
 const GeneralInfoStep = ({ btnsBox }) => {
   const { t } = useTranslation()
@@ -43,25 +44,22 @@ const GeneralInfoStep = ({ btnsBox }) => {
 
     setLoadingCountries(true)
     try {
-      console.log(`🌍 Sending country request (search: ${search})...`)
       const response = await fetch(
-        `http://localhost:8080/location/countries?search=${search}`
+        `${URLs.location.countries}?search=${search}`
       )
       const result = await response.json()
 
-      console.log('✅ recieving countries:', result)
-
       if (!response.ok) {
-        throw new Error(`❌ HTTP error Code: ${response.status}`)
+        throw new Error(`HTTP error Code: ${response.status}`)
       }
 
       if (!result || result.error || !Array.isArray(result.data)) {
-        throw new Error('❌ Incorrect server response (countries)')
+        throw new Error('Incorrect server response (countries)')
       }
 
       setCountries(result.data.map((country) => ({ label: country })))
     } catch (error) {
-      console.error('🚨 error loading countries:', error)
+      console.error(error)
     } finally {
       setLoadingCountries(false)
     }
@@ -75,25 +73,22 @@ const GeneralInfoStep = ({ btnsBox }) => {
 
     setLoadingCities(true)
     try {
-      console.log(`🏙️ Sending cities request (${country}, пошук: ${search})...`)
       const response = await fetch(
-        `http://localhost:8080/location/cities/${country}?search=${search}`
+        `${URLs.location.cities}/${country}?search=${search}`
       )
       const result = await response.json()
 
-      console.log(`✅ recieving cities (${country}):`, result)
-
       if (!response.ok) {
-        throw new Error(`❌ HTTP error! Code: ${response.status}`)
+        throw new Error(`HTTP error! Code: ${response.status}`)
       }
 
       if (!result || result.error || !Array.isArray(result.data)) {
-        throw new Error('❌ Server error')
+        throw new Error('Server error')
       }
 
       setCities(result.data.map((city) => ({ label: city })))
     } catch (error) {
-      console.error('🚨 Error loading cities:', error)
+      console.error(error)
     } finally {
       setLoadingCities(false)
     }
