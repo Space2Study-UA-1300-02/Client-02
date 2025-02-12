@@ -5,7 +5,9 @@ export const initialValues = {
   lastName: '',
   country: null,
   city: null,
-  professionalSummary: ''
+  professionalSummary: '',
+  subjects: [],
+  language: ''
 }
 
 export const validations = {
