@@ -8,12 +8,14 @@ import { Typography } from '@mui/material'
 import { useState, useCallback } from 'react'
 import useForm from '~/hooks/use-form'
 import { firstName, lastName } from '~/utils/validations/login'
+import { countriesMock, citiesMock } from './constants'
 import { styles } from '~/containers/tutor-home-page/general-info-step/GeneralInfoStep.styles'
 import { debounce } from 'lodash'
 import { URLs } from '~/constants/request'
 
 const GeneralInfoStep = ({ btnsBox }) => {
   const { t } = useTranslation()
+
   const {
     handleInputChange,
     handleNonInputValueChange,
@@ -31,8 +33,8 @@ const GeneralInfoStep = ({ btnsBox }) => {
     validations: { firstName, lastName }
   })
 
-  const [countries, setCountries] = useState([])
-  const [cities, setCities] = useState([])
+  const [countries, setCountries] = useState(countriesMock || [])
+  const [cities, setCities] = useState(citiesMock || [])
   const [loadingCountries, setLoadingCountries] = useState(false)
   const [loadingCities, setLoadingCities] = useState(false)
 
@@ -183,9 +185,9 @@ const GeneralInfoStep = ({ btnsBox }) => {
           fullWidth
           label={t('becomeTutor.generalInfo.textFieldLabel')}
           maxLength={200}
-          onChange={handleInputChange('description')}
+          onChange={handleInputChange('professionalSummary')}
           sx={{ mb: '5px' }}
-          value={data.description || ''}
+          value={data.professionalSummary || ''}
         />
         <Typography sx={{ fontSize: '12px' }}>
           {t('becomeTutor.generalInfo.helperText')}
