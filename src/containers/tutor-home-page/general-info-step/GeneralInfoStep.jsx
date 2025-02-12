@@ -6,29 +6,18 @@ import loginImg from '~/assets/img/login-dialog/login.svg'
 import AppTextArea from '~/components/app-text-area/AppTextArea'
 import { Typography } from '@mui/material'
 import { countriesMock, citiesMock } from './constants'
-import useForm from '~/hooks/use-form'
-import { firstName, lastName } from '~/utils/validations/login'
 import { styles } from '~/containers/tutor-home-page/general-info-step/GeneralInfoStep.styles'
 import { useState } from 'react'
 
-const GeneralInfoStep = ({ btnsBox }) => {
+const GeneralInfoStep = ({
+  btnsBox,
+  handleInputChange,
+  handleNonInputValueChange,
+  handleBlur,
+  data,
+  errors
+}) => {
   const { t } = useTranslation()
-  const {
-    handleInputChange,
-    handleNonInputValueChange,
-    handleBlur,
-    data,
-    errors
-  } = useForm({
-    initialValues: {
-      firstName: '',
-      lastName: '',
-      country: '',
-      city: '',
-      description: ''
-    },
-    validations: { firstName, lastName }
-  })
   const [cities, setCities] = useState([])
   const handleInput = (input, value) => {
     const newValue = value ? value.label : ''
@@ -100,9 +89,9 @@ const GeneralInfoStep = ({ btnsBox }) => {
           fullWidth
           label={t('becomeTutor.generalInfo.textFieldLabel')}
           maxLength={200}
-          onChange={handleInputChange('description')}
+          onChange={handleInputChange('professionalSummary')}
           sx={{ mb: '5px' }}
-          value={data.description || ''}
+          value={data.professionalSummary || ''}
         />
         <Typography sx={{ fontSize: '12px' }}>
           {t('becomeTutor.generalInfo.helperText')}

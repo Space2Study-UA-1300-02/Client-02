@@ -2,7 +2,8 @@ import { FC, useEffect, useState } from 'react'
 import { useAppDispatch } from '~/hooks/use-redux'
 import { markFirstLoginComplete } from '~/redux/reducer'
 import StepWrapper from '~/components/step-wrapper/StepWrapper'
-
+import useForm from '~/hooks/use-form'
+import { firstName, lastName } from '~/utils/validations/login'
 import { StepProvider } from '~/context/step-context'
 
 import GeneralInfoStep from '~/containers/tutor-home-page/general-info-step/GeneralInfoStep'
@@ -24,20 +25,43 @@ interface UserStepsWrapperProps {
 const UserStepsWrapper: FC<UserStepsWrapperProps> = ({ userRole }) => {
   const [isUserFetched, setIsUserFetched] = useState(false)
   const dispatch = useAppDispatch()
-
+  const {
+    handleInputChange,
+    handleNonInputValueChange,
+    handleSubmit,
+    handleBlur,
+    data,
+    errors
+  } = useForm({
+    initialValues: initialValues,
+    validations: { firstName, lastName }
+  })
   useEffect(() => {
     dispatch(markFirstLoginComplete())
   }, [dispatch])
 
   const childrenArr = [
     <GeneralInfoStep
+      data={data}
+      errors={errors}
+      handleBlur={handleBlur}
+      handleInputChange={handleInputChange}
+      handleNonInputValueChange={handleNonInputValueChange}
       isUserFetched={isUserFetched}
       key='1'
       setIsUserFetched={setIsUserFetched}
     />,
-    <SubjectsStep key='2' />,
-    <LanguageStep key='3' />,
-    <AddPhotoStep key='4' />
+    <SubjectsStep
+      data={data}
+      handleNonInputValueChange={handleNonInputValueChange}
+      key='2'
+    />,
+    <LanguageStep
+      data={data}
+      handleNonInputValueChange={handleNonInputValueChange}
+      key='3'
+    />,
+    <AddPhotoStep handleSubmit={handleSubmit} key='4' />
   ]
 
   const stepLabels = userRole === student ? studentStepLabels : tutorStepLabels
