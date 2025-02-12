@@ -36,49 +36,25 @@ const LanguageStep = ({ userRole, btnsBox }) => {
     setLanguage('')
   }
 
-  const StudentLangStep = () => {
-    return (
-      <Box>
-        <Typography>{t('becomeTutor.languages.studentTitle')}</Typography>
-        <AppAutoComplete
-          onChange={handleChange}
-          options={langOptions}
-          sx={{ mt: '20px' }}
-          textFieldProps={{
-            label: t('becomeTutor.languages.autocompleteLabel')
-          }}
-          value={language}
-        />
-        <AddLanguageBtn addLanguage={addLanguage} />
-        <AppChipList
-          handleChipDelete={handleDeleteLanguage}
-          items={languagesList}
-        />
-      </Box>
-    )
-  }
-
-  const TutorLangStep = () => {
-    return (
-      <Box>
-        <Typography>{t('becomeTutor.languages.tutorTitle')}</Typography>
-        <AppAutoComplete
-          onChange={handleChange}
-          options={langOptions}
-          sx={{ mt: '20px' }}
-          textFieldProps={{
-            label: t('becomeTutor.languages.autocompleteLabel')
-          }}
-          value={language}
-        />
-        <AddLanguageBtn addLanguage={addLanguage} />
-        <AppChipList
-          handleChipDelete={handleDeleteLanguage}
-          items={languagesList}
-        />
-      </Box>
-    )
-  }
+  const LanguageStepContent = ({ title }) => (
+    <Box>
+      <Typography>{title}</Typography>
+      <AppAutoComplete
+        onChange={handleChange}
+        options={langOptions}
+        sx={{ mt: '20px' }}
+        textFieldProps={{
+          label: t('becomeTutor.languages.autocompleteLabel')
+        }}
+        value={language}
+      />
+      <AddLanguageBtn addLanguage={addLanguage} />
+      <AppChipList
+        handleChipDelete={handleDeleteLanguage}
+        items={languagesList}
+      />
+    </Box>
+  )
 
   return (
     <Box sx={styles.container}>
@@ -86,8 +62,9 @@ const LanguageStep = ({ userRole, btnsBox }) => {
         <Box component='img' src={img} sx={styles.img} />
       </Box>
       <Box sx={styles.rigthBox}>
-        {userRole === student && <StudentLangStep />}
-        {userRole === tutor && <TutorLangStep />}
+      <LanguageStepContent 
+       title={t(`becomeTutor.languages.${userRole === student ? 'studentTitle' : 'tutorTitle'}`)} 
+      />
         {btnsBox}
       </Box>
     </Box>
