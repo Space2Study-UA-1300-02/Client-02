@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next'
 import AppAutoComplete from '~/components/app-auto-complete/AppAutoComplete'
 import AppChipList from '~/components/app-chips-list/AppChipList'
 import AddLanguageBtn from './AddLanguageBtn'
-import { student, tutor } from '~/constants'
+import { student } from '~/constants'
 
 const LanguageStep = ({ userRole, btnsBox }) => {
   const { t } = useTranslation()
