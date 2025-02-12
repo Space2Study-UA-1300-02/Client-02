@@ -9,8 +9,10 @@
     "textFieldLabel": "Text here"
   },
   "languages": {
-    "title": "Velit officia consequat duis enim velit mollit. Other categories you can add in your account settings later.",
-    "autocompleteLabel": "Your native language"
+    "tutorTitle" : "Please select the language in which you would like to teach and cooperate",
+    "studentTitle": "Please select the language in which you would like to study and cooperate",
+    "autocompleteLabel": "Your native language",
+    "btnText": "Add one more language"
   },
   "categories": {
     "title": "Velit officia consequat duis enim velit mollit. Other categories you can add in your account settings later.",

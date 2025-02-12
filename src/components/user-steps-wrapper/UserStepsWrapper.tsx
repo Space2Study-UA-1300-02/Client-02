@@ -36,7 +36,7 @@ const UserStepsWrapper: FC<UserStepsWrapperProps> = ({ userRole }) => {
       setIsUserFetched={setIsUserFetched}
     />,
     <SubjectsStep key='2' />,
-    <LanguageStep key='3' />,
+    <LanguageStep key='3' userRole={userRole} />,
     <AddPhotoStep key='4' />
   ]
 
