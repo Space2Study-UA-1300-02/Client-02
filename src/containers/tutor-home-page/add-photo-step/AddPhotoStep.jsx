@@ -1,13 +1,14 @@
+import { useTranslation } from 'react-i18next'
 import { Box, Button, Typography } from '@mui/material'
 import { useState } from 'react'
 import { useStepContext } from '~/context/step-context'
 import DragAndDrop from '~/components/drag-and-drop/DragAndDrop'
-
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import CheckIcon from '@mui/icons-material/Check'
 import { style } from '~/containers/tutor-home-page/add-photo-step/AddPhotoStep.style'
 
 const AddPhotoStep = ({ btnsBox }) => {
+  const { t } = useTranslation()
   const [preview, setPreview] = useState(null)
   const { handleStepData } = useStepContext()
 
@@ -41,15 +42,16 @@ const AddPhotoStep = ({ btnsBox }) => {
           {preview ? (
             <img alt='Preview' src={preview} style={style.img} />
           ) : (
-            <Typography variant='body2'>Photo Preview</Typography>
+            <Typography variant='body2'>
+              {t('becomeTutor.photo.placeholder')}
+            </Typography>
           )}
         </DragAndDrop>
       </Box>
 
       <Box sx={style.rigthBox}>
         <Typography sx={style.description} variant='body1'>
-          Velit officia consequat duis enim velit mollit. Exercitation veniam
-          consequat sunt nostrud amet.
+          {t('becomeTutor.photo.description')}
         </Typography>
 
         <label htmlFor='upload-photo'>
@@ -68,7 +70,7 @@ const AddPhotoStep = ({ btnsBox }) => {
             sx={style.fileUploader.button}
             variant='outlined'
           >
-            Upload your profile photo
+            {t('becomeTutor.photo.button')}
           </Button>
           {preview && (
             <CheckIcon
@@ -79,7 +81,7 @@ const AddPhotoStep = ({ btnsBox }) => {
         </label>
 
         <Typography sx={{ mt: '10px' }} variant='body2'>
-          Maximum file size - 10 Mb
+          {t('becomeTutor.photo.maxFileSize')}
         </Typography>
 
         <Box sx={{ mt: 'auto' }}>{btnsBox}</Box>

@@ -1,5 +1,11 @@
 {
   "title": "space2",
+  "categoriestitle": "Categories",
+  "learningLabel": "What would you like to learn?",
+  "description": "Explore categories you're passionate about.",
+  "showAllOffers": "Show all offers",
+  "category": "category",
+  "subject": "subject",
   "about": "About us",
   "yes": "Yes",
   "no": "No",
