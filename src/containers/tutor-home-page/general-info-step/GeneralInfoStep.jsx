@@ -5,28 +5,122 @@ import AppAutoComplete from '~/components/app-auto-complete/AppAutoComplete'
 import loginImg from '~/assets/img/login-dialog/login.svg'
 import AppTextArea from '~/components/app-text-area/AppTextArea'
 import { Typography } from '@mui/material'
+import { useState, useCallback } from 'react'
+import useForm from '~/hooks/use-form'
+import { firstName, lastName } from '~/utils/validations/login'
 import { countriesMock, citiesMock } from './constants'
 import { styles } from '~/containers/tutor-home-page/general-info-step/GeneralInfoStep.styles'
-import { useState } from 'react'
+import { debounce } from 'lodash'
+import { URLs } from '~/constants/request'
 
-const GeneralInfoStep = ({
-  btnsBox,
-  handleInputChange,
-  handleNonInputValueChange,
-  handleBlur,
-  data,
-  errors
-}) => {
+const GeneralInfoStep = ({ btnsBox }) => {
   const { t } = useTranslation()
-  const [cities, setCities] = useState([])
-  const handleInput = (input, value) => {
-    const newValue = value ? value.label : ''
-    handleNonInputValueChange(input, newValue)
-    if (input === 'country') {
-      value ? setCities(citiesMock[newValue]) : setCities([])
-      handleNonInputValueChange('city', '')
+
+  const {
+    handleInputChange,
+    handleNonInputValueChange,
+    handleBlur,
+    data,
+    errors
+  } = useForm({
+    initialValues: {
+      firstName: '',
+      lastName: '',
+      country: '',
+      city: '',
+      description: ''
+    },
+    validations: { firstName, lastName }
+  })
+
+  const [countries, setCountries] = useState(countriesMock || [])
+  const [cities, setCities] = useState(citiesMock || [])
+  const [loadingCountries, setLoadingCountries] = useState(false)
+  const [loadingCities, setLoadingCities] = useState(false)
+
+  const fetchCountries = async (search) => {
+    if (search.length < 3) {
+      setCountries([])
+      return
+    }
+
+    setLoadingCountries(true)
+    try {
+      const response = await fetch(
+        `${URLs.location.countries}?search=${search}`
+      )
+      const result = await response.json()
+
+      if (!response.ok) {
+        throw new Error(`HTTP error Code: ${response.status}`)
+      }
+
+      if (!result || result.error || !Array.isArray(result.data)) {
+        throw new Error('Incorrect server response (countries)')
+      }
+
+      setCountries(result.data.map((country) => ({ label: country })))
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setLoadingCountries(false)
     }
   }
+
+  const fetchCities = async (country, search) => {
+    if (search.length < 3) {
+      setCities([])
+      return
+    }
+
+    setLoadingCities(true)
+    try {
+      const response = await fetch(
+        `${URLs.location.cities}/${country}?search=${search}`
+      )
+      const result = await response.json()
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Code: ${response.status}`)
+      }
+
+      if (!result || result.error || !Array.isArray(result.data)) {
+        throw new Error('Server error')
+      }
+
+      setCities(result.data.map((city) => ({ label: city })))
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setLoadingCities(false)
+    }
+  }
+
+  const debouncedFetchCountries = useCallback(debounce(fetchCountries, 500), [])
+  const debouncedFetchCities = useCallback(debounce(fetchCities, 500), [])
+
+  const handleCountryInputChange = (event, value) => {
+    handleNonInputValueChange('country', value || '')
+    handleNonInputValueChange('city', '')
+    setCities([])
+
+    if (value.length >= 3) {
+      debouncedFetchCountries(value)
+    } else {
+      setCountries([])
+    }
+  }
+
+  const handleCityInputChange = (event, value) => {
+    handleNonInputValueChange('city', value || '')
+
+    if (value.length >= 3 && data.country) {
+      debouncedFetchCities(data.country, value)
+    } else {
+      setCities([])
+    }
+  }
+
   return (
     <Box sx={styles.container}>
       <Box sx={styles.imgContainer}>
@@ -68,8 +162,9 @@ const GeneralInfoStep = ({
             isOptionEqualToValue={(option, value) =>
               option.label === value || value === ''
             }
-            onChange={(ev, value) => handleInput('country', value)}
-            options={countriesMock}
+            loading={loadingCountries}
+            onInputChange={handleCountryInputChange}
+            options={countries}
             sx={{ flex: 1, mb: { md: '20px', xs: '16px' } }}
             textFieldProps={{ label: t('common.labels.country') }}
             value={data.country}
@@ -78,7 +173,8 @@ const GeneralInfoStep = ({
             isOptionEqualToValue={(option, value) =>
               option.label === value || value === ''
             }
-            onChange={(ev, value) => handleInput('city', value)}
+            loading={loadingCities}
+            onInputChange={handleCityInputChange}
             options={cities}
             sx={{ flex: 1, mb: { md: '20px', xs: '16px' } }}
             textFieldProps={{ label: t('common.labels.city') }}
