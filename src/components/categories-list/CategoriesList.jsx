@@ -3,6 +3,9 @@ import CardsList from '~/components/cards-list/CardsList'
 import { categoryService } from '~/services/category-service'
 import { useTranslation } from 'react-i18next'
 import { Box, Typography } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
+import { authRoutes } from '~/router/constants/authRoutes'
+
 import icon from '../../assets/img/student-home-page/service_icon.png'
 
 import { styles } from '~/components/categories-list/CategoriesList.styles'
@@ -17,8 +20,18 @@ const CategoriesList = () => {
     defaultResponse: []
   })
 
+  const navigate = useNavigate()
+
+  const handleCategoryClick = (categoryId) => {
+    navigate(`${authRoutes.subjects.path}?categoryId=${categoryId}`)
+  }
+
   const categories = response.map((category) => (
-    <Box key={category._id} sx={styles.card}>
+    <Box
+      key={category._id}
+      onClick={() => handleCategoryClick(category._id)}
+      sx={styles.card}
+    >
       <Box sx={styles.iconContainer}>
         <img alt={category.name} height={62} src={icon} width={62} />
       </Box>
