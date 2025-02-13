@@ -28,10 +28,8 @@ export const styles = {
     pt: 0
   },
   addButton: {
-    display: 'flex',
     width: '100%',
     textAlign: 'center',
-    backgroundColor: '#ECEFF1',
     m: { md: '16px 0' }
   }
 }

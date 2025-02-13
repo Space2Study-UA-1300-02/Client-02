@@ -7,7 +7,7 @@ export const initialValues = {
   city: null,
   professionalSummary: '',
   subjects: [],
-  language: ''
+  languages: []
 }
 
 export const validations = {
