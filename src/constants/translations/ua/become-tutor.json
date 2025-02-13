@@ -14,9 +14,11 @@
     "title": "Опишіть свій професійний досвід. Максимум 70 символів.",
     "textFieldLabel": "Текст тут"
   },
-  "language": {
-    "title": "Velit officia consequat duis enim velit mollit. Other categories you can add in your account settings later.",
-    "autocompleteLabel": "Твоя рідна мова"
+  "languages": {
+    "tutorTitle": "Будь ласка, виберіть мову, якою ви б хотіли навчати та співпрацювати",
+    "studentTitle":"Будь ласка, виберіть мову, якою ви б хотіли навчатися та співпрацювати",
+    "autocompleteLabel": "Твоя рідна мова",
+    "btnText": "Додати мову"
   },
   "categories": {
     "title": "Velit officia consequat duis enim velit mollit. Other categories you can add in your account settings later.",

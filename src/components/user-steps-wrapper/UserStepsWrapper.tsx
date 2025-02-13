@@ -60,6 +60,7 @@ const UserStepsWrapper: FC<UserStepsWrapperProps> = ({ userRole }) => {
       data={data}
       handleNonInputValueChange={handleNonInputValueChange}
       key='3'
+      userRole={userRole}
     />,
     <AddPhotoStep handleSubmit={handleSubmit} key='4' />
   ]
