@@ -28,7 +28,7 @@ const UserStepsWrapper: FC<UserStepsWrapperProps> = ({ userRole }) => {
   const {
     handleInputChange,
     handleNonInputValueChange,
-    handleSubmit,
+    // handleSubmit,
     handleBlur,
     data,
     errors
@@ -55,6 +55,7 @@ const UserStepsWrapper: FC<UserStepsWrapperProps> = ({ userRole }) => {
       data={data}
       handleNonInputValueChange={handleNonInputValueChange}
       key='2'
+      userRole={userRole}
     />,
     <LanguageStep
       data={data}
@@ -62,14 +63,16 @@ const UserStepsWrapper: FC<UserStepsWrapperProps> = ({ userRole }) => {
       key='3'
       userRole={userRole}
     />,
-    <AddPhotoStep handleSubmit={handleSubmit} key='4' />
+    <AddPhotoStep key='4' />
   ]
 
   const stepLabels = userRole === student ? studentStepLabels : tutorStepLabels
 
   return (
     <StepProvider initialValues={initialValues} stepLabels={stepLabels}>
-      <StepWrapper steps={stepLabels}>{childrenArr}</StepWrapper>
+      <StepWrapper errors={errors} stepData={data} steps={stepLabels}>
+        {childrenArr}
+      </StepWrapper>
     </StepProvider>
   )
 }

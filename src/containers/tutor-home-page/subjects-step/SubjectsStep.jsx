@@ -9,7 +9,12 @@ import { categoriesMock, subjectsMock } from './constants'
 import { useState } from 'react'
 import { styles } from '~/containers/tutor-home-page/subjects-step/SubjectsStep.styles'
 
-const SubjectsStep = ({ btnsBox, handleNonInputValueChange, data }) => {
+const SubjectsStep = ({
+  btnsBox,
+  handleNonInputValueChange,
+  data,
+  userRole
+}) => {
   const { t } = useTranslation()
   const [selectedCategory, setSelectedCategory] = useState('')
   const [subjects, setSubjects] = useState([])
@@ -57,7 +62,9 @@ const SubjectsStep = ({ btnsBox, handleNonInputValueChange, data }) => {
             options={categoriesMock}
             sx={{ flex: 1, mb: { md: '20px', xs: '16px' } }}
             textFieldProps={{
-              label: t('becomeTutor.categories.mainSubjectsLabel')
+              label: t(
+                `becomeTutor.categories.${userRole === 'student' ? 'categoryStudentLabel' : 'categoryTutorLabel'}`
+              )
             }}
             value={selectedCategory}
           />
