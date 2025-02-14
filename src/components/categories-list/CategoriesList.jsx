@@ -6,8 +6,6 @@ import { Box, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { authRoutes } from '~/router/constants/authRoutes'
 
-import icon from '../../assets/img/student-home-page/service_icon.png'
-
 import { styles } from '~/components/categories-list/CategoriesList.styles'
 
 const CategoriesList = () => {
@@ -33,7 +31,12 @@ const CategoriesList = () => {
       sx={styles.card}
     >
       <Box sx={styles.iconContainer}>
-        <img alt={category.name} height={62} src={icon} width={62} />
+        <img
+          alt={category.name}
+          height={62}
+          src={category.appearance.icon}
+          width={62}
+        />
       </Box>
 
       <Box sx={styles.textContainer}>
