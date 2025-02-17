@@ -1,38 +1,92 @@
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Box from '@mui/material/Box'
-import AppAutoComplete from '~/components/app-auto-complete/AppAutoComplete'
 import studyImg from '~/assets/img/tutor-home-page/become-tutor/study-category.svg'
-import { Typography } from '@mui/material'
+import Typography from '@mui/material/Typography'
+import AppAutoComplete from '~/components/app-auto-complete/AppAutoComplete'
 import AppButton from '~/components/app-button/AppButton'
 import AppChipList from '~/components/app-chips-list/AppChipList'
-import { categoriesMock, subjectsMock } from './constants'
-import { useState } from 'react'
 import { styles } from '~/containers/tutor-home-page/subjects-step/SubjectsStep.styles'
+import { URLs } from '~/constants/request'
 
 const SubjectsStep = ({ btnsBox, handleNonInputValueChange, data }) => {
   const { t } = useTranslation()
-  const [selectedCategory, setSelectedCategory] = useState('')
+
+  const [categories, setCategories] = useState([])
+  const [selectedCategory, setSelectedCategory] = useState(null)
   const [subjects, setSubjects] = useState([])
-  const [selectedSubject, setSelectedSubject] = useState('')
-  const handleInputCategory = (value) => {
-    const newValue = value ? value.label : ''
-    setSelectedCategory(newValue)
-    value ? setSubjects(subjectsMock[newValue]) : setSubjects([])
-    setSelectedSubject('')
+  const [selectedSubject, setSelectedSubject] = useState(null)
+  const [loadingCategories, setLoadingCategories] = useState(true)
+  const [loadingSubjects, setLoadingSubjects] = useState(false)
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch(`${URLs.interests.categories}`)
+        if (!response.ok) throw new Error('Failed to fetch categories')
+        const data = await response.json()
+        setCategories(data.map((cat) => ({ id: cat.id, label: cat.name })))
+      } catch (error) {
+        console.error('Error fetching categories:', error)
+      } finally {
+        setLoadingCategories(false)
+      }
+    }
+    fetchCategories()
+  }, [])
+
+  useEffect(() => {
+    if (!selectedCategory) return
+
+    const fetchSubjects = async () => {
+      setLoadingSubjects(true)
+      try {
+        const response = await fetch(
+          `${URLs.interests.subjects}${selectedCategory.id}`
+        )
+        if (!response.ok) throw new Error('Failed to fetch subjects')
+        const data = await response.json()
+
+        const subjects =
+          Array.isArray(data) && typeof data[0] === 'string'
+            ? data.map((name) => ({ label: name }))
+            : data.map((sub) => ({ id: sub.id, label: sub.name }))
+
+        setSubjects(subjects)
+      } catch (error) {
+        console.error('Error fetching subjects:', error)
+      } finally {
+        setLoadingSubjects(false)
+      }
+    }
+
+    fetchSubjects()
+  }, [selectedCategory])
+
+  const handleInputCategory = (event, value) => {
+    setSelectedCategory(value)
+    setSubjects([])
+    setSelectedSubject(null)
   }
-  const handleInputSubject = (value) => {
-    const newValue = value ? value.label : ''
-    setSelectedSubject(newValue)
+
+  const handleInputSubject = (event, value) => {
+    setSelectedSubject(value)
   }
+
   const handleClick = () => {
-    if (!data.subjects.includes(selectedSubject) && selectedSubject) {
-      handleNonInputValueChange('subjects', [...data.subjects, selectedSubject])
+    if (selectedSubject && !data.subjects.includes(selectedSubject.label)) {
+      handleNonInputValueChange('subjects', [
+        ...data.subjects,
+        selectedSubject.label
+      ])
     }
   }
+
   const handleChipDelete = (subject) => {
-    const filteredSubjects = data.subjects.filter((item) => item !== subject)
-    handleNonInputValueChange('subjects', filteredSubjects)
+    const updatedSubjects = data.subjects.filter((item) => item !== subject)
+    handleNonInputValueChange('subjects', updatedSubjects)
   }
+
   return (
     <Box sx={styles.container}>
       <Box sx={styles.imgContainer}>
@@ -50,11 +104,11 @@ const SubjectsStep = ({ btnsBox, handleNonInputValueChange, data }) => {
         <Box sx={styles.fieldContainer}>
           <AppAutoComplete
             fullWidth
-            isOptionEqualToValue={(option, value) =>
-              option.label === value || value === ''
-            }
-            onChange={(ev, value) => handleInputCategory(value)}
-            options={categoriesMock}
+            getOptionLabel={(option) => option.label || ''}
+            isOptionEqualToValue={(option, value) => option.id === value?.id}
+            loading={loadingCategories}
+            onChange={handleInputCategory}
+            options={categories}
             sx={{ flex: 1, mb: { md: '20px', xs: '16px' } }}
             textFieldProps={{
               label: t('becomeTutor.categories.mainSubjectsLabel')
@@ -63,10 +117,12 @@ const SubjectsStep = ({ btnsBox, handleNonInputValueChange, data }) => {
           />
           <AppAutoComplete
             fullWidth
+            getOptionLabel={(option) => option.label || ''}
             isOptionEqualToValue={(option, value) =>
-              option.label === value || value === ''
+              option.label === value?.label
             }
-            onChange={(ev, value) => handleInputSubject(value)}
+            loading={loadingSubjects}
+            onChange={handleInputSubject}
             options={subjects}
             sx={{ flex: 1, mb: { md: '20px', xs: '16px' } }}
             textFieldProps={{ label: t('becomeTutor.categories.subjectLabel') }}
@@ -76,7 +132,7 @@ const SubjectsStep = ({ btnsBox, handleNonInputValueChange, data }) => {
             {t('becomeTutor.categories.btnText')}
           </AppButton>
           <AppChipList
-            defaultQuantity={2}
+            defaultQuantity={6}
             handleChipDelete={handleChipDelete}
             items={data.subjects}
           />

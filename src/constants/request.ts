@@ -16,6 +16,10 @@ export const URLs = {
     countries: 'http://localhost:8080/location/countries',
     cities: 'http://localhost:8080/location/cities'
   },
+  interests: {
+    categories: 'http://localhost:8080/categories/',
+    subjects: 'http://localhost:8080/subjects/category/'
+  },
   users: {
     get: '/users',
     update: '/users',
