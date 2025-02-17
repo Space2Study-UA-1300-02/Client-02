@@ -14,7 +14,9 @@ const LanguageStep = ({
   userRole,
   btnsBox,
   data,
-  handleNonInputValueChange
+  errors,
+  handleNonInputValueChange,
+  handleBlur
 }) => {
   const { t } = useTranslation()
   const [language, setLanguage] = useState('')
@@ -40,11 +42,14 @@ const LanguageStep = ({
     <Box>
       <Typography>{title}</Typography>
       <AppAutoComplete
+        errorMsg={t(errors.languages)}
         isOptionEqualToValue={(option, value) =>
           option === value || value === ''
         }
+        onBlur={handleBlur('languages')}
         onChange={handleChange}
         options={langOptions}
+        required
         sx={{ mt: '20px' }}
         textFieldProps={{
           label: t('becomeTutor.languages.autocompleteLabel')

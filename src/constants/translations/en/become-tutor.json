@@ -12,7 +12,8 @@
     "tutorTitle": "Please select the language in which you would like to teach and cooperate",
     "studentTitle": "Please select the language in which you would like to study and cooperate",
     "autocompleteLabel": "Your native language",
-    "btnText": "Add one more language"
+    "btnText": "Add one more language",
+    "emptyField": "You should select at least 1 language"
   },
   "categories": {
     "title": "Please choose the main subjects based on the category. You can add others later.",

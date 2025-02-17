@@ -4,6 +4,7 @@ import { markFirstLoginComplete } from '~/redux/reducer'
 import StepWrapper from '~/components/step-wrapper/StepWrapper'
 import useForm from '~/hooks/use-form'
 import { firstName, lastName } from '~/utils/validations/login'
+import { languages } from '~/utils/validations/stepper'
 import { StepProvider } from '~/context/step-context'
 
 import GeneralInfoStep from '~/containers/tutor-home-page/general-info-step/GeneralInfoStep'
@@ -28,13 +29,14 @@ const UserStepsWrapper: FC<UserStepsWrapperProps> = ({ userRole }) => {
   const {
     handleInputChange,
     handleNonInputValueChange,
-    // handleSubmit,
+    handleSubmit,
     handleBlur,
     data,
-    errors
+    errors,
+    isValid
   } = useForm({
     initialValues: initialValues,
-    validations: { firstName, lastName }
+    validations: { firstName, lastName, languages }
   })
   useEffect(() => {
     dispatch(markFirstLoginComplete())
@@ -59,6 +61,8 @@ const UserStepsWrapper: FC<UserStepsWrapperProps> = ({ userRole }) => {
     />,
     <LanguageStep
       data={data}
+      errors={errors}
+      handleBlur={handleBlur}
       handleNonInputValueChange={handleNonInputValueChange}
       key='3'
       userRole={userRole}
@@ -70,7 +74,13 @@ const UserStepsWrapper: FC<UserStepsWrapperProps> = ({ userRole }) => {
 
   return (
     <StepProvider initialValues={initialValues} stepLabels={stepLabels}>
-      <StepWrapper errors={errors} stepData={data} steps={stepLabels}>
+      <StepWrapper
+        errors={errors}
+        handleSubmitForm={handleSubmit}
+        isValid={isValid}
+        stepData={data}
+        steps={stepLabels}
+      >
         {childrenArr}
       </StepWrapper>
     </StepProvider>
