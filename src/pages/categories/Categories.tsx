@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Box, TextField, Button, Link, Typography } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
 import { styles } from '~/pages/categories/Categories.styles'
+import CategoriesList from '~/components/categories-list/CategoriesList'
 
 const Categories = () => {
   const [query, setQuery] = useState('')
@@ -65,6 +66,7 @@ const Categories = () => {
         or
         <Link component='button'>{t('common.subject')}</Link>!
       </Typography>
+      <CategoriesList />
     </Box>
   )
 }
