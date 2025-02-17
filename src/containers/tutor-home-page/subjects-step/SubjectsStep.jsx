@@ -30,7 +30,9 @@ const SubjectsStep = ({
         const response = await fetch(`${URLs.interests.categories}`)
         if (!response.ok) throw new Error('Failed to fetch categories')
         const data = await response.json()
-        setCategories(data.map((cat) => ({ id: cat.id, label: cat.name })))
+        setCategories(
+          data.map((category) => ({ id: category.id, label: category.name }))
+        )
       } catch (error) {
         console.error('Error fetching categories:', error)
       } finally {
@@ -55,7 +57,7 @@ const SubjectsStep = ({
         const subjects =
           Array.isArray(data) && typeof data[0] === 'string'
             ? data.map((name) => ({ label: name }))
-            : data.map((sub) => ({ id: sub.id, label: sub.name }))
+            : data.map((sub) => ({ id: sub._id, label: sub.name }))
 
         setSubjects(subjects)
       } catch (error) {
@@ -79,17 +81,14 @@ const SubjectsStep = ({
   }
 
   const handleClick = () => {
-    if (selectedSubject && !data.subjects.includes(selectedSubject.label)) {
-      handleNonInputValueChange('subjects', [
-        ...data.subjects,
-        selectedSubject.label
-      ])
+    if (selectedSubject && !data.subjects.includes(selectedSubject)) {
+      handleNonInputValueChange('subjects', [...data.subjects, selectedSubject])
     }
   }
 
   const handleChipDelete = (subject) => {
-    const updatedSubjects = data.subjects.filter((item) => item !== subject)
-    handleNonInputValueChange('subjects', updatedSubjects)
+    const filteredSubjects = data.subjects.filter((item) => item !== subject)
+    handleNonInputValueChange('subjects', filteredSubjects)
   }
 
   return (
@@ -139,9 +138,9 @@ const SubjectsStep = ({
             {t('becomeTutor.categories.btnText')}
           </AppButton>
           <AppChipList
-            defaultQuantity={6}
+            defaultQuantity={2}
             handleChipDelete={handleChipDelete}
-            items={data.subjects}
+            items={data.subjects.map((item) => item.label)}
           />
         </Box>
         {btnsBox}

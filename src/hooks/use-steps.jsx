@@ -86,7 +86,7 @@ const useSteps = ({ steps, stepData, errors, handleSubmitForm, isValid }) => {
         city: city ?? ''
       },
       professionalSummary: professionalSummary,
-      mainSubjects: stepData.subjects,
+      mainSubjects: stepData.subjects.map((item) => item.id),
       nativeLanguages: stepData.languages
     }
     isValid && fetchData(data)
