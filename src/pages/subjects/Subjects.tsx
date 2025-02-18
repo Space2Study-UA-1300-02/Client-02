@@ -95,9 +95,7 @@ const Subjects = () => {
       subjects.map((item: SubjectInterface) => {
         return (
           <CardWithLink
-            description={`${item} ${t(
-              'categoriesPage.offers'
-            )}`}
+            description={`${item} ${t('categoriesPage.offers')}`}
             img={serviceIcon}
             key={item._id}
             link={`${authRoutes.categories.path}?categoryId=${categoryId}&subjectId=${item._id}`}
@@ -129,7 +127,7 @@ const Subjects = () => {
       axiosProps={{ onResponse: onResponseCategory }}
       labelField='name'
       onChange={onCategoryChange}
-       // @ts-ignore
+      // @ts-ignore
       service={categoryService.getCategories}
       sx={styles.categoryInput}
       textFieldProps={{
@@ -180,23 +178,23 @@ const Subjects = () => {
           }}
         />
       </AppToolbar>
-    <Box sx={styles.page}>
-      {breakpoints.isMobile && autoCompleteCategories}
-      {!subjects.length && !subjectsLoading ? (
-        <NotFoundResults
-          buttonText={t('errorMessages.buttonRequest', { name: 'subjects' })}
-          description={t('errorMessages.tryAgainText', { name: 'subjects' })}
-          onClick={handleOpenModal}
-        />
-      ) : (
-        <CardsList
-          btnText={t('categoriesPage.viewMore')}
-          cards={cards}
-          isExpandable={isExpandable}
-          loading={subjectsLoading}
-          onClick={loadMore}
-        />
-      )}
+      <Box sx={styles.page}>
+        {breakpoints.isMobile && autoCompleteCategories}
+        {!subjects.length && !subjectsLoading ? (
+          <NotFoundResults
+            buttonText={t('errorMessages.buttonRequest', { name: 'subjects' })}
+            description={t('errorMessages.tryAgainText', { name: 'subjects' })}
+            onClick={handleOpenModal}
+          />
+        ) : (
+          <CardsList
+            btnText={t('categoriesPage.viewMore')}
+            cards={cards}
+            isExpandable={isExpandable}
+            loading={subjectsLoading}
+            onClick={loadMore}
+          />
+        )}
       </Box>
     </PageWrapper>
   )

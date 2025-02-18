@@ -2,8 +2,7 @@ export const styles = {
   page: {
     width: 'calc(90% - 32px)',
     justifyContent: 'center',
-    margin: 'auto',
-    padding: 'auto'
+    margin: 'auto'
   },
   categoryInput: {
     width: '90%',
