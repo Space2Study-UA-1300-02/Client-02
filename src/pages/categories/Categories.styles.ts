@@ -3,7 +3,8 @@ import { ButtonVariantEnum } from '~/types'
 export const styles = {
   container: {
     margin: '0 auto',
-    maxWidth: 800,
+    maxWidth: 1176,
+    width: '100%',
     padding: 3,
     textAlign: 'center'
   },
@@ -26,7 +27,7 @@ export const styles = {
     borderRadius: 5,
     padding: '8px 16px',
     boxShadow: '0px 2px 4px rgba(0,0,0,0.1)',
-    width: '100%',
+    width: 'calc(100% - 32px)',
     minWidth: '50vw'
   },
   searchIcon: {
