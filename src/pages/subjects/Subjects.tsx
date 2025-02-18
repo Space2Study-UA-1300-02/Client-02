@@ -180,6 +180,7 @@ const Subjects = () => {
           }}
         />
       </AppToolbar>
+    <Box sx={styles.page}>
       {breakpoints.isMobile && autoCompleteCategories}
       {!subjects.length && !subjectsLoading ? (
         <NotFoundResults
@@ -196,6 +197,7 @@ const Subjects = () => {
           onClick={loadMore}
         />
       )}
+      </Box>
     </PageWrapper>
   )
 }

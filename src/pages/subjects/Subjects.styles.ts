@@ -1,6 +1,12 @@
 export const styles = {
+  page: {
+    width: 'calc(90% - 32px)',
+    justifyContent: 'center',
+    margin: 'auto',
+    padding: 'auto'
+  },
   categoryInput: {
-    width: '100%',
+    width: '90%',
     maxWidth: { sm: '160px', md: '220px' },
     mr: '30px',
     mb: { xs: '20px', sm: '0' },
@@ -16,7 +22,15 @@ export const styles = {
     justifyContent: 'space-between'
   },
   searchToolbar: {
-    borderRadius: '70px'
+    display: 'flex',
+    alignItems: 'center',
+    backgroundColor: '#f5f5f5',
+    borderRadius: 7,
+    padding: '8px 16px',
+    boxShadow: '0px 3px 5px rgba(0,0,0,0.1)',
+    width: 'calc(90% - 32px)',
+    minWidth: '50vw',
+    margin: 'auto'
   },
   showAllOffers: {
     display: 'flex',
