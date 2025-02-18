@@ -94,7 +94,12 @@ const UserStepsWrapper: FC<UserStepsWrapperProps> = ({ userRole }) => {
       key='3'
       userRole={userRole}
     />,
-    <AddPhotoStep key='4' />
+    <AddPhotoStep
+      data={data}
+      handleDataChange={handleDataChange}
+      key='4'
+      userRole={userRole}
+    />
   ]
 
   const stepLabels =

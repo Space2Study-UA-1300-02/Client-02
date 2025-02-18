@@ -54,10 +54,14 @@ const SubjectsStep = ({
         if (!response.ok) throw new Error('Failed to fetch subjects')
         const data = await response.json()
 
-        const subjects =
-          Array.isArray(data) && typeof data[0] === 'string'
-            ? data.map((name) => ({ label: name }))
-            : data.map((sub) => ({ id: sub._id, label: sub.name }))
+        const items = data.items ?? []
+        if (!Array.isArray(items)) {
+          throw new Error('Is not array')
+        }
+        const subjects = items.map((item) => ({
+          id: item._id,
+          label: item.name
+        }))
 
         setSubjects(subjects)
       } catch (error) {

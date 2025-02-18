@@ -7,7 +7,8 @@ export const initialValues = {
   city: null,
   professionalSummary: '',
   subjects: [],
-  languages: []
+  languages: [],
+  photo: ''
 }
 
 export const validations = {
