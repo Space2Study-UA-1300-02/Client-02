@@ -4,7 +4,7 @@ import { Question } from '~/types/questions/questions.index'
 import { RequestParams } from '~/types/services/types/services.types'
 
 export interface CategoriesParams extends RequestParams {
-  name: string
+  search: string
 }
 
 export interface CreateCategoriesParams {

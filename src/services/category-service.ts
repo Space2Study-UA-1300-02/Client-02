@@ -17,5 +17,10 @@ export const categoryService = {
   },
   getCategoriesNames: (): Promise<AxiosResponse<CategoryNameInterface[]>> => {
     return axiosClient.get(URLs.categories.getNames)
+  },
+  searchCategories: (
+    params?: Partial<CategoriesParams>
+  ): Promise<AxiosResponse<ItemsWithCount<CategoryInterface>>> => {
+    return axiosClient.get(URLs.categories.search, { params })
   }
 }

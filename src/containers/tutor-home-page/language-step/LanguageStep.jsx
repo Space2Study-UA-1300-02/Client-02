@@ -19,9 +19,9 @@ const LanguageStep = ({ userRole, btnsBox }) => {
 
   const handleChange = (_, selectedValue) => {
     if (selectedValue && !languagesList.includes(selectedValue)) {
-      setLanguagesList((prev) => [...prev, selectedValue]);
+      setLanguagesList((prev) => [...prev, selectedValue])
     }
-    setLanguage(selectedValue);
+    setLanguage(selectedValue)
   }
 
   const handleDeleteLanguage = (label) => {
@@ -62,9 +62,11 @@ const LanguageStep = ({ userRole, btnsBox }) => {
         <Box component='img' src={img} sx={styles.img} />
       </Box>
       <Box sx={styles.rigthBox}>
-      <LanguageStepContent 
-       title={t(`becomeTutor.languages.${userRole === student ? 'studentTitle' : 'tutorTitle'}`)} 
-      />
+        <LanguageStepContent
+          title={t(
+            `becomeTutor.languages.${userRole === student ? 'studentTitle' : 'tutorTitle'}`
+          )}
+        />
         {btnsBox}
       </Box>
     </Box>

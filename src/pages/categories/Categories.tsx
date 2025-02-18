@@ -1,5 +1,4 @@
 import React, { useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Box, TextField, Button, Link, Typography } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
@@ -18,7 +17,9 @@ import OfferRequestBlock from '~/containers/find-offer/offer-request-block/Offer
 
 const Categories = () => {
   const [query, setQuery] = useState('')
-  const navigate = useNavigate()
+  const [filteredCategories, setFilteredCategories] = useState<
+    CategoryInterface[] | null
+  >(null)
 
   const { t } = useTranslation()
 
@@ -27,32 +28,46 @@ const Categories = () => {
     defaultResponse: []
   })
 
-  const handleSearch = () => {
-    if (query.trim()) {
-      navigate(`/find-offers?search=${encodeURIComponent(query)}`)
+  const handleSearch = async () => {
+    try {
+      const response = await categoryService.searchCategories({ search: query })
+      setFilteredCategories(response.data.data)
+    } catch (error) {
+      console.error('Search error:', error)
     }
   }
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      handleSearch()
+      void handleSearch()
     }
   }
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    setQuery(value)
+
+    if (value === '') {
+      setFilteredCategories(null)
+    }
+  }
+
+  const displayedCategories =
+    filteredCategories !== null ? filteredCategories : categories
   const cards = useMemo(
     () =>
-      categories.map((item: CategoryInterface) => {
+      displayedCategories.map((item: CategoryInterface) => {
         return (
           <CardWithLink
             description={`235 ${t('categoriesPage.offers')}`}
-            img={item.appearance.icon}
+            img={item.appearance?.icon}
             key={item._id}
             link={`${authRoutes.subjects.path}?categoryId=${item._id}`}
             title={item.name}
           />
         )
       }),
-    [categories, t]
+    [displayedCategories, t]
   )
 
   return (
@@ -78,7 +93,7 @@ const Categories = () => {
         <TextField
           InputProps={{ disableUnderline: true }}
           fullWidth
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={handleInputChange}
           onKeyDown={handleKeyPress}
           placeholder={t('common.learningLabel')}
           sx={styles.searchInput}
@@ -86,7 +101,7 @@ const Categories = () => {
           variant='standard'
         />
         <Button
-          onClick={handleSearch}
+          onClick={() => void handleSearch()}
           sx={styles.searchButton}
           variant={styles.searchButton.variant}
         >
@@ -95,9 +110,8 @@ const Categories = () => {
       </Box>
 
       <Typography sx={styles.infoText} variant='body2'>
-        Can&apos;t find what you&apos;re looking for? Request a new{' '}
-        <Link component='button'>{t('common.category')}</Link>
-        or
+        Can&apos;t find what you&apos;re looking for? Request a new&nbsp;
+        <Link component='button'>{t('common.category')}</Link>&nbsp; or&nbsp;
         <Link component='button'>{t('common.subject')}</Link>!
       </Typography>
 

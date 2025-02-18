@@ -4,6 +4,7 @@ import { ChangeEvent, FocusEvent, FormEvent } from 'react'
 export interface ItemsWithCount<T> {
   count: number
   items: T[]
+  data: T[]
 }
 export interface CommonEntityFields {
   _id: string
