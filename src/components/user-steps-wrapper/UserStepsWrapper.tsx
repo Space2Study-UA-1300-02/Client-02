@@ -1,10 +1,14 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useState, useCallback } from 'react'
 import { useAppDispatch } from '~/hooks/use-redux'
 import { markFirstLoginComplete } from '~/redux/reducer'
 import StepWrapper from '~/components/step-wrapper/StepWrapper'
 import useForm from '~/hooks/use-form'
 import { firstName, lastName } from '~/utils/validations/login'
 import { languages } from '~/utils/validations/stepper'
+import { useAppSelector } from '~/hooks/use-redux'
+import useAxios from '~/hooks/use-axios'
+import { userService } from '~/services/user-service'
+import { UserRole } from '~/types'
 import { StepProvider } from '~/context/step-context'
 
 import GeneralInfoStep from '~/containers/tutor-home-page/general-info-step/GeneralInfoStep'
@@ -20,7 +24,7 @@ import {
 import { student } from '~/constants'
 
 interface UserStepsWrapperProps {
-  userRole: string
+  userRole: UserRole
 }
 
 const UserStepsWrapper: FC<UserStepsWrapperProps> = ({ userRole }) => {
@@ -31,6 +35,7 @@ const UserStepsWrapper: FC<UserStepsWrapperProps> = ({ userRole }) => {
     handleNonInputValueChange,
     handleSubmit,
     handleBlur,
+    handleDataChange,
     data,
     errors,
     isValid
@@ -42,16 +47,38 @@ const UserStepsWrapper: FC<UserStepsWrapperProps> = ({ userRole }) => {
     dispatch(markFirstLoginComplete())
   }, [dispatch])
 
+  const { userId } = useAppSelector((state) => state.appMain)
+  const getUserName = useCallback(
+    () => userService.getUserById(userId, userRole),
+    [userId, userRole]
+  )
+
+  const { response } = useAxios({
+    service: getUserName,
+    fetchOnMount: true,
+    defaultResponse: {} as typeof data
+  })
+
+  useEffect(() => {
+    if (Object.keys(response).length !== 0 && !isUserFetched) {
+      handleDataChange({
+        ...initialValues,
+        firstName: response.firstName,
+        lastName: response.lastName
+      })
+      setIsUserFetched(true)
+    }
+  }, [handleDataChange, isUserFetched, response])
   const childrenArr = [
     <GeneralInfoStep
       data={data}
       errors={errors}
       handleBlur={handleBlur}
+      handleDataChange={handleDataChange}
       handleInputChange={handleInputChange}
       handleNonInputValueChange={handleNonInputValueChange}
-      isUserFetched={isUserFetched}
       key='1'
-      setIsUserFetched={setIsUserFetched}
+      userRole={userRole}
     />,
     <SubjectsStep
       data={data}
@@ -70,7 +97,8 @@ const UserStepsWrapper: FC<UserStepsWrapperProps> = ({ userRole }) => {
     <AddPhotoStep key='4' />
   ]
 
-  const stepLabels = userRole === student ? studentStepLabels : tutorStepLabels
+  const stepLabels =
+    userRole === (student as UserRole) ? studentStepLabels : tutorStepLabels
 
   return (
     <StepProvider initialValues={initialValues} stepLabels={stepLabels}>
