@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Box, TextField, Button, Link, Typography } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
@@ -14,14 +14,36 @@ import TitleWithDescription from '~/components/title-with-description/TitleWithD
 import DirectionLink from '~/components/direction-link/DirectionLink'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import OfferRequestBlock from '~/containers/find-offer/offer-request-block/OfferRequestBlock'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 const Categories = () => {
-  const [query, setQuery] = useState('')
+  const location = useLocation()
+  const navigate = useNavigate()
+  const { t } = useTranslation()
+
+  const [query, setQuery] = useState(() => {
+    const params = new URLSearchParams(location.search)
+    return params.get('search') || ''
+  })
   const [filteredCategories, setFilteredCategories] = useState<
     CategoryInterface[] | null
   >(null)
 
-  const { t } = useTranslation()
+  useEffect(() => {
+    const params = new URLSearchParams(location.search)
+    if (query) {
+      params.set('search', query)
+    } else {
+      params.delete('search')
+    }
+    navigate({ search: params.toString() }, { replace: true })
+  }, [query, navigate])
+
+  useEffect(() => {
+    if (query) {
+      void handleSearch()
+    }
+  }, [query])
 
   const { response: categories, loading } = useAxios({
     service: categoryService.getCategories,
