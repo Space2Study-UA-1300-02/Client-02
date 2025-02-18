@@ -95,7 +95,7 @@ const Subjects = () => {
       subjects.map((item: SubjectInterface) => {
         return (
           <CardWithLink
-            description={`${item} ${t('categoriesPage.offers')}`}
+            description={`${item.name} ${t('categoriesPage.offers')}`}
             img={serviceIcon}
             key={item._id}
             link={`${authRoutes.categories.path}?categoryId=${categoryId}&subjectId=${item._id}`}
