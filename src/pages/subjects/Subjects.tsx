@@ -1,18 +1,15 @@
 import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSearchParams } from 'react-router-dom'
-
 import Box from '@mui/material/Box'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
-
 import { useAppSelector } from '~/hooks/use-redux'
 import useLoadMore from '~/hooks/use-load-more'
 import useSubjectsNames from '~/hooks/use-subjects-names'
 import { subjectService } from '~/services/subject-service'
 import { categoryService } from '~/services/category-service'
 import { useModalContext } from '~/context/modal-context'
-
 import PageWrapper from '~/components/page-wrapper/PageWrapper'
 import SearchAutocomplete from '~/components/search-autocomplete/SearchAutocomplete'
 import TitleWithDescription from '~/components/title-with-description/TitleWithDescription'
@@ -28,7 +25,6 @@ import useBreakpoints from '~/hooks/use-breakpoints'
 import serviceIcon from '~/assets/img/student-home-page/service_icon.png'
 import { getOpositeRole, getScreenBasedLimit } from '~/utils/helper-functions'
 import { mapArrayByField } from '~/utils/map-array-by-field'
-
 import {
   CategoryNameInterface,
   SizeEnum,
@@ -99,7 +95,7 @@ const Subjects = () => {
       subjects.map((item: SubjectInterface) => {
         return (
           <CardWithLink
-            description={`${item.totalOffers[oppositeRole]} ${t(
+            description={`${item} ${t(
               'categoriesPage.offers'
             )}`}
             img={serviceIcon}
@@ -133,7 +129,8 @@ const Subjects = () => {
       axiosProps={{ onResponse: onResponseCategory }}
       labelField='name'
       onChange={onCategoryChange}
-      service={categoryService.getCategoriesNames}
+       // @ts-ignore
+      service={categoryService.getCategories}
       sx={styles.categoryInput}
       textFieldProps={{
         label: t('breadCrumbs.categories')

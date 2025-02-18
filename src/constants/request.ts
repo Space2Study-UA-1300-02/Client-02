@@ -33,7 +33,8 @@ export const URLs = {
   },
   subjects: {
     get: '/subjects',
-    getNames: '/subjects/names'
+    getNames: '/subjects/names',
+    getByCategoryId: '/subjects/category'
   },
   resources: {
     questions: {
