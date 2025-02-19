@@ -78,7 +78,6 @@ const UserStepsWrapper: FC<UserStepsWrapperProps> = ({ userRole }) => {
       handleInputChange={handleInputChange}
       handleNonInputValueChange={handleNonInputValueChange}
       key='1'
-      userRole={userRole}
     />,
     <SubjectsStep
       data={data}

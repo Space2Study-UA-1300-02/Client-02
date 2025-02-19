@@ -5,7 +5,7 @@ import AppAutoComplete from '~/components/app-auto-complete/AppAutoComplete'
 import loginImg from '~/assets/img/login-dialog/login.svg'
 import AppTextArea from '~/components/app-text-area/AppTextArea'
 import { Typography } from '@mui/material'
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useMemo } from 'react'
 import { countriesMock } from './constants'
 import { styles } from '~/containers/tutor-home-page/general-info-step/GeneralInfoStep.styles'
 import { debounce } from 'lodash'
@@ -25,7 +25,7 @@ const GeneralInfoStep = ({
   const [loadingCountries, setLoadingCountries] = useState(false)
   const [loadingCities, setLoadingCities] = useState(false)
 
-  const fetchCountries = async (search) => {
+  const fetchCountries = useCallback(async (search) => {
     if (search.length < 3) {
       setCountries([])
       return
@@ -52,9 +52,14 @@ const GeneralInfoStep = ({
     } finally {
       setLoadingCountries(false)
     }
-  }
+  }, [])
 
-  const fetchCities = async (country, search) => {
+  const debouncedFetchCountries = useMemo(
+    () => debounce(fetchCountries, 500),
+    [fetchCountries]
+  )
+
+  const fetchCities = useCallback(async (country, search) => {
     if (search.length < 3) {
       setCities([])
       return
@@ -81,13 +86,12 @@ const GeneralInfoStep = ({
     } finally {
       setLoadingCities(false)
     }
-  }
+  }, [])
 
-  const debouncedFetchCountries = useCallback(
-    () => debounce(fetchCountries, 500),
-    []
+  const debouncedFetchCities = useMemo(
+    () => debounce(fetchCities, 500),
+    [fetchCities]
   )
-  const debouncedFetchCities = useCallback(() => debounce(fetchCities, 500), [])
 
   const handleCountryInputChange = (event, value) => {
     handleNonInputValueChange('country', value || '')

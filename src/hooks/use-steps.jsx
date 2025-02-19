@@ -78,7 +78,7 @@ const useSteps = ({ steps, stepData, errors, handleSubmitForm, isValid }) => {
     handleSubmitForm(e)
     const { firstName, lastName, country, city, professionalSummary } = stepData
     const data = {
-      // photo: stepData.photo[0] ? stepData.photo[0] : '',
+      photo: stepData.photo,
       firstName,
       lastName,
       address: {
@@ -91,7 +91,6 @@ const useSteps = ({ steps, stepData, errors, handleSubmitForm, isValid }) => {
     }
     isValid && fetchData(data)
   }
-
   const stepOperation = {
     next,
     back,

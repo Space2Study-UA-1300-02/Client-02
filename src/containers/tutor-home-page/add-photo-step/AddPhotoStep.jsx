@@ -8,7 +8,6 @@ import {
   Alert
 } from '@mui/material'
 import { useState } from 'react'
-import { useStepContext } from '~/context/step-context'
 import DragAndDrop from '~/components/drag-and-drop/DragAndDrop'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import CancelIcon from '@mui/icons-material/Cancel'
@@ -22,11 +21,10 @@ const ALLOWED_TYPES = ['image/jpeg', 'image/png']
 const AddPhotoStep = ({ btnsBox, data, handleDataChange, userRole }) => {
   const { t } = useTranslation()
   const [preview, setPreview] = useState(null)
-  const { handleStepData } = useStepContext()
   const [errorMessage, setErrorMessage] = useState('')
   const [openSnackbar, setOpenSnackbar] = useState(false)
   const { userId } = useAppSelector((state) => state.appMain)
-  console.log(userId)
+
   const showError = (message) => {
     setErrorMessage(message)
     setOpenSnackbar(true)
@@ -61,7 +59,6 @@ const AddPhotoStep = ({ btnsBox, data, handleDataChange, userRole }) => {
     formData.append('id', userId)
     formData.append('type', 'user')
     formData.append('userRole', userRole)
-    console.log(formData)
 
     try {
       const response = await fetch(URLs.upload.photo, {
@@ -74,10 +71,8 @@ const AddPhotoStep = ({ btnsBox, data, handleDataChange, userRole }) => {
       }
 
       const { photo } = await response.json()
-      console.log(photo)
       setPreview(photo)
-      handleDataChange({ ...data, photo: formData })
-      console.log(data)
+      handleDataChange({ ...data, photo: photo })
     } catch (error) {
       showError(error.message)
     }
@@ -85,7 +80,7 @@ const AddPhotoStep = ({ btnsBox, data, handleDataChange, userRole }) => {
 
   const handleCancelUpload = () => {
     setPreview(null)
-    handleStepData('Photo', '')
+    handleDataChange({ ...data, photo: '' })
   }
 
   return (
