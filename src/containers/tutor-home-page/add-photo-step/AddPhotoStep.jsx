@@ -156,9 +156,20 @@ const AddPhotoStep = ({ btnsBox, data, handleDataChange, userRole }) => {
           {t('becomeTutor.photo.maxFileSize')}
         </Typography>
 
-        <Box sx={{ mt: 'auto' }}>{btnsBox}</Box>
+        <Box sx={{ mt: 'auto', display: { md: 'block', xs: 'none' } }}>
+          {btnsBox}
+        </Box>
       </Box>
-
+      <Box
+        sx={{
+          display: { md: 'none', xs: 'block' },
+          order: 3,
+          width: { sm: '80%', xs: '100%' },
+          pb: { sm: '20px', xs: '0' }
+        }}
+      >
+        {btnsBox}
+      </Box>
       <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         autoHideDuration={5000}

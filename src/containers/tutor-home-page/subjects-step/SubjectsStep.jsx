@@ -123,7 +123,7 @@ const SubjectsStep = ({
             loading={loadingCategories}
             onChange={handleInputCategory}
             options={categories}
-            sx={{ flex: 1, mb: { md: '20px', xs: '16px' } }}
+            sx={{ flex: 1 }}
             textFieldProps={{
               label: t(
                 `becomeTutor.categories.${userRole === 'student' ? 'categoryStudentLabel' : 'categoryTutorLabel'}`
@@ -140,7 +140,7 @@ const SubjectsStep = ({
             loading={loadingSubjects}
             onChange={handleInputSubject}
             options={subjects}
-            sx={{ flex: 1, mb: { md: '20px', xs: '16px' } }}
+            sx={{ flex: 1 }}
             textFieldProps={{ label: t('becomeTutor.categories.subjectLabel') }}
             value={selectedSubject}
           />

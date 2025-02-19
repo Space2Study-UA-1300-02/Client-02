@@ -121,7 +121,7 @@ const GeneralInfoStep = ({
         <Box alt='login' component='img' src={loginImg} sx={styles.img} />
       </Box>
       <Box component='form' sx={styles.rigthBox}>
-        <Typography sx={{ mb: { md: '20px', sm: '16px' } }}>
+        <Typography sx={{ mb: { md: '20px', xs: '16px' } }}>
           {t('becomeTutor.generalInfo.title')}
         </Typography>
         <Box sx={styles.fieldContainer}>

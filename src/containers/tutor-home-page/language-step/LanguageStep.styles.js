@@ -4,14 +4,16 @@ export const styles = {
   container: {
     display: 'flex',
     justifyContent: 'space-between',
-    gap: '40px',
+    alignItems: { md: 'normal', xs: 'center' },
+    flexDirection: { md: 'row', xs: 'column' },
+    gap: { md: '40px', sm: '0' },
     height: { sm: '485px' },
     ...fadeAnimation
   },
   imgContainer: {
     display: 'flex',
     flex: 1,
-    maxWidth: '432px',
+    maxWidth: { md: '432px', sm: '300px', xs: '300px' },
     aspectRatio: { xs: '4/3', sm: 'auto' },
     pb: { xs: '16px', sm: '52px' }
   },
