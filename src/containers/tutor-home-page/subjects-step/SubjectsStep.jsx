@@ -46,14 +46,21 @@ const SubjectsStep = ({
     if (!selectedCategory) return
 
     const fetchSubjects = async () => {
-      setLoadingSubjects(true)
-      try {
-        const response = await fetch(
-          `${URLs.interests.subjects}${selectedCategory.id}`
-        )
-        if (!response.ok) throw new Error('Failed to fetch subjects')
-        const data = await response.json()
+      if (!selectedCategory?.id) {
+        console.error('selectedCategory.id undefined')
+        return
+      }
 
+      setLoadingSubjects(true)
+
+      const url = `${URLs.interests.subjects}${selectedCategory.id}`
+
+      try {
+        const response = await fetch(url)
+        const data = await response.json()
+        if (!response.ok) {
+          throw new Error(`Failed to fetch subjects: ${response.status}`)
+        }
         const items = data.items ?? []
         if (!Array.isArray(items)) {
           throw new Error('Is not array')
@@ -62,7 +69,6 @@ const SubjectsStep = ({
           id: item._id,
           label: item.name
         }))
-
         setSubjects(subjects)
       } catch (error) {
         console.error('Error fetching subjects:', error)

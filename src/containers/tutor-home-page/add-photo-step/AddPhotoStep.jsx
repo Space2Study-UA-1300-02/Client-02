@@ -1,46 +1,129 @@
 import { useTranslation } from 'react-i18next'
-import { Box, Button, Typography } from '@mui/material'
+import {
+  Box,
+  Button,
+  Typography,
+  IconButton,
+  Snackbar,
+  Alert
+} from '@mui/material'
 import { useState } from 'react'
 import { useStepContext } from '~/context/step-context'
 import DragAndDrop from '~/components/drag-and-drop/DragAndDrop'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
-import CheckIcon from '@mui/icons-material/Check'
+import CancelIcon from '@mui/icons-material/Cancel'
 import { style } from '~/containers/tutor-home-page/add-photo-step/AddPhotoStep.style'
+import { useAppSelector } from '~/hooks/use-redux'
+import { URLs } from '~/constants/request'
 
-const AddPhotoStep = ({ btnsBox }) => {
+const MAX_FILE_SIZE = 10 * 1024 * 1024
+const ALLOWED_TYPES = ['image/jpeg', 'image/png']
+
+const AddPhotoStep = ({ btnsBox, data, handleDataChange, userRole }) => {
   const { t } = useTranslation()
   const [preview, setPreview] = useState(null)
   const { handleStepData } = useStepContext()
+  const [errorMessage, setErrorMessage] = useState('')
+  const [openSnackbar, setOpenSnackbar] = useState(false)
+  const { userId } = useAppSelector((state) => state.appMain)
+  console.log(userId)
+  const showError = (message) => {
+    setErrorMessage(message)
+    setOpenSnackbar(true)
+  }
 
-  const handleFileChange = ({ files, error }) => {
-    if (!error && files.length > 0) {
-      const file = files[0]
-      setPreview(URL.createObjectURL(file))
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false)
+  }
 
-      handleStepData('Photo', [file])
+  const handleFileChange = async ({ files }) => {
+    if (preview || !files || files.length === 0) return
+
+    const file = files[0]
+
+    if (!ALLOWED_TYPES.includes(file.type)) {
+      showError(t('becomeTutor.photo.typeError'))
+      return
     }
+
+    if (file.size > MAX_FILE_SIZE) {
+      showError(t('becomeTutor.photo.fileSizeError'))
+      return
+    }
+
+    if (!userId) {
+      showError(t('becomeTutor.photo.userIdError'))
+      return
+    }
+
+    const formData = new FormData()
+    formData.append('image', file)
+    formData.append('id', userId)
+    formData.append('type', 'user')
+    formData.append('userRole', userRole)
+    console.log(formData)
+
+    try {
+      const response = await fetch(URLs.upload.photo, {
+        method: 'POST',
+        body: formData
+      })
+
+      if (!response.ok) {
+        throw new Error(t('becomeTutor.photo.uploadError'))
+      }
+
+      const { photo } = await response.json()
+      console.log(photo)
+      setPreview(photo)
+      handleDataChange({ ...data, photo: formData })
+      console.log(data)
+    } catch (error) {
+      showError(error.message)
+    }
+  }
+
+  const handleCancelUpload = () => {
+    setPreview(null)
+    handleStepData('Photo', '')
   }
 
   return (
     <Box sx={style.root}>
       <Box sx={style.imgContainer}>
         <DragAndDrop
-          emitter={handleFileChange}
+          emitter={!preview ? handleFileChange : () => {}}
           initialState={[]}
           style={{
             root: {
               ...style.uploadBox,
-              border: preview ? 'none' : '2px dashed'
+              border: preview ? 'none' : '2px dashed',
+              pointerEvents: preview ? 'none' : 'auto'
             },
             activeDrag: style.activeDrag
           }}
           validationData={{
             maxQuantityFiles: 1,
-            filesTypes: ['image/jpeg', 'image/png']
+            filesTypes: ALLOWED_TYPES
           }}
         >
           {preview ? (
-            <img alt='Preview' src={preview} style={style.img} />
+            <Box position='relative'>
+              <img alt='Preview' src={preview} style={style.img} />
+              <IconButton
+                onClick={handleCancelUpload}
+                size='small'
+                sx={{
+                  position: 'absolute',
+                  top: 5,
+                  right: 5,
+                  backgroundColor: 'rgba(255,255,255,0.7)',
+                  pointerEvents: 'auto'
+                }}
+              >
+                <CancelIcon fontSize='small' />
+              </IconButton>
+            </Box>
           ) : (
             <Typography variant='body2'>
               {t('becomeTutor.photo.placeholder')}
@@ -56,28 +139,22 @@ const AddPhotoStep = ({ btnsBox }) => {
 
         <label htmlFor='upload-photo'>
           <input
-            accept='image/*'
+            accept={ALLOWED_TYPES.join(',')}
+            disabled={!!preview}
             id='upload-photo'
-            onChange={(e) =>
-              handleFileChange({ files: e.target.files, error: null })
-            }
+            onChange={(e) => handleFileChange({ files: e.target.files })}
             style={{ display: 'none' }}
             type='file'
           />
           <Button
             component='span'
+            disabled={!!preview}
             startIcon={<CloudUploadIcon />}
             sx={style.fileUploader.button}
             variant='outlined'
           >
             {t('becomeTutor.photo.button')}
           </Button>
-          {preview && (
-            <CheckIcon
-              color='success'
-              sx={{ ml: '19px', verticalAlign: 'middle' }}
-            />
-          )}
         </label>
 
         <Typography sx={{ mt: '10px' }} variant='body2'>
@@ -86,6 +163,21 @@ const AddPhotoStep = ({ btnsBox }) => {
 
         <Box sx={{ mt: 'auto' }}>{btnsBox}</Box>
       </Box>
+
+      <Snackbar
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        autoHideDuration={5000}
+        onClose={handleCloseSnackbar}
+        open={openSnackbar}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity='error'
+          sx={{ width: '100%' }}
+        >
+          {errorMessage}
+        </Alert>
+      </Snackbar>
     </Box>
   )
 }
