@@ -12,6 +12,9 @@ export const URLs = {
     forgotPassword: '/auth/forgot-password',
     resetPassword: '/auth/reset-password'
   },
+  upload: {
+    photo: 'http://localhost:8080/upload'
+    },
   location: {
     countries: 'http://localhost:8080/location/countries',
     cities: 'http://localhost:8080/location/cities'
@@ -33,7 +36,8 @@ export const URLs = {
   },
   subjects: {
     get: '/subjects',
-    getNames: '/subjects/names'
+    getNames: '/subjects/names',
+    getByCategoryId: '/subjects/category'
   },
   resources: {
     questions: {

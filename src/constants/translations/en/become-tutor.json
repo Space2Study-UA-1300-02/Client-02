@@ -25,11 +25,12 @@
   "photo": {
     "imageAlt": "Your photo",
     "button": "Upload your profile photo",
-    "placeholder": "Photo Preview",
+    "placeholder": "Photo Preview. You can drag your photo here",
     "description": "Please upload a photo that represents you and helps others recognize you.",
     "typeError": "Wrong file type. Only .png/.jpg/.jpeg files are allowed.",
     "fileSizeError": "Size for one file cannot be more than 10MB.",
-    "maxFileSize": "Maximum file size - 10 Mb"
+    "maxFileSize": "Maximum file size - 10 Mb",
+    "dragNdrop": "You can drag your photo here"
   },
   "successMessage": "Success! Your data were added."
 }
