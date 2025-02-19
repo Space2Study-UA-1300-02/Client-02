@@ -18,15 +18,10 @@ const LanguageStep = ({ userRole, btnsBox }) => {
   const langOptions = useMemo(() => languagesMock.map((lang) => lang.label), [])
 
   const handleChange = (_, selectedValue) => {
-    if (!selectedValue) return
-
-    if (userRole === student) {
-      setLanguagesList([selectedValue])
-    } else if (!languagesList.includes(selectedValue)) {
-      setLanguagesList((prev) => [...prev, selectedValue])
+    if (selectedValue && !languagesList.includes(selectedValue)) {
+      setLanguagesList((prev) => [...prev, selectedValue]);
     }
-
-    setLanguage(selectedValue)
+    setLanguage(selectedValue);
   }
 
   const handleDeleteLanguage = (label) => {
@@ -34,14 +29,10 @@ const LanguageStep = ({ userRole, btnsBox }) => {
   }
 
   const addLanguage = () => {
-    if (!language) return
-
-    if (userRole === student) {
-      setLanguagesList([language])
-    } else if (!languagesList.includes(language)) {
-      setLanguagesList((prev) => [...prev, language])
+    if (!language || languagesList.includes(language)) {
+      return
     }
-
+    setLanguagesList([...languagesList, language])
     setLanguage('')
   }
 
@@ -58,9 +49,6 @@ const LanguageStep = ({ userRole, btnsBox }) => {
         value={language}
       />
       <AddLanguageBtn addLanguage={addLanguage} />
-      <Typography sx={{ fontSize: '12px', marginBottom: '15px' }}>
-        {t('becomeTutor.generalInfo.helperText')}
-      </Typography>
       <AppChipList
         handleChipDelete={handleDeleteLanguage}
         items={languagesList}
@@ -74,11 +62,9 @@ const LanguageStep = ({ userRole, btnsBox }) => {
         <Box component='img' src={img} sx={styles.img} />
       </Box>
       <Box sx={styles.rigthBox}>
-        <LanguageStepContent
-          title={t(
-            `becomeTutor.languages.${userRole === student ? 'studentTitle' : 'tutorTitle'}`
-          )}
-        />
+      <LanguageStepContent 
+       title={t(`becomeTutor.languages.${userRole === student ? 'studentTitle' : 'tutorTitle'}`)} 
+      />
         {btnsBox}
       </Box>
     </Box>
