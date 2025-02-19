@@ -61,9 +61,9 @@ const Categories = () => {
         </Button>
       </Box>
       <Typography sx={styles.infoText} variant='body2'>
-        Can&apos;t find what you&apos;re looking for? Request a new{' '}
+        {t('common.categoriesquestion')}
         <Link component='button'>{t('common.category')}</Link>
-        or
+        {t('common.or')}
         <Link component='button'>{t('common.subject')}</Link>!
       </Typography>
       <CategoriesList />
