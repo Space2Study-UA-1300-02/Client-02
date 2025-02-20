@@ -38,7 +38,7 @@ const AppAutoComplete = ({
       filterOptions={filterOptions}
       isOptionEqualToValue={(option, value) => option === value}
       options={options || []}
-      sx={{ mb: '5px', backgroundColor: 'red' }}
+      sx={{ mb: '5px' }}
       {...props}
       renderInput={(params) => (
         <TextField
