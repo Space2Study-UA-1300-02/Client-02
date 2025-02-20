@@ -10,6 +10,7 @@ import { useModalContext } from '~/context/modal-context'
 import { guestIcons } from '~/containers/navigation-icons/NavigationIcons.constants'
 import { SizeEnum } from '~/types'
 import { styles } from '~/containers/navigation-icons/NavigationIcons.styles'
+import LanguageSwitcher from '~/components/language-switcher/LanguageSwitcher'
 
 interface GuestIconsProps {
   setSidebarOpen: () => void
@@ -37,6 +38,7 @@ const GuestIcons: FC<GuestIconsProps> = ({ setSidebarOpen }) => {
 
   return (
     <Box sx={styles.iconBox}>
+      <LanguageSwitcher />
       {icons}
       <AppButton
         onClick={openLoginDialog}

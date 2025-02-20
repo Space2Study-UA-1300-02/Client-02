@@ -8,6 +8,7 @@ import { userIcons } from '~/containers/navigation-icons/NavigationIcons.constan
 
 import { styles } from '~/containers/navigation-icons/NavigationIcons.styles'
 import AccountMenu from '~/containers/layout/account-menu/AccountMenu'
+import LanguageSwitcher from '~/components/language-switcher/LanguageSwitcher'
 
 interface UserIconsProps {
   setSidebarOpen: () => void
@@ -44,6 +45,7 @@ const UserIcons: FC<UserIconsProps> = ({ setSidebarOpen }) => {
 
   return (
     <Box ref={anchorRef} sx={styles.iconBox}>
+      <LanguageSwitcher />
       {icons}
       <AccountMenu anchorEl={menuAnchorEl} onClose={closeMenu} />
     </Box>
