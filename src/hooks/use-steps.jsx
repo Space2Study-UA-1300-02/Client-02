@@ -7,11 +7,13 @@ import { useModalContext } from '~/context/modal-context'
 import { useSnackBarContext } from '~/context/snackbar-context'
 import { userService } from '~/services/user-service'
 import { snackbarVariants } from '~/constants'
+import { useTranslation } from 'react-i18next'
 
 const useSteps = ({ steps, stepData, errors, handleSubmitForm, isValid }) => {
   const [activeStep, setActiveStep] = useState(0)
   const { closeModal } = useModalContext()
   const { setAlert } = useSnackBarContext()
+  const { t } = useTranslation()
   const { userId } = useAppSelector((state) => state.appMain)
   const updateUser = useCallback(
     (data) => userService.updateUser(userId, data),
@@ -76,6 +78,13 @@ const useSteps = ({ steps, stepData, errors, handleSubmitForm, isValid }) => {
 
   const handleSubmit = (e) => {
     handleSubmitForm(e)
+    if (!isValid) {
+      setAlert({
+        severity: snackbarVariants.error,
+        message: t('becomeTutor.fixErrorsMessage')
+      })
+      return
+    }
     const { firstName, lastName, country, city, professionalSummary } = stepData
     const data = {
       photo: stepData.photo,

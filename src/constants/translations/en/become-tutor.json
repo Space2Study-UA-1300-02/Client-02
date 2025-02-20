@@ -34,5 +34,6 @@
     "maxFileSize": "Maximum file size - 10 Mb",
     "dragNdrop": "You can drag your photo here"
   },
+  "fixErrorsMessage": "Please fix all red fields before submitting",
   "successMessage": "Success! Your data were added."
 }
