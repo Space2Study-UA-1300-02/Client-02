@@ -9,7 +9,6 @@ import { useAppSelector } from '~/hooks/use-redux'
 import useAxios from '~/hooks/use-axios'
 import { userService } from '~/services/user-service'
 import { UserRole } from '~/types'
-import { StepProvider } from '~/context/step-context'
 
 import GeneralInfoStep from '~/containers/tutor-home-page/general-info-step/GeneralInfoStep'
 import AddPhotoStep from '~/containers/tutor-home-page/add-photo-step/AddPhotoStep'
@@ -105,17 +104,15 @@ const UserStepsWrapper: FC<UserStepsWrapperProps> = ({ userRole }) => {
     userRole === (student as UserRole) ? studentStepLabels : tutorStepLabels
 
   return (
-    <StepProvider initialValues={initialValues} stepLabels={stepLabels}>
-      <StepWrapper
-        errors={errors}
-        handleSubmitForm={handleSubmit}
-        isValid={isValid}
-        stepData={data}
-        steps={stepLabels}
-      >
-        {childrenArr}
-      </StepWrapper>
-    </StepProvider>
+    <StepWrapper
+      errors={errors}
+      handleSubmitForm={handleSubmit}
+      isValid={isValid}
+      stepData={data}
+      steps={stepLabels}
+    >
+      {childrenArr}
+    </StepWrapper>
   )
 }
 
