@@ -47,5 +47,7 @@
   },
   "otherOffers":{
     "title":"Інші пропозиції"
-  }
+  },
+  "currency": "ГРН",
+  "hour": "ГОД"
 }
