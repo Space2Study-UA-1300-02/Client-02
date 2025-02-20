@@ -18,14 +18,9 @@ const LanguageStep = ({ userRole, btnsBox }) => {
   const langOptions = useMemo(() => languagesMock.map((lang) => lang.label), [])
 
   const handleChange = (_, selectedValue) => {
-    if (!selectedValue) return
-
-    if (userRole === student) {
-      setLanguagesList([selectedValue])
-    } else if (!languagesList.includes(selectedValue)) {
+    if (selectedValue && !languagesList.includes(selectedValue)) {
       setLanguagesList((prev) => [...prev, selectedValue])
     }
-
     setLanguage(selectedValue)
   }
 
@@ -34,14 +29,10 @@ const LanguageStep = ({ userRole, btnsBox }) => {
   }
 
   const addLanguage = () => {
-    if (!language) return
-
-    if (userRole === student) {
-      setLanguagesList([language])
-    } else if (!languagesList.includes(language)) {
-      setLanguagesList((prev) => [...prev, language])
+    if (!language || languagesList.includes(language)) {
+      return
     }
-
+    setLanguagesList([...languagesList, language])
     setLanguage('')
   }
 
@@ -58,9 +49,6 @@ const LanguageStep = ({ userRole, btnsBox }) => {
         value={language}
       />
       <AddLanguageBtn addLanguage={addLanguage} />
-      <Typography sx={{ fontSize: '12px', marginBottom: '15px' }}>
-        {t('becomeTutor.generalInfo.helperText')}
-      </Typography>
       <AppChipList
         handleChipDelete={handleDeleteLanguage}
         items={languagesList}
