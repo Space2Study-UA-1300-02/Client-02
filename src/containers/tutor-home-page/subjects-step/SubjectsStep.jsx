@@ -29,9 +29,12 @@ const SubjectsStep = ({
       try {
         const response = await fetch(`${URLs.interests.categories}`)
         if (!response.ok) throw new Error('Failed to fetch categories')
-        const data = await response.json()
+        const categoriesData = await response.json()
         setCategories(
-          data.map((category) => ({ id: category.id, label: category.name }))
+          categoriesData.data.map((category) => ({
+            id: category.id,
+            label: category.name
+          }))
         )
       } catch (error) {
         console.error('Error fetching categories:', error)
