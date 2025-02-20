@@ -11,10 +11,21 @@ import AppButton from '~/components/app-button/AppButton'
 import useSteps from '~/hooks/use-steps'
 import { styles } from '~/components/step-wrapper/StepWrapper.styles'
 
-const StepWrapper = ({ children, steps }) => {
+const StepWrapper = ({
+  children,
+  steps,
+  errors,
+  handleSubmitForm,
+  stepData,
+  isValid
+}) => {
   const { activeStep, stepErrors, isLastStep, loading, stepOperation } =
     useSteps({
-      steps
+      steps,
+      errors,
+      stepData,
+      handleSubmitForm,
+      isValid
     })
   const { next, back, setActiveStep, handleSubmit } = stepOperation
   const { t } = useTranslation()

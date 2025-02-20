@@ -1,7 +1,7 @@
 {
   "stepLabels": {
-    "generalInfo": "Загальне", 
-    "language": "Мова", 
+    "generalInfo": "Загальне",
+    "language": "Мова",
     "subjects": "Предмети",
     "photo": "Фото"
   },
@@ -16,25 +16,30 @@
   },
   "languages": {
     "tutorTitle": "Будь ласка, виберіть мову, якою ви б хотіли навчати та співпрацювати",
-    "studentTitle":"Будь ласка, виберіть мову, якою ви б хотіли навчатися та співпрацювати",
+    "studentTitle": "Будь ласка, виберіть мову, якою ви б хотіли навчатися та співпрацювати",
     "autocompleteLabel": "Твоя рідна мова",
-    "btnText": "Додати мову"
+    "btnText": "Додати мову",
+    "emptyField": "Ви повинні вибрати принаймні 1 мову"
   },
   "categories": {
-    "title": "Velit officia consequat duis enim velit mollit. Other categories you can add in your account settings later.",
-    "mainSubjectsLabel": "Основна категорія предмету",
+    "title": "Будь ласка, виберіть основні предмети на основі категорії. Ви можете додати інші пізніше.",
+    "categoryTutorLabel": "Основна категорія репетиторства",
+    "categoryStudentLabel": "Основна категорія",
     "subjectLabel": "Предмет",
     "btnText": "Додайте ще один предмет",
     "emptyFields": "Усі поля мають бути заповнені",
     "sameSubject": "Ви вже маєте такий предмет"
   },
   "photo": {
-	"imageAlt": "Ваша фотографія",
-	"button": "Завантажте свою фотографію профілю",
-	"placeholder":"Попередній перегляд фотографій",
-	"description":"Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.",
-	"typeError": "Неправильний тип файлу. Дозволяються лише файли .png/.jpg/.jpeg.",
-	"fileSizeError": "Розмір одного файлу не може перевищувати 10 Мб."
+    "imageAlt": "Ваша фотографія",
+    "button": "Завантажте свою фотографію профілю",
+    "placeholder": "Попередній перегляд фотографій",
+    "description": "Будь ласка, завантажте фотографію, яка представляє вас і допоможе іншим упізнати вас.",
+    "typeError": "Неправильний тип файлу. Дозволяються лише файли .png/.jpg/.jpeg.",
+    "fileSizeError": "Розмір одного файлу не може перевищувати 10 Мб.",
+    "maxFileSize": "Максимальний розмір файлу - 10 Мб",
+    "dragNdrop": "Ви можете перетягнути сюди свою фотографію"
   },
+  "fixErrorsMessage": "Будь ласка, виправте всі поля позначені червоним",
   "successMessage": "Успішно! Ваші дані додано."
 }

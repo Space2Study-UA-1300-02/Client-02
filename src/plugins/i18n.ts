@@ -20,9 +20,14 @@ void i18n.use(initReactI18next).init({
 i18n.languages = ['en', 'ua']
 
 export const changeLanguage = (lng: string) => {
-  i18n.changeLanguage(lng).then(() => {
-    localStorage.setItem('language', lng)
-  })
+  i18n
+    .changeLanguage(lng)
+    .then(() => {
+      localStorage.setItem('language', lng)
+    })
+    .catch((error) => {
+      console.error('Error changing language:', error)
+    })
 }
 
 export default i18n

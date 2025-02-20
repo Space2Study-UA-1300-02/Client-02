@@ -5,40 +5,27 @@ import AppAutoComplete from '~/components/app-auto-complete/AppAutoComplete'
 import loginImg from '~/assets/img/login-dialog/login.svg'
 import AppTextArea from '~/components/app-text-area/AppTextArea'
 import { Typography } from '@mui/material'
-import { useState, useCallback } from 'react'
-import useForm from '~/hooks/use-form'
-import { firstName, lastName } from '~/utils/validations/login'
-import { countriesMock, citiesMock } from './constants'
+import { useState, useCallback, useMemo } from 'react'
+import { countriesMock } from './constants'
 import { styles } from '~/containers/tutor-home-page/general-info-step/GeneralInfoStep.styles'
 import { debounce } from 'lodash'
 import { URLs } from '~/constants/request'
 
-const GeneralInfoStep = ({ btnsBox }) => {
+const GeneralInfoStep = ({
+  btnsBox,
+  handleInputChange,
+  handleNonInputValueChange,
+  handleBlur,
+  data,
+  errors
+}) => {
   const { t } = useTranslation()
-
-  const {
-    handleInputChange,
-    handleNonInputValueChange,
-    handleBlur,
-    data,
-    errors
-  } = useForm({
-    initialValues: {
-      firstName: '',
-      lastName: '',
-      country: '',
-      city: '',
-      description: ''
-    },
-    validations: { firstName, lastName }
-  })
-
   const [countries, setCountries] = useState(countriesMock || [])
-  const [cities, setCities] = useState(citiesMock || [])
+  const [cities, setCities] = useState([])
   const [loadingCountries, setLoadingCountries] = useState(false)
   const [loadingCities, setLoadingCities] = useState(false)
 
-  const fetchCountries = async (search) => {
+  const fetchCountries = useCallback(async (search) => {
     if (search.length < 3) {
       setCountries([])
       return
@@ -65,9 +52,14 @@ const GeneralInfoStep = ({ btnsBox }) => {
     } finally {
       setLoadingCountries(false)
     }
-  }
+  }, [])
 
-  const fetchCities = async (country, search) => {
+  const debouncedFetchCountries = useMemo(
+    () => debounce(fetchCountries, 500),
+    [fetchCountries]
+  )
+
+  const fetchCities = useCallback(async (country, search) => {
     if (search.length < 3) {
       setCities([])
       return
@@ -94,10 +86,12 @@ const GeneralInfoStep = ({ btnsBox }) => {
     } finally {
       setLoadingCities(false)
     }
-  }
+  }, [])
 
-  const debouncedFetchCountries = useCallback(debounce(fetchCountries, 500), [])
-  const debouncedFetchCities = useCallback(debounce(fetchCities, 500), [])
+  const debouncedFetchCities = useMemo(
+    () => debounce(fetchCities, 500),
+    [fetchCities]
+  )
 
   const handleCountryInputChange = (event, value) => {
     handleNonInputValueChange('country', value || '')
@@ -127,7 +121,7 @@ const GeneralInfoStep = ({ btnsBox }) => {
         <Box alt='login' component='img' src={loginImg} sx={styles.img} />
       </Box>
       <Box component='form' sx={styles.rigthBox}>
-        <Typography sx={{ mb: { md: '20px', sm: '16px' } }}>
+        <Typography sx={{ mb: { md: '20px', xs: '16px' } }}>
           {t('becomeTutor.generalInfo.title')}
         </Typography>
         <Box sx={styles.fieldContainer}>

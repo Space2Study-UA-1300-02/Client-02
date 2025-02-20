@@ -14,7 +14,7 @@ export const URLs = {
   },
   upload: {
     photo: 'http://localhost:8080/upload'
-    },
+  },
   location: {
     countries: 'http://localhost:8080/location/countries',
     cities: 'http://localhost:8080/location/cities'

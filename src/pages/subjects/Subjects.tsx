@@ -127,7 +127,6 @@ const Subjects = () => {
       axiosProps={{ onResponse: onResponseCategory }}
       labelField='name'
       onChange={onCategoryChange}
-      // @ts-ignore
       service={categoryService.getCategories}
       sx={styles.categoryInput}
       textFieldProps={{

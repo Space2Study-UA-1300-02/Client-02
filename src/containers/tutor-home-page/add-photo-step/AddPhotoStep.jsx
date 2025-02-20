@@ -1,7 +1,13 @@
 import { useTranslation } from 'react-i18next'
-import { Box, Button, Typography, IconButton, Snackbar, Alert } from '@mui/material'
+import {
+  Box,
+  Button,
+  Typography,
+  IconButton,
+  Snackbar,
+  Alert
+} from '@mui/material'
 import { useState } from 'react'
-import { useStepContext } from '~/context/step-context'
 import DragAndDrop from '~/components/drag-and-drop/DragAndDrop'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import CancelIcon from '@mui/icons-material/Cancel'
@@ -12,14 +18,13 @@ import { URLs } from '~/constants/request'
 const MAX_FILE_SIZE = 10 * 1024 * 1024
 const ALLOWED_TYPES = ['image/jpeg', 'image/png']
 
-  const AddPhotoStep = ({ btnsBox, data, handleDataChange, userRole }) => {
+const AddPhotoStep = ({ btnsBox, data, handleDataChange, userRole }) => {
   const { t } = useTranslation()
   const [preview, setPreview] = useState(null)
-  const { handleStepData } = useStepContext()
   const [errorMessage, setErrorMessage] = useState('')
   const [openSnackbar, setOpenSnackbar] = useState(false)
   const { userId } = useAppSelector((state) => state.appMain)
-  console.log(userId)
+
   const showError = (message) => {
     setErrorMessage(message)
     setOpenSnackbar(true)
@@ -54,7 +59,6 @@ const ALLOWED_TYPES = ['image/jpeg', 'image/png']
     formData.append('id', userId)
     formData.append('type', 'user')
     formData.append('userRole', userRole)
-    console.log(formData)
 
     try {
       const response = await fetch(URLs.upload.photo, {
@@ -67,10 +71,8 @@ const ALLOWED_TYPES = ['image/jpeg', 'image/png']
       }
 
       const { photo } = await response.json()
-      console.log(photo)
       setPreview(photo)
-      handleDataChange({ ...data, photo: formData })
-      console.log(data)
+      handleDataChange({ ...data, photo: photo })
     } catch (error) {
       showError(error.message)
     }
@@ -78,7 +80,7 @@ const ALLOWED_TYPES = ['image/jpeg', 'image/png']
 
   const handleCancelUpload = () => {
     setPreview(null)
-    handleStepData('Photo', '')
+    handleDataChange({ ...data, photo: '' })
   }
 
   return (
@@ -135,9 +137,7 @@ const ALLOWED_TYPES = ['image/jpeg', 'image/png']
             accept={ALLOWED_TYPES.join(',')}
             disabled={!!preview}
             id='upload-photo'
-            onChange={(e) =>
-              handleFileChange({ files: e.target.files })
-            }
+            onChange={(e) => handleFileChange({ files: e.target.files })}
             style={{ display: 'none' }}
             type='file'
           />
@@ -156,16 +156,31 @@ const ALLOWED_TYPES = ['image/jpeg', 'image/png']
           {t('becomeTutor.photo.maxFileSize')}
         </Typography>
 
-        <Box sx={{ mt: 'auto' }}>{btnsBox}</Box>
+        <Box sx={{ mt: 'auto', display: { md: 'block', xs: 'none' } }}>
+          {btnsBox}
+        </Box>
       </Box>
-
+      <Box
+        sx={{
+          display: { md: 'none', xs: 'block' },
+          order: 3,
+          width: { sm: '80%', xs: '100%' },
+          pb: { sm: '20px', xs: '0' }
+        }}
+      >
+        {btnsBox}
+      </Box>
       <Snackbar
-        open={openSnackbar}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         autoHideDuration={5000}
         onClose={handleCloseSnackbar}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        open={openSnackbar}
       >
-        <Alert onClose={handleCloseSnackbar} severity='error' sx={{ width: '100%' }}>
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity='error'
+          sx={{ width: '100%' }}
+        >
           {errorMessage}
         </Alert>
       </Snackbar>
