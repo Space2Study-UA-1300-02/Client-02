@@ -10,13 +10,13 @@ export const subjectService = {
     params?: Pick<SubjectInterface, 'name'>,
     categoryId?: string
   ): Promise<AxiosResponse<ItemsWithCount<SubjectInterface>>> => {
-    const category = createUrlPath(URLs.categories.get, categoryId)
-    return axiosClient.get(`${category}${URLs.subjects.get}`, { params })
+    const category = createUrlPath(URLs.subjects.getByCategoryId, categoryId)
+    return axiosClient.get(`${category}`, { params })
   },
   getSubjectsNames: (
     categoryId: string | null
   ): Promise<AxiosResponse<SubjectNameInterface[]>> => {
-    const category = createUrlPath(URLs.categories.get, categoryId)
-    return axiosClient.get(`${category}${URLs.subjects.getNames}`)
+    const category = createUrlPath(URLs.subjects.getByCategoryId, categoryId)
+    return axiosClient.get(`${category}`)
   }
 }

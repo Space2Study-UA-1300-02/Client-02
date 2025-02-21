@@ -9,14 +9,16 @@
     "textFieldLabel": "Text here"
   },
   "languages": {
-    "tutorTitle" : "Please select the language in which you would like to teach and cooperate",
+    "tutorTitle": "Please select the language in which you would like to teach and cooperate",
     "studentTitle": "Please select the language in which you would like to study and cooperate",
     "autocompleteLabel": "Your native language",
-    "btnText": "Add one more language"
+    "btnText": "Add one more language",
+    "emptyField": "You should select at least 1 language"
   },
   "categories": {
     "title": "Please choose the main subjects based on the category. You can add others later.",
-    "mainSubjectsLabel": "Main Tutoring Category",
+    "categoryTutorLabel": "Main Tutoring Category",
+    "categoryStudentLabel": "Main Study Category",
     "subjectLabel": "Subject",
     "btnText": "Add one more subject",
     "emptyFields": "All fields must be filled",
@@ -25,11 +27,13 @@
   "photo": {
     "imageAlt": "Your photo",
     "button": "Upload your profile photo",
-    "placeholder": "Photo Preview",
+    "placeholder": "Photo Preview. You can drag your photo here",
     "description": "Please upload a photo that represents you and helps others recognize you.",
     "typeError": "Wrong file type. Only .png/.jpg/.jpeg files are allowed.",
     "fileSizeError": "Size for one file cannot be more than 10MB.",
-    "maxFileSize": "Maximum file size - 10 Mb"
+    "maxFileSize": "Maximum file size - 10 Mb",
+    "dragNdrop": "You can drag your photo here"
   },
+  "fixErrorsMessage": "Please fix all red fields before submitting",
   "successMessage": "Success! Your data were added."
 }

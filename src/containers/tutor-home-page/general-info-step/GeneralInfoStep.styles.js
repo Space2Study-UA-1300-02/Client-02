@@ -5,7 +5,7 @@ export const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: { md: 'normal', xs: 'center' },
-    flexDirection: { md: 'row', sm: 'column', xs: 'column' },
+    flexDirection: { md: 'row', xs: 'column' },
     gap: { md: '40px', sm: '0' },
     height: { sm: '485px' },
     paddingBottom: { xs: '30px', sm: '0' },

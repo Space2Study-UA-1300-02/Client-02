@@ -4,18 +4,17 @@ import useAxios from '~/hooks/use-axios'
 import { useAppSelector } from '~/hooks/use-redux'
 
 import { useModalContext } from '~/context/modal-context'
-import { useStepContext } from '~/context/step-context'
 import { useSnackBarContext } from '~/context/snackbar-context'
 import { userService } from '~/services/user-service'
 import { snackbarVariants } from '~/constants'
+import { useTranslation } from 'react-i18next'
 
-const useSteps = ({ steps }) => {
+const useSteps = ({ steps, stepData, errors, handleSubmitForm, isValid }) => {
   const [activeStep, setActiveStep] = useState(0)
   const { closeModal } = useModalContext()
-  const { stepData } = useStepContext()
   const { setAlert } = useSnackBarContext()
+  const { t } = useTranslation()
   const { userId } = useAppSelector((state) => state.appMain)
-
   const updateUser = useCallback(
     (data) => userService.updateUser(userId, data),
     [userId]
@@ -43,12 +42,30 @@ const useSteps = ({ steps }) => {
     onResponse: handleResponse,
     onResponseError: handleResponseError
   })
+  const fields = {
+    firstName: 1,
+    lastName: 1,
+    country: 1,
+    city: 1,
+    professionalSummary: 1,
+    subjects: 2,
+    languages: 3,
+    photo: 4
+  }
+  function generateErrorStepNumbers(errors, fields) {
+    const stepErrors = [null, null, null, null]
+    for (const field in errors) {
+      if (errors[field]) {
+        const step = fields[field]
+        if (!stepErrors.includes(step)) {
+          stepErrors[step - 1] = step
+        }
+      }
+    }
+    return stepErrors
+  }
 
-  const stepErrors = Object.values(stepData).map(
-    (data) =>
-      data && data.errors && Object.values(data.errors).find((error) => error)
-  )
-
+  const stepErrors = generateErrorStepNumbers(errors, fields)
   const next = () => {
     setActiveStep((prev) => prev + 1)
   }
@@ -59,14 +76,18 @@ const useSteps = ({ steps }) => {
 
   const isLastStep = activeStep === steps.length - 1
 
-  const handleSubmit = () => {
-    const hasErrors = stepErrors.find((error) => error)
-
-    const { firstName, lastName, country, city, professionalSummary } =
-      stepData.generalInfo.data
-
+  const handleSubmit = (e) => {
+    handleSubmitForm(e)
+    if (!isValid) {
+      setAlert({
+        severity: snackbarVariants.error,
+        message: t('becomeTutor.fixErrorsMessage')
+      })
+      return
+    }
+    const { firstName, lastName, country, city, professionalSummary } = stepData
     const data = {
-      photo: stepData.photo[0] ? stepData.photo[0] : '',
+      photo: stepData.photo,
       firstName,
       lastName,
       address: {
@@ -74,13 +95,11 @@ const useSteps = ({ steps }) => {
         city: city ?? ''
       },
       professionalSummary: professionalSummary,
-      mainSubjects: stepData.subjects,
-      nativeLanguage: stepData.language ?? ''
+      mainSubjects: stepData.subjects.map((item) => item.id),
+      nativeLanguages: stepData.languages
     }
-
-    !hasErrors && fetchData(data)
+    isValid && fetchData(data)
   }
-
   const stepOperation = {
     next,
     back,
@@ -88,7 +107,13 @@ const useSteps = ({ steps }) => {
     setActiveStep
   }
 
-  return { activeStep, stepErrors, isLastStep, stepOperation, loading }
+  return {
+    activeStep,
+    stepErrors,
+    isLastStep,
+    stepOperation,
+    loading
+  }
 }
 
 export default useSteps

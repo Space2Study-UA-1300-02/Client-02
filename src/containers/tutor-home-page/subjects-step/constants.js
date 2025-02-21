@@ -29,8 +29,10 @@ export const languagesMock = [
   { label: 'Slovak' },
   { label: 'Spanish' },
   { label: 'Swedish' },
-  { label: 'Ukrainian' }
+  { label: 'Ukrainian' },
+  { label: 'Arabic' }
 ]
+
 export const subjectsMock = {
   Languages: languagesMock,
   Mathematics: [

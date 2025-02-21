@@ -9,7 +9,12 @@ import AppChipList from '~/components/app-chips-list/AppChipList'
 import { styles } from '~/containers/tutor-home-page/subjects-step/SubjectsStep.styles'
 import { URLs } from '~/constants/request'
 
-const SubjectsStep = ({ btnsBox, handleNonInputValueChange, data }) => {
+const SubjectsStep = ({
+  btnsBox,
+  handleNonInputValueChange,
+  data,
+  userRole
+}) => {
   const { t } = useTranslation()
 
   const [categories, setCategories] = useState([])
@@ -24,8 +29,13 @@ const SubjectsStep = ({ btnsBox, handleNonInputValueChange, data }) => {
       try {
         const response = await fetch(`${URLs.interests.categories}`)
         if (!response.ok) throw new Error('Failed to fetch categories')
-        const data = await response.json()
-        setCategories(data.map((cat) => ({ id: cat.id, label: cat.name })))
+        const categoriesData = await response.json()
+        setCategories(
+          categoriesData.data.map((category) => ({
+            id: category.id,
+            label: category.name
+          }))
+        )
       } catch (error) {
         console.error('Error fetching categories:', error)
       } finally {
@@ -39,19 +49,29 @@ const SubjectsStep = ({ btnsBox, handleNonInputValueChange, data }) => {
     if (!selectedCategory) return
 
     const fetchSubjects = async () => {
+      if (!selectedCategory?.id) {
+        console.error('selectedCategory.id undefined')
+        return
+      }
+
       setLoadingSubjects(true)
+
+      const url = `${URLs.interests.subjects}${selectedCategory.id}`
+
       try {
-        const response = await fetch(
-          `${URLs.interests.subjects}${selectedCategory.id}`
-        )
-        if (!response.ok) throw new Error('Failed to fetch subjects')
+        const response = await fetch(url)
         const data = await response.json()
-
-        const subjects =
-          Array.isArray(data) && typeof data[0] === 'string'
-            ? data.map((name) => ({ label: name }))
-            : data.map((sub) => ({ id: sub.id, label: sub.name }))
-
+        if (!response.ok) {
+          throw new Error(`Failed to fetch subjects: ${response.status}`)
+        }
+        const items = data.items ?? []
+        if (!Array.isArray(items)) {
+          throw new Error('Is not array')
+        }
+        const subjects = items.map((item) => ({
+          id: item._id,
+          label: item.name
+        }))
         setSubjects(subjects)
       } catch (error) {
         console.error('Error fetching subjects:', error)
@@ -74,17 +94,14 @@ const SubjectsStep = ({ btnsBox, handleNonInputValueChange, data }) => {
   }
 
   const handleClick = () => {
-    if (selectedSubject && !data.subjects.includes(selectedSubject.label)) {
-      handleNonInputValueChange('subjects', [
-        ...data.subjects,
-        selectedSubject.label
-      ])
+    if (selectedSubject && !data.subjects.includes(selectedSubject)) {
+      handleNonInputValueChange('subjects', [...data.subjects, selectedSubject])
     }
   }
 
   const handleChipDelete = (subject) => {
-    const updatedSubjects = data.subjects.filter((item) => item !== subject)
-    handleNonInputValueChange('subjects', updatedSubjects)
+    const filteredSubjects = data.subjects.filter((item) => item !== subject)
+    handleNonInputValueChange('subjects', filteredSubjects)
   }
 
   return (
@@ -109,9 +126,11 @@ const SubjectsStep = ({ btnsBox, handleNonInputValueChange, data }) => {
             loading={loadingCategories}
             onChange={handleInputCategory}
             options={categories}
-            sx={{ flex: 1, mb: { md: '20px', xs: '16px' } }}
+            sx={{ flex: 1 }}
             textFieldProps={{
-              label: t('becomeTutor.categories.mainSubjectsLabel')
+              label: t(
+                `becomeTutor.categories.${userRole === 'student' ? 'categoryStudentLabel' : 'categoryTutorLabel'}`
+              )
             }}
             value={selectedCategory}
           />
@@ -124,7 +143,7 @@ const SubjectsStep = ({ btnsBox, handleNonInputValueChange, data }) => {
             loading={loadingSubjects}
             onChange={handleInputSubject}
             options={subjects}
-            sx={{ flex: 1, mb: { md: '20px', xs: '16px' } }}
+            sx={{ flex: 1 }}
             textFieldProps={{ label: t('becomeTutor.categories.subjectLabel') }}
             value={selectedSubject}
           />
@@ -132,9 +151,9 @@ const SubjectsStep = ({ btnsBox, handleNonInputValueChange, data }) => {
             {t('becomeTutor.categories.btnText')}
           </AppButton>
           <AppChipList
-            defaultQuantity={6}
+            defaultQuantity={2}
             handleChipDelete={handleChipDelete}
-            items={data.subjects}
+            items={data.subjects.map((item) => item.label)}
           />
         </Box>
         {btnsBox}
