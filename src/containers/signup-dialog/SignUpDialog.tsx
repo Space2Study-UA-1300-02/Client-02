@@ -106,7 +106,7 @@ const SignUpDialog: FC<SignUpDialogProps> = ({ initialRole }) => {
             handleSubmit={handleSubmit}
           />
           <GoogleLogin
-            buttonWidth={styles.form.maxWidth}
+            buttonWidth={styles.btn.maxWidth}
             role={initialRole}
             type={signup}
           />

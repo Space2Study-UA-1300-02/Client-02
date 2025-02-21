@@ -8,7 +8,7 @@ import questions from './questions.json'
 import categoriesPage from './categories-page.json'
 import titles from './titles.json'
 import login from './login.json'
-import signUp from './signup.json'
+import signup from './signup.json'
 import modals from './email-modals.json'
 import breadCrumbs from './breadcrumbs.json'
 import completeProfile from './complete-profile.json'
@@ -28,9 +28,14 @@ import cookiePolicyPage from './cookie-policy-page.json'
 import guestHomePage from './guest-home-page.json'
 import table from './table.json'
 import subjectsPage from './subjects-page.json'
+import becomeTutor from './become-tutor.json'
+import studentHomePage from './student-home-page.json'
+import tutorProfilePage from './tutor-profile-page.json'
+import findOfferPage from './find-offer-page.json'
 
 const ua = {
   translations: {
+    becomeTutor,
     common,
     errorMessages,
     errorPage,
@@ -40,15 +45,17 @@ const ua = {
     questions,
     titles,
     login,
-    signUp,
+    signup,
     modals,
     breadCrumbs,
     completeProfile,
     categoriesPage,
     findOffers,
+    findOfferPage,
     filters,
     iconsTooltip,
     tutorHomePage,
+    tutorProfilePage,
     offerPage,
     offerDetailsPage,
     cooperationsPage,
@@ -60,7 +67,8 @@ const ua = {
     cookiePolicyPage,
     guestHomePage,
     table,
-    subjectsPage
+    subjectsPage,
+    studentHomePage
   }
 }
 
