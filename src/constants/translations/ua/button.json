@@ -8,5 +8,7 @@
   "sendRequest": "Надіслати запит",
   "addQuestion": "Додати ще один предмет",
   "viewMyOffers": "До моїх пропозицій",
-  "newLesson": "Новий урок"
+  "newLesson": "Новий урок",
+  "sendMessage": "Надіслати повідомлення",
+  "showDetails": "Показати деталі"
 }
