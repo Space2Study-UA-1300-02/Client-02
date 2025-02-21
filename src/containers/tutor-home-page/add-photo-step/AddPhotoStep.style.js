@@ -4,26 +4,26 @@ export const style = {
   root: {
     display: 'flex',
     justifyContent: 'space-between',
-    gap: '40px',
+    gap: { md: '40px', sm: '20px' },
+    alignItems: { md: 'normal', xs: 'center' },
+    flexDirection: { md: 'row', xs: 'column' },
     height: { sm: '485px' },
-    paddingBottom: { sm: '210px', md: '0px' },
     ...fadeAnimation
   },
   img: {
     width: '100%',
     maxHeight: '440px',
     borderRadius: '20px',
-    objectFit: 'cover',
-    mt: { xs: '20px', md: '0px' }
+    objectFit: 'cover'
   },
   imgContainer: {
+    order: { md: 1, xs: 2 },
     display: 'flex',
     alignItems: 'center',
     maxWidth: '440px',
     maxHeight: '440px',
     width: '100%',
-    flex: 1,
-    pb: { xs: '16px', sm: '26px', md: '52px' }
+    flex: 1
   },
   uploadBox: {
     display: 'flex',
@@ -34,14 +34,14 @@ export const style = {
     aspectRatio: '1',
     border: '2px dashed',
     borderColor: 'primary.200',
-    borderRadius: '20px',
-    mt: { xs: '20px', md: '0px' }
+    borderRadius: '20px'
   },
   activeDrag: {
     border: '2px primary',
     borderColor: 'primary.900'
   },
   rigthBox: {
+    order: { md: 2, xs: 1 },
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',

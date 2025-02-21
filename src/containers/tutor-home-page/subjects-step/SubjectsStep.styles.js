@@ -25,7 +25,7 @@ export const styles = {
   fieldContainer: {
     display: 'flex',
     flexDirection: 'column',
-    gap: '16px',
+    gap: '5px',
     mt: { md: '4px', xs: '20px' }
   },
   rigthBox: {

@@ -7,7 +7,7 @@ const AddLanguageBtn = ({ addLanguage }) => {
   const { t } = useTranslation()
   return (
     <Box sx={styles}>
-      <AppButton onClick={addLanguage} sx={styles.addButton} variant='outlined'>
+      <AppButton onClick={addLanguage} sx={styles.addButton} variant='tonal'>
         {t('becomeTutor.languages.btnText')}
       </AppButton>
     </Box>

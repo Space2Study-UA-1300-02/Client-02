@@ -1,5 +1,4 @@
 import Box from '@mui/material/Box'
-
 import { styles } from '~/containers/tutor-home-page/language-step/LanguageStep.styles'
 import img from '~/assets/img/tutor-home-page/become-tutor/languages.svg'
 import { Typography } from '@mui/material'
@@ -11,28 +10,31 @@ import AppChipList from '~/components/app-chips-list/AppChipList'
 import AddLanguageBtn from './AddLanguageBtn'
 import { student } from '~/constants'
 
-const LanguageStep = ({ userRole, btnsBox }) => {
+const LanguageStep = ({
+  userRole,
+  btnsBox,
+  data,
+  errors,
+  handleNonInputValueChange,
+  handleBlur
+}) => {
   const { t } = useTranslation()
   const [language, setLanguage] = useState('')
-  const [languagesList, setLanguagesList] = useState([])
   const langOptions = useMemo(() => languagesMock.map((lang) => lang.label), [])
 
   const handleChange = (_, selectedValue) => {
-    if (selectedValue && !languagesList.includes(selectedValue)) {
-      setLanguagesList((prev) => [...prev, selectedValue])
-    }
     setLanguage(selectedValue)
   }
 
   const handleDeleteLanguage = (label) => {
-    setLanguagesList(languagesList.filter((lang) => lang !== label))
+    const filteredLanguages = data.languages.filter((lang) => lang !== label)
+    handleNonInputValueChange('languages', filteredLanguages)
   }
 
   const addLanguage = () => {
-    if (!language || languagesList.includes(language)) {
-      return
+    if (language && !data.languages.includes(language)) {
+      handleNonInputValueChange('languages', [...data.languages, language])
     }
-    setLanguagesList([...languagesList, language])
     setLanguage('')
   }
 
@@ -40,8 +42,14 @@ const LanguageStep = ({ userRole, btnsBox }) => {
     <Box>
       <Typography>{title}</Typography>
       <AppAutoComplete
+        errorMsg={t(errors.languages)}
+        isOptionEqualToValue={(option, value) =>
+          option === value || value === ''
+        }
+        onBlur={handleBlur('languages')}
         onChange={handleChange}
         options={langOptions}
+        required
         sx={{ mt: '20px' }}
         textFieldProps={{
           label: t('becomeTutor.languages.autocompleteLabel')
@@ -50,8 +58,9 @@ const LanguageStep = ({ userRole, btnsBox }) => {
       />
       <AddLanguageBtn addLanguage={addLanguage} />
       <AppChipList
+        defaultQuantity={3}
         handleChipDelete={handleDeleteLanguage}
-        items={languagesList}
+        items={data.languages}
       />
     </Box>
   )
