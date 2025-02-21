@@ -1,9 +1,19 @@
 import { Offer, UserResponse, UserRoleEnum } from '~/types'
 import { ChangeEvent, FocusEvent, FormEvent } from 'react'
 
+interface Pagination {
+  total: number
+  currentPage: number
+  totalPages: number
+  hasMore: boolean
+}
+
 export interface ItemsWithCount<T> {
   count: number
   items: T[]
+  data: T[]
+  total: number
+  pagination: Pagination
 }
 export interface CommonEntityFields {
   _id: string

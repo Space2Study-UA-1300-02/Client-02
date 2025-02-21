@@ -1,33 +1,14 @@
+import { commonShadow } from '~/styles/app-theme/custom-shadows'
 import { ButtonVariantEnum } from '~/types'
 
 export const styles = {
-  container: {
-    margin: '0 auto',
-    maxWidth: 1176,
-    width: '100%',
-    padding: 3,
-    textAlign: 'center'
-  },
-  heading: {
-    marginBottom: '16px',
-    variant: 'h4'
-  },
-  subtitle: {
-    marginBottom: '16px',
-    variant: 'Subtitle1'
-  },
-  linkWrapper: {
-    textAlign: 'right',
-    marginBottom: '16px'
-  },
   searchBox: {
     display: 'flex',
     alignItems: 'center',
-    backgroundColor: '#f5f5f5',
-    borderRadius: 5,
-    padding: '8px 16px',
-    boxShadow: '0px 2px 4px rgba(0,0,0,0.1)',
-    width: 'calc(100% - 32px)',
+    backgroundColor: 'basic.white',
+    borderRadius: '70px',
+    padding: '29px 45px 29px 45px',
+    boxShadow: commonShadow,
     minWidth: '50vw'
   },
   searchIcon: {
@@ -42,6 +23,28 @@ export const styles = {
     variant: ButtonVariantEnum.Contained
   },
   infoText: {
-    marginTop: '16px'
+    marginTop: '30px',
+    marginBottom: '30px',
+    display: 'flex',
+    alighItems: 'center',
+    justifyContent: 'center'
+  },
+
+  titleWithDescription: {
+    wrapper: {
+      my: '30px',
+      textAlign: 'center'
+    },
+    title: {
+      typography: { sm: 'h4', xs: 'h5' }
+    },
+    description: {
+      typography: { sm: 'body1', xs: 'body2' },
+      color: 'primary.500'
+    }
+  },
+
+  navigation: {
+    textAlign: 'right'
   }
 }

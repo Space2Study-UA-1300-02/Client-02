@@ -49,5 +49,7 @@
   },
   "otherOffers":{
     "title":"Other offers"
-  }
+  },
+  "currency": "UAH",
+  "hour": "HOUR"
 }
