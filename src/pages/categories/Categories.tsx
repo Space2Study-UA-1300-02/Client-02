@@ -41,10 +41,9 @@ const Categories = () => {
   }, [page, query, navigate])
 
   useEffect(() => {
-    setCategories([])
     setPage(1)
     setHasMore(true)
-
+  
     if (query.trim() === '') {
       fetchCategories(1)
     } else {
