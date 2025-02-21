@@ -45,14 +45,16 @@ const Categories = () => {
     }
   }, [query])
 
-  const { response: categories, loading } = useAxios({
+  const { response, loading } = useAxios({
     service: categoryService.getCategories,
-    defaultResponse: []
+    defaultResponse: { data: [] }
   })
+
+  const categories = response.data ?? []
 
   const handleSearch = async () => {
     try {
-      const response = await categoryService.searchCategories({ search: query })
+      const response = await categoryService.getCategories({ search: query })
       setFilteredCategories(response.data.data)
     } catch (error) {
       console.error('Search error:', error)
