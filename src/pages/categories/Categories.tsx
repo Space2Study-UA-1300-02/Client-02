@@ -16,6 +16,7 @@ import OfferRequestBlock from '~/containers/find-offer/offer-request-block/Offer
 import { useLocation, useNavigate } from 'react-router-dom'
 import NotFoundResults from '~/components/not-found-results/NotFoundResults'
 
+
 const Categories = () => {
   const location = useLocation()
   const navigate = useNavigate()
@@ -152,9 +153,15 @@ const Categories = () => {
         </Button>
       </Box>
       <Typography sx={styles.infoText} variant='body2'>
-        Can&apos;t find what you&apos;re looking for? Request a new&nbsp;
-        <Link component='button'>{t('common.category')}</Link>&nbsp; or&nbsp;
-        <Link component='button'>{t('common.subject')}</Link>!
+        {t('common.categoriesquestion')}
+        <Link component='button' sx={{ pr: '5px', pl: '5px' }}>
+          {t('common.category')}
+        </Link>
+        {t('common.or')}
+        <Link component='button' sx={{ pr: '5px', pl: '5px' }}>
+          {t('common.subject')}
+        </Link>
+        !
       </Typography>
       <CardsList
         btnText={t('categoriesPage.viewMore')}

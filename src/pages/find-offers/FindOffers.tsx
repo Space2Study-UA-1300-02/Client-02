@@ -12,9 +12,14 @@ import { styles } from '~/pages/find-offers/FindOffer.styles'
 
 const FindOffers = () => {
   const { t } = useTranslation()
-  const [hasFetched, setHasFetched] = useState(false);
+  const [hasFetched, setHasFetched] = useState(false)
 
-  const { response: { items }, error, loading, fetchData } =  useAxios({
+  const {
+    response: { items },
+    error,
+    loading,
+    fetchData
+  } = useAxios({
     service: offerService.getOffers,
     defaultResponse: { items: [], count: 0 },
     fetchOnMount: false
@@ -22,38 +27,43 @@ const FindOffers = () => {
 
   useEffect(() => {
     if (!hasFetched) {
-      fetchData();
-      setHasFetched(true);
+      fetchData()
+        .then(() => {
+          setHasFetched(true)
+        })
+        .catch((error) => {
+          console.error('Failed to fetch data:', error)
+        })
     }
-  }, [hasFetched, fetchData]);
+  }, [hasFetched, fetchData])
 
   if (loading) {
-    return <Loader />;
+    return <Loader />
   }
 
   if (error) {
-    return <div>Error: {error.message || "Failed to fetch offers."}</div>;
+    return <div>Error: {error.message || 'Failed to fetch offers.'}</div>
   }
 
   return (
     <PageWrapper>
-    <OfferRequestBlock />
-    <TitleWithDescription
+      <OfferRequestBlock />
+      <TitleWithDescription
         description={t('findOffers.titleWithDescription.description')}
         style={styles.titleWithDescription}
-        title={t('findOffers.titleWithDescription.title', )}
+        title={t('findOffers.titleWithDescription.title')}
       />
-    <div className="grid gap-4">
-       {loading ? (
-        <Loader />
-      ) : items.length ? (
-        <OfferList offers={items} />
-      ) : (
-        <NotFoundResults description={t('findOffers.notFound.description')} />
-      )}
-    </div>
+      <div className='grid gap-4'>
+        {loading ? (
+          <Loader />
+        ) : items.length ? (
+          <OfferList offers={items} />
+        ) : (
+          <NotFoundResults description={t('findOffers.notFound.description')} />
+        )}
+      </div>
     </PageWrapper>
-  );
-};
+  )
+}
 
-export default FindOffers;
+export default FindOffers

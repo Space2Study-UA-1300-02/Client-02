@@ -1,8 +1,8 @@
 import palette from '~/styles/app-theme/app.pallete'
 
 export const styles = {
-  card: { 
-    display: 'flex', 
+  card: {
+    display: 'flex',
     gap: '50px',
     maxWidth: '1200px',
     width: '100%',

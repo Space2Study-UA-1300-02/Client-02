@@ -5,9 +5,9 @@ import { styles } from '~/components/offer-list/OfferList.styles'
 const OfferCardList = ({ offers }) => {
   return (
     <Box sx={{ ...styles.container, ...styles['container--list'] }}>
-      {offers?.map((offer) =>
-          <OfferCard key={offer._id} offer={offer} />
-      )}
+      {offers?.map((offer) => (
+        <OfferCard key={offer._id} offer={offer} />
+      ))}
     </Box>
   )
 }

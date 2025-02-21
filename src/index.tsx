@@ -12,9 +12,9 @@ import '~/plugins/i18n'
 const root = createRoot(document.getElementById('root') as HTMLElement)
 
 root.render(
-    <Provider store={store}>
-      <RouterProvider router={router} />
-    </Provider>  
+  <Provider store={store}>
+    <RouterProvider router={router} />
+  </Provider>
 )
 
 setupInterceptors(store)
