@@ -16,7 +16,6 @@ import OfferRequestBlock from '~/containers/find-offer/offer-request-block/Offer
 import { useLocation, useNavigate } from 'react-router-dom'
 import NotFoundResults from '~/components/not-found-results/NotFoundResults'
 
-/* eslint-disable */
 
 const Categories = () => {
   const location = useLocation()
