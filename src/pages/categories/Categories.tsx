@@ -52,17 +52,20 @@ const Categories = () => {
   }, [query])
 
   const fetchCategories = async (pageNum: number, searchQuery = '') => {
-    if (!hasMore) return
+    if (!hasMore && pageNum !== 1) return
     setLoading(true)
+  
     try {
       const response = await categoryService.getCategories({
         page: pageNum,
         search: searchQuery,
         limit: 6
       })
+  
       console.log('Fetched data:', response.data)
       console.log('Pagination:', response.data.pagination)
-      setCategories((prev) => [...prev, ...response.data.data])
+  
+      setCategories(pageNum === 1 ? response.data.data : (prev) => [...prev, ...response.data.data])
       setHasMore(response.data.pagination.hasMore)
     } catch (error) {
       console.error('Error fetching categories:', error)
