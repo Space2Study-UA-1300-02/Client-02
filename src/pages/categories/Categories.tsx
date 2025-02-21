@@ -36,14 +36,20 @@ const Categories = () => {
     } else {
       params.delete('search')
     }
+    params.set('page', page.toString())
     navigate({ search: params.toString() }, { replace: true })
-  }, [query, navigate])
+  }, [page, query, navigate])
 
   useEffect(() => {
     setCategories([])
     setPage(1)
     setHasMore(true)
-    fetchCategories(1, query)
+
+    if (query.trim() === '') {
+      fetchCategories(1)
+    } else {
+      fetchCategories(1, query)
+    }
   }, [query])
 
   const fetchCategories = async (pageNum: number, searchQuery = '') => {
@@ -53,7 +59,7 @@ const Categories = () => {
       const response = await categoryService.getCategories({
         page: pageNum,
         search: searchQuery,
-        limit: 5
+        limit: 6
       })
       console.log('Fetched data:', response.data)
       console.log('Pagination:', response.data.pagination)
