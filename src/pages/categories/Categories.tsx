@@ -14,6 +14,7 @@ import DirectionLink from '~/components/direction-link/DirectionLink'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import OfferRequestBlock from '~/containers/find-offer/offer-request-block/OfferRequestBlock'
 import { useLocation, useNavigate } from 'react-router-dom'
+import NotFoundResults from '~/components/not-found-results/NotFoundResults'
 
 const Categories = () => {
   const location = useLocation()
@@ -43,7 +44,7 @@ const Categories = () => {
   useEffect(() => {
     setPage(1)
     setHasMore(true)
-  
+
     if (query.trim() === '') {
       fetchCategories(1)
     } else {
@@ -54,18 +55,22 @@ const Categories = () => {
   const fetchCategories = async (pageNum: number, searchQuery = '') => {
     if (!hasMore && pageNum !== 1) return
     setLoading(true)
-  
+
     try {
       const response = await categoryService.getCategories({
         page: pageNum,
         search: searchQuery,
         limit: 6
       })
-  
+
       console.log('Fetched data:', response.data)
       console.log('Pagination:', response.data.pagination)
-  
-      setCategories(pageNum === 1 ? response.data.data : (prev) => [...prev, ...response.data.data])
+
+      setCategories(
+        pageNum === 1
+          ? response.data.data
+          : (prev) => [...prev, ...response.data.data]
+      )
       setHasMore(response.data.pagination.hasMore)
     } catch (error) {
       console.error('Error fetching categories:', error)
@@ -158,6 +163,9 @@ const Categories = () => {
         loading={loading}
         onClick={handleViewMore}
       />
+      {query.trim() !== '' && !loading && categories.length === 0 && (
+        <NotFoundResults description={t('errorMessages.resultsNotFound')} />
+      )}
     </PageWrapper>
   )
 }
