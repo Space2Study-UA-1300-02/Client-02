@@ -6,6 +6,7 @@ export interface RequestParams {
   skip: number
   sort: Sort
   categories: string[]
+  page: number
 }
 
 export interface ErrorResponse {

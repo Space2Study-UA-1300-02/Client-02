@@ -47,9 +47,11 @@ const AsyncAutocomplete = <T, F extends boolean | undefined = undefined>({
 
   const valueOption = useMemo(
     () =>
-      response.find(
-        (option) => (valueField ? option[valueField] : option) === value
-      ) || null,
+      Array.isArray(response)
+        ? response.find(
+            (option) => (valueField ? option[valueField] : option) === value
+          ) || null
+        : null,
     [response, value, valueField]
   )
 
